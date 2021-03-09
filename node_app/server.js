@@ -1,5 +1,5 @@
 const express = require('express');
-
+const hostname = '127.0.0.1';
 const app_port = 3000
 const app = express();
 
@@ -44,6 +44,6 @@ app.get("/api/v1/movies", (req, res) => {
     );
   });
 
-app.listen(app_port, () => {
+app.listen(app_port, hostname, () => {
   console.log(`Server is running on port `+ app_port);
 });
