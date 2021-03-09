@@ -1,0 +1,26 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+      {
+        "name": "node_app",
+        "image": "codesenju/nodejs-app",
+        "hostname": "node_app",
+        "essential": true,
+        "portMappings": [
+          {
+            "hostPort": 80,
+            "containerPort": 3000
+          }
+        ],
+        "links": ["node_app", "postgres"],
+        "memory": 100
+      },
+      {
+        "name": "postgres",
+        "image": "codesenju/postgres-app",
+        "hostname": "postgres",
+        "essential": false,
+        "memory": 300
+      }
+    ]
+}
