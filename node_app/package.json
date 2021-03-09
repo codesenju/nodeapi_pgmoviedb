@@ -1,0 +1,23 @@
+{
+  "name": "node_app",
+  "version": "1.0.0",
+  "description": "Nodejs app exposes postgres to resful api services",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha test/test.js",
+    "start": "node server.js"
+  },
+  "author": "Lehlogonolo Masubelele",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.3.3",
+    "express": "^4.17.1",
+    "mocha": "^8.3.1",
+    "pg": "^8.5.1",
+    "request": "^2.88.2",
+    "require": "^2.4.20"
+  }
+}

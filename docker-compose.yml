@@ -1,0 +1,25 @@
+version: "3.3"
+networks:
+  devops:
+    driver: bridge
+volumes:
+  PGDATA:
+services:
+  postgres:
+    build: ./postgres
+    restart: unless-stopped
+    hostname: postgres
+    environment:
+       - POSTGRES_DB=movie
+       - POSTGRES_PASSWORD=12345
+    volumes:
+       - PGDATA:/var/lib/postgresql/data
+    networks:
+      - devops
+  node_app:
+    build: ./node_app
+    restart: unless-stopped
+    networks:
+      - devops
+    ports:
+      - 3000:3000
