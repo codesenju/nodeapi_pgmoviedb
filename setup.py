@@ -41,7 +41,7 @@ os.system("rm -rf postgres/" + local_file)
 os.system("rm -rf postgres/title.basics.tsv")
 os.system("rm -rf postgres/*.tmp")
 print("##########-Test API-##########")
-time.sleep(15)
+time.sleep(18)
 cmd = "curl localhost:3000/api/v1/movies | python3 -m json.tool"
 print(cmd)
 os.system(cmd)
