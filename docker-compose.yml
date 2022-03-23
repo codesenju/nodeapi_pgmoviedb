@@ -17,6 +17,8 @@ services:
        - PGDATA:/var/lib/postgresql/data
     networks:
       - devops
+    ports:
+      - 5432:5432
   node_app:
     build: ./node_app
     container_name: node_app
