@@ -5,3 +5,4 @@ node_app/node_modules/
 *.tmp
 *.tsv
 *.gz
+.DS_Store
