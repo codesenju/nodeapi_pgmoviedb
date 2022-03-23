@@ -2,7 +2,7 @@
 const express = require('express');
 const APP_PORT = '3000';
 const HOST = '0.0.0.0';
-
+const table_name = 'title_basics'
 
 // Connect to postgresql container instance
 const Pool = require("pg").Pool;
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 //Create Query
 app.get("/api/v1/movies", (req, res) => {
     pool.query(
-      `select * from basic fetch first 50 rows only`,
+      `select * from ${table_name} fetch first 50 rows only`,
       [],
       (error, results) => {
         if (error) {
@@ -35,7 +35,7 @@ app.get("/api/v1/movies", (req, res) => {
   });
   app.get("/api/v1/movies/:title", (req, res) => {
     pool.query(
-      `select * from basic where LOWER(primarytitle) like LOWER('%${req.params.title}%') AND titletype like 'movie%'`,
+      `select * from ${table_name} where LOWER(primarytitle) like LOWER('%${req.params.title}%') AND titletype like 'movie%'`,
       [],
       (error, results) => {
         if (error) {
