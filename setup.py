@@ -8,7 +8,6 @@ from sh import gunzip
 ssl._create_default_https_context = ssl._create_unverified_context
 # Define the local filename to save data
 local_file = 'title.basics.tsv.gz'
-
 print("##########-Clean Up-##########")
 cmd = "docker-compose down -v"
 print(cmd)

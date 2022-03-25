@@ -33,4 +33,4 @@ curl localhost:3000/api/v1/movies | python3 -m json.tool
 ```
 
 ### Video:
-![video](media/moviedb.gif)
+![video](media/moviedb_vid.gif)
