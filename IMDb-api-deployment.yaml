@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: imdb-api
+spec:
+  selector:
+    matchLabels:
+      app: imdb-api
+  template:
+    metadata:
+      labels:
+        app: imdb-api
+    spec:
+      containers:
+      - name: imdb-api
+        image: codesenju/imdb-api:v1.0
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: imdb-api
+spec:
+  selector:
+    app: imdb-api
+  ports:
+  - port: 80
+    targetPort: 3000

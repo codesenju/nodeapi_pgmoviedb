@@ -3,7 +3,7 @@
     "containerDefinitions": [
       {
         "name": "node_app",
-        "image": "codesenju/nodejs-app",
+        "image": "codesenju/imdb-api:v1.0",
         "hostname": "node_app",
         "essential": true,
         "portMappings": [
@@ -17,7 +17,7 @@
       },
       {
         "name": "postgres",
-        "image": "codesenju/postgres-app",
+        "image": "codesenju/imdb-backend:2022-05-26",
         "hostname": "postgres",
         "essential": false,
         "memory": 300
