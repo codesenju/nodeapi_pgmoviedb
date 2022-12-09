@@ -5,8 +5,8 @@ networks:
 volumes:
   PGDATA:
 services:
-  service.local.pgmoviedb:
-    image: service.local.pgmoviedb
+  pgmoviedb.service.local:
+    image: pgmoviedb.service.local
     build: ./postgres
     container_name: postgres
     hostname: postgres
@@ -20,12 +20,21 @@ services:
       - devops
     ports:
       - 5432:5432
-  sservice.local.nodeapi:
-    image:   service.local.nodeapi
+  nodeapi.service.local:
+    image:   nodeapi.service.local
     build: ./nodeapi
     container_name: nodeapi
     restart: unless-stopped
     networks:
       - devops
     ports:
-      - 8080:3000
+      - 3000:3000
+  frontend.service.local:
+    image:  frontend.service.local
+    build: ./frontend
+    container_name: frontend
+    restart: unless-stopped
+    networks:
+      - devops
+    ports:
+      - 8080:5000

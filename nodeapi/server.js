@@ -8,7 +8,7 @@ const table_name = 'title_basics'
 const Pool = require("pg").Pool;
 const pool = new Pool({
   user: "postgres",
-  host: "service.local.pgmoviedb",
+  host: "pgmoviedb.service.local",
   database: "movie",
   password: "12345",
   port: 5432
@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 //Create Query
 app.get("/api/v1/movies", (req, res) => {
     pool.query(
-      `select * from ${table_name} fetch first 25 rows only`,
+      `select * from ${table_name} fetch first 100 rows only`,
       [],
       (error, results) => {
         if (error) {
