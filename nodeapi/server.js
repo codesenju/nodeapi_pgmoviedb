@@ -8,7 +8,7 @@ const table_name = 'title_basics'
 const Pool = require("pg").Pool;
 const pool = new Pool({
   user: "postgres",
-  host: "postgres",
+  host: "service.local.pgmoviedb",
   database: "movie",
   password: "12345",
   port: 5432
@@ -16,14 +16,18 @@ const pool = new Pool({
 
 // App
 const app = express();
-app.get('/', (req, res) => {
+app.get('/health', (req, res) => {
   res.send('Health OK!');
+});
+
+app.get('/', (req, res) => {
+  res.send('<h1>Welcome to nodeapi.</h1>');
 });
 
 //Create Query
 app.get("/api/v1/movies", (req, res) => {
     pool.query(
-      `select * from ${table_name} fetch first 50 rows only`,
+      `select * from ${table_name} fetch first 25 rows only`,
       [],
       (error, results) => {
         if (error) {

@@ -5,7 +5,8 @@ networks:
 volumes:
   PGDATA:
 services:
-  postgres:
+  service.local.pgmoviedb:
+    image: service.local.pgmoviedb
     build: ./postgres
     container_name: postgres
     hostname: postgres
@@ -19,11 +20,12 @@ services:
       - devops
     ports:
       - 5432:5432
-  node_app:
-    build: ./node_app
-    container_name: node_app
+  sservice.local.nodeapi:
+    image:   service.local.nodeapi
+    build: ./nodeapi
+    container_name: nodeapi
     restart: unless-stopped
     networks:
       - devops
     ports:
-      - 3000:3000
+      - 8080:3000
