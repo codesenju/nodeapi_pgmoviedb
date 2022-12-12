@@ -6,7 +6,7 @@ volumes:
   PGDATA:
 services:
   pgmoviedb.api.local:
-    image: pgmoviedb.api.local
+    image: 587878432697.dkr.ecr.us-east-1.amazonaws.com/pgmoviedb.api.local
     build: ./postgres
     container_name: postgres
     hostname: postgres
@@ -21,7 +21,7 @@ services:
     ports:
       - 5432:5432
   nodeapi.api.local:
-    image:   nodeapi.api.local
+    image:   587878432697.dkr.ecr.us-east-1.amazonaws.com/nodeapi.api.local
     build: ./nodeapi
     container_name: nodeapi
     restart: unless-stopped
@@ -30,7 +30,7 @@ services:
     ports:
       - 3000:3000
   index.api.local:
-    image:  index.api.local
+    image:  587878432697.dkr.ecr.us-east-1.amazonaws.com/index.api.local
     build: ./index.api.local
     container_name: index
     restart: unless-stopped
@@ -39,7 +39,7 @@ services:
     ports:
       - 81:5000
   indexv2.api.local:
-    image:  indexv2.api.local
+    image:  587878432697.dkr.ecr.us-east-1.amazonaws.com/indexv2.api.local
     build: ./indexv2.api.local
     container_name: indexv2
     restart: unless-stopped
@@ -48,7 +48,7 @@ services:
     ports:
       - 82:5000
   indexv3.api.local:
-    image:  indexv3.api.local
+    image:  587878432697.dkr.ecr.us-east-1.amazonaws.com/indexv3.api.local
     build: ./indexv3.api.local
     container_name: indexv3
     restart: unless-stopped
@@ -57,7 +57,7 @@ services:
     ports:
       - 83:5000
   frontend.api.local:
-    image:  frontend.api.local
+    image:  587878432697.dkr.ecr.us-east-1.amazonaws.com/frontend.api.local
     build: ./frontend.api.local
     container_name: frontend
     restart: unless-stopped
@@ -66,7 +66,7 @@ services:
     ports:
       - 8080:5000
   index-backend.api.local:
-    image:  index-backend.api.local
+    image:  587878432697.dkr.ecr.us-east-1.amazonaws.com/index-backend.api.local
     build: ./index-backend.api.local
     container_name: index-backend
     restart: unless-stopped
