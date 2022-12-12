@@ -5,8 +5,8 @@ networks:
 volumes:
   PGDATA:
 services:
-  pgmoviedb.service.local:
-    image: pgmoviedb.service.local
+  pgmoviedb.api.local:
+    image: pgmoviedb.api.local
     build: ./postgres
     container_name: postgres
     hostname: postgres
@@ -20,8 +20,8 @@ services:
       - devops
     ports:
       - 5432:5432
-  nodeapi.service.local:
-    image:   nodeapi.service.local
+  nodeapi.api.local:
+    image:   nodeapi.api.local
     build: ./nodeapi
     container_name: nodeapi
     restart: unless-stopped
@@ -29,12 +29,48 @@ services:
       - devops
     ports:
       - 3000:3000
-  frontend.service.local:
-    image:  frontend.service.local
-    build: ./frontend
+  index.api.local:
+    image:  index.api.local
+    build: ./index.api.local
+    container_name: index
+    restart: unless-stopped
+    networks:
+      - devops
+    ports:
+      - 81:5000
+  indexv2.api.local:
+    image:  indexv2.api.local
+    build: ./indexv2.api.local
+    container_name: indexv2
+    restart: unless-stopped
+    networks:
+      - devops
+    ports:
+      - 82:5000
+  indexv3.api.local:
+    image:  indexv3.api.local
+    build: ./indexv3.api.local
+    container_name: indexv3
+    restart: unless-stopped
+    networks:
+      - devops
+    ports:
+      - 83:5000
+  frontend.api.local:
+    image:  frontend.api.local
+    build: ./frontend.api.local
     container_name: frontend
     restart: unless-stopped
     networks:
       - devops
     ports:
       - 8080:5000
+  index-backend.api.local:
+    image:  index-backend.api.local
+    build: ./index-backend.api.local
+    container_name: index-backend
+    restart: unless-stopped
+    networks:
+      - devops
+    ports:
+      - 84:5000
