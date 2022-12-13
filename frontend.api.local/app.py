@@ -1,7 +1,7 @@
 from flask import Flask
 import requests,jsonify
 import urllib
-url = 'http://index.api.local:5000'
+url = 'http://indexv3.api.local:5000'
 app = Flask(__name__)
 
 @app.route("/")

@@ -20,6 +20,12 @@ services:
       - devops
     ports:
       - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
   nodeapi.api.local:
     image:   587878432697.dkr.ecr.us-east-1.amazonaws.com/nodeapi.api.local
     build: ./nodeapi
@@ -29,6 +35,12 @@ services:
       - devops
     ports:
       - 3000:3000
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -S http://localhost:3000 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
   index.api.local:
     image:  587878432697.dkr.ecr.us-east-1.amazonaws.com/index.api.local
     build: ./index.api.local
