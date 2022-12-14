@@ -20,5 +20,9 @@
     "pg": "^8.5.1",
     "request": "^2.88.2",
     "require": "^2.4.20"
+  },
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.229.0",
+    "aws-sdk": "^2.1274.0"
   }
 }
