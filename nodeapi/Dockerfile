@@ -1,5 +1,5 @@
 #FROM docker.io/node
-FROM docker.io/node:12-alpine
+FROM docker.io/node:19-alpine
 # Create app directory
 WORKDIR /usr/src/app
 

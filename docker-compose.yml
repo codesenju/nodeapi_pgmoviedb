@@ -27,10 +27,13 @@ services:
       retries: 3
       start_period: 5s
   nodeapi.api.local:
+#    image: 587878432697.dkr.ecr.us-east-1.amazonaws.com/nodeapi.api.local:secretmanager
     image:  nodeapi.api.local
     build: ./nodeapi
     container_name: nodeapi
     restart: unless-stopped
+    environment:
+       - PGPASSWORD=${PGPASSWORD}    
     networks:
       - devops
     ports:
