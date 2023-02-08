@@ -1,7 +1,7 @@
 from flask import Flask
 import requests,jsonify
 import urllib
-url = 'http://index.api.local:5000'
+url = 'http://index:5000'
 app = Flask(__name__)
 
 @app.route("/")
@@ -16,7 +16,11 @@ def home():
 #    resp5 = requests.get(url_endgame)
     return f"<h1>Welcome to Api Frontend</h1><br \>Getting records from api index {url}: --> <br \> %s " %  (resp.content)
 #    return "<h1>Welcome to Api Home Page</h1>Getting movie records from api " + url + "-> %s Getting tvSeries records from api " + url + "-> %s " %  (resp.json(), resp2.json())
-    
+
+@app.route("/health")
+def health():
+    return "<h1>100% Healthy</h1>" 
+
 @app.errorhandler(500)
 def internal_server_error(e):
     # note that we set the 500 status explicitly

@@ -1,0 +1,498 @@
+{
+ "Resources": {
+  "PostgresSGA5349B77": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "NodeApiStack/Postgres_SG",
+    "GroupName": "Postgres_SG",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow outbound 2049 for postgres db to anywhere",
+      "FromPort": 2049,
+      "IpProtocol": "tcp",
+      "ToPort": 2049
+     },
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow outbound 443",
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow inbound 5000 for postgres db from Nodeapi",
+      "FromPort": 5432,
+      "IpProtocol": "tcp",
+      "ToPort": 5432
+     }
+    ],
+    "VpcId": "vpc-0f168d381ce65cfb5"
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeApiStack/Postgres_SG/Resource"
+   }
+  },
+  "EFSallowInbound2049SG521C9F79": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "NodeApiStack/EFS_allowInbound2049_SG",
+    "GroupName": "PostgresEFS_SG",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "255.255.255.255/32",
+      "Description": "Disallow all traffic",
+      "FromPort": 252,
+      "IpProtocol": "icmp",
+      "ToPort": 86
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "EFS Filesystem to allow inbound 2049",
+      "FromPort": 2049,
+      "IpProtocol": "tcp",
+      "ToPort": 2049
+     }
+    ],
+    "VpcId": "vpc-0f168d381ce65cfb5"
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeApiStack/EFS_allowInbound2049_SG/Resource"
+   }
+  },
+  "ImportedTaskExecutionRolePolicy23E279F9": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":ecr:us-east-1:587878432697:repository/pgmoviedb.api.local"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "ecr:GetAuthorizationToken",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "PostgresTaskDefPostgresLogGroup8B3E2446",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ImportedTaskExecutionRolePolicy23E279F9",
+    "Roles": [
+     "ecsTaskExecutionRole"
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeApiStack/ImportedTaskExecutionRole/Policy/Resource"
+   }
+  },
+  "PGEFSFileSystemFB2674A6": {
+   "Type": "AWS::EFS::FileSystem",
+   "Properties": {
+    "Encrypted": true,
+    "FileSystemTags": [
+     {
+      "Key": "Name",
+      "Value": "NodeApiStack/PG_EFSFileSystem"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "NodeApiStack/PG_EFSFileSystem/Resource"
+   }
+  },
+  "PGEFSFileSystemEfsMountTarget19B5123E5": {
+   "Type": "AWS::EFS::MountTarget",
+   "Properties": {
+    "FileSystemId": {
+     "Ref": "PGEFSFileSystemFB2674A6"
+    },
+    "SecurityGroups": [
+     {
+      "Fn::GetAtt": [
+       "EFSallowInbound2049SG521C9F79",
+       "GroupId"
+      ]
+     }
+    ],
+    "SubnetId": "subnet-01b1911df0ad91eb7"
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeApiStack/PG_EFSFileSystem/EfsMountTarget1"
+   }
+  },
+  "PGEFSFileSystemEfsMountTarget28E365451": {
+   "Type": "AWS::EFS::MountTarget",
+   "Properties": {
+    "FileSystemId": {
+     "Ref": "PGEFSFileSystemFB2674A6"
+    },
+    "SecurityGroups": [
+     {
+      "Fn::GetAtt": [
+       "EFSallowInbound2049SG521C9F79",
+       "GroupId"
+      ]
+     }
+    ],
+    "SubnetId": "subnet-02ae900ec00be7b2f"
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeApiStack/PG_EFSFileSystem/EfsMountTarget2"
+   }
+  },
+  "PGEFSFileSystemEfsMountTarget37EB7BC6C": {
+   "Type": "AWS::EFS::MountTarget",
+   "Properties": {
+    "FileSystemId": {
+     "Ref": "PGEFSFileSystemFB2674A6"
+    },
+    "SecurityGroups": [
+     {
+      "Fn::GetAtt": [
+       "EFSallowInbound2049SG521C9F79",
+       "GroupId"
+      ]
+     }
+    ],
+    "SubnetId": "subnet-08d2609ae2ad75bcc"
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeApiStack/PG_EFSFileSystem/EfsMountTarget3"
+   }
+  },
+  "PostgresTaskDefTaskRole5A8B625C": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeApiStack/PostgresTaskDef/TaskRole/Resource"
+   }
+  },
+  "PostgresTaskDefTaskRoleDefaultPolicy5F027C47": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ssmmessages:CreateControlChannel",
+        "ssmmessages:CreateDataChannel",
+        "ssmmessages:OpenControlChannel",
+        "ssmmessages:OpenDataChannel"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "logs:DescribeLogGroups",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:DescribeLogStreams",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "PostgresTaskDefTaskRoleDefaultPolicy5F027C47",
+    "Roles": [
+     {
+      "Ref": "PostgresTaskDefTaskRole5A8B625C"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeApiStack/PostgresTaskDef/TaskRole/DefaultPolicy/Resource"
+   }
+  },
+  "PostgresTaskDef8C46C666": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Cpu": 256,
+      "Environment": [
+       {
+        "Name": "POSTGRES_DB",
+        "Value": "movie"
+       },
+       {
+        "Name": "POSTGRES_PASSWORD",
+        "Value": "12345"
+       }
+      ],
+      "Essential": true,
+      "Image": {
+       "Fn::Join": [
+        "",
+        [
+         "587878432697.dkr.ecr.us-east-1.",
+         {
+          "Ref": "AWS::URLSuffix"
+         },
+         "/pgmoviedb.api.local:latest"
+        ]
+       ]
+      },
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "PostgresTaskDefPostgresLogGroup8B3E2446"
+        },
+        "awslogs-stream-prefix": "postgres",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "Memory": 512,
+      "Name": "Postgres",
+      "PortMappings": [
+       {
+        "ContainerPort": 5432,
+        "Name": "postgres",
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "256",
+    "ExecutionRoleArn": "arn:aws:iam::587878432697:role/ecsTaskExecutionRole",
+    "Family": "NodeApiStackPostgresTaskDef2814AC54",
+    "Memory": "512",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "RuntimePlatform": {
+     "CpuArchitecture": "ARM64",
+     "OperatingSystemFamily": "LINUX"
+    },
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "PostgresTaskDefTaskRole5A8B625C",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeApiStack/PostgresTaskDef/Resource"
+   }
+  },
+  "PostgresTaskDefPostgresLogGroup8B3E2446": {
+   "Type": "AWS::Logs::LogGroup",
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "NodeApiStack/PostgresTaskDef/Postgres/LogGroup/Resource"
+   }
+  },
+  "PostgresService78457626": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "Cluster": "api",
+    "DeploymentConfiguration": {
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "EnableECSManagedTags": false,
+    "EnableExecuteCommand": true,
+    "LaunchType": "FARGATE",
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "DISABLED",
+      "SecurityGroups": [
+       {
+        "Fn::GetAtt": [
+         "PostgresSGA5349B77",
+         "GroupId"
+        ]
+       }
+      ],
+      "Subnets": [
+       "subnet-01b1911df0ad91eb7",
+       "subnet-02ae900ec00be7b2f",
+       "subnet-08d2609ae2ad75bcc"
+      ]
+     }
+    },
+    "ServiceConnectConfiguration": {
+     "Enabled": true,
+     "Namespace": "api.local",
+     "Services": [
+      {
+       "ClientAliases": [
+        {
+         "DnsName": "pgmoviedb.api.local",
+         "Port": 5432
+        }
+       ],
+       "DiscoveryName": "postgres",
+       "PortName": "postgres"
+      }
+     ]
+    },
+    "TaskDefinition": {
+     "Ref": "PostgresTaskDef8C46C666"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeApiStack/Postgres/Service"
+   }
+  },
+  "PostgresTaskCountTarget912DD5E3": {
+   "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+   "Properties": {
+    "MaxCapacity": 10,
+    "MinCapacity": 1,
+    "ResourceId": {
+     "Fn::Join": [
+      "",
+      [
+       "service/api/",
+       {
+        "Fn::GetAtt": [
+         "PostgresService78457626",
+         "Name"
+        ]
+       }
+      ]
+     ]
+    },
+    "RoleARN": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::587878432697:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+      ]
+     ]
+    },
+    "ScalableDimension": "ecs:service:DesiredCount",
+    "ServiceNamespace": "ecs"
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeApiStack/Postgres/TaskCount/Target/Resource"
+   }
+  },
+  "PostgresTaskCountTargetCpuScaling863F7E95": {
+   "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+   "Properties": {
+    "PolicyName": "NodeApiStackPostgresTaskCountTargetCpuScalingEE3C3B6A",
+    "PolicyType": "TargetTrackingScaling",
+    "ScalingTargetId": {
+     "Ref": "PostgresTaskCountTarget912DD5E3"
+    },
+    "TargetTrackingScalingPolicyConfiguration": {
+     "PredefinedMetricSpecification": {
+      "PredefinedMetricType": "ECSServiceAverageCPUUtilization"
+     },
+     "TargetValue": 80
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeApiStack/Postgres/TaskCount/Target/CpuScaling/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11RTU+EQAz9LXsfRrNmTby6Ri+abIC76Y4FK8OUzAwaQvjvdgBX8dT29eO1r3t9OOjrHXyFzLw1maWzHosIplE5Bu69QSW51xHNXhJoek9xePLcd+pYuQ0wKYJWjye2ZIaUXb2cLaYw2UlhFfT4SBaLIURsU2IbvXDvYgm+xijVJlVLABFLCM0DVuQoErtU+h9hF4Ec+j/Y2lug/ySDy86LWxiwcLbz2GPinJTlWuieub4c+OOnTbzOseNAkf1wD0GE6To5EBIP9JGDDCRXi0yXyemImXOLLKb0IrM0FEvfr24bYJpm7dZnTOo0xHd2Vzf6Tt/uPgJR5mV3alHni/0GQIy44dIBAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeApiStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -7,11 +7,14 @@ const table_name = 'title_basics'
 // Connect to postgresql container instance
 const Pool = require("pg").Pool;
 const pool = new Pool({
-  user: "postgres",
-  host: "pgmoviedb.api.local",
-  database: "movie",
-  password: "12345",
-  port: 5432
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database:  process.env.DB_NAME,
+  password:  process.env.DB_PASSWORD,
+  port:  process.env.DB_PORT,
+  connectionTimeoutMillis : 60000,
+  //idleTimeoutMillis : 30000
+  keepAlive: true
 });
 
 // App

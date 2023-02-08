@@ -1,7 +1,7 @@
 from flask import Flask
 import requests,jsonify
 import urllib
-url = 'http://nodeapi.api.local:3000/api/v1/movies/'
+url = 'http://nodeapi:3000/api/v1/movies/'
 #url_tvseries = 'http://nodeapi.api.local:3000/api/v1/tvseries/'
 #url_tvminiseries = 'http://nodeapi.api.local:3000/api/v1/tvminiseries/'
 #url_tvminiseriesfifa = 'http://nodeapi.api.local:3000/api/v1/tvminiseries/2022 Fifa World Cup'
