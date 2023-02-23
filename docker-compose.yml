@@ -29,7 +29,7 @@ services:
        - DB_PASSWORD=12345
        - DB_NAME=movie
        - DB_PORT=5432
-       - DB_USER=postgres
+       - DB_USERNAME=postgres
     restart: unless-stopped
     networks:
       - devops
@@ -45,7 +45,7 @@ services:
 #    ports:
 #      - 81:5000
   indexv2:
-    image:  indexv2.api.local:k8s
+    image:  codesenju/index.api.local:k8s_v2
     build: ./indexv2.api.local
     container_name: indexv2
     restart: unless-stopped
@@ -54,7 +54,7 @@ services:
 #    ports:
 #      - 82:5000
   indexv3:
-    image:  indexv3.api.local
+    image:  codesenju/index.api.local:k8s_v3
     build: ./indexv3.api.local
     container_name: indexv3
     restart: unless-stopped
@@ -72,7 +72,7 @@ services:
     ports:
       - 5000:5000
   index-backend:
-    image:  index-backend.api.local:k8s
+    image:  codesenju/index-backend.api.local:k8s
     build: ./index-backend.api.local
     container_name: index-backend
     restart: unless-stopped

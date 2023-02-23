@@ -22,7 +22,15 @@ def home():
     <br \><h3>TV Series</h3>Getting tvSeries records from api {url_tvseries}: --> <br \> %s \
     <br \><h3>TV Mini Series</h3>Getting tvMiniSeries records from api {url_tvminiseries}: --> <br \> %s" %  (resp.content, resp2.content, resp3.content)
 #    return "<h1>Welcome to Api Home Page</h1>Getting movie records from api " + url + "-> %s Getting tvSeries records from api " + url + "-> %s " %  (resp.json(), resp2.json())
-    
+
+@app.route("/health")
+def health():
+    return "<h1>100% Healthy</h1>" 
+
+@app.route("/index")
+def index():
+    return "<h1>Index Version 2</h1>" 
+
 @app.errorhandler(500)
 def internal_server_error(e):
     # note that we set the 500 status explicitly

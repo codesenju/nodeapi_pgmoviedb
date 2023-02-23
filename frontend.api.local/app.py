@@ -21,6 +21,10 @@ def home():
 def health():
     return "<h1>100% Healthy</h1>" 
 
+@app.route("/frontend")
+def frontend():
+    return "<h1>Frontend</h1>" 
+
 @app.errorhandler(500)
 def internal_server_error(e):
     # note that we set the 500 status explicitly

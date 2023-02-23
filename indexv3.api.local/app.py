@@ -6,7 +6,7 @@ url_tvseries = 'http://nodeapi:3000/api/v1/tvseries/'
 url_tvminiseries = 'http://nodeapi:3000/api/v1/tvminiseries/'
 # url_tvminiseriesfifa = 'http://nodeapi.api.local:3000/api/v1/tvminiseries/2022 Fifa World Cup'
 # url_endgame = 'http://nodeapi.api.local:3000/api/v1/movies/Avengers: Endgame'
-url_backend = 'http://index-backend.api.local:5000'
+url_backend = 'http://index-backend:5000'
 app = Flask(__name__)
 
 @app.route("/")
@@ -23,7 +23,15 @@ def home():
     <br \><h3>TV Mini Series</h3>Getting tvMiniSeries records from api {url_tvminiseries}: --> <br \> %s \
     <br \><h3>World Cup & Avengers Endgame</h3>Getting records from api {url_backend}: --> <br \> %s  " %  (resp.content, resp2.content, resp3.content, resp4.content)
 #    return "<h1>Welcome to Api Home Page</h1>Getting movie records from api " + url + "-> %s Getting tvSeries records from api " + url + "-> %s " %  (resp.json(), resp2.json())
-    
+
+@app.route("/health")
+def health():
+    return "<h1>100% Healthy</h1>" 
+
+@app.route("/index")
+def index():
+    return "<h1>Index Version 3</h1>" 
+
 @app.errorhandler(500)
 def internal_server_error(e):
     # note that we set the 500 status explicitly

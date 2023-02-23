@@ -20,7 +20,16 @@ def home():
 #    resp5 = requests.get(url_endgame)
     return f"<h2>Welcome to Nodeapi Index Version 1</h2><br \><h3>Movies</h3>Getting movie records from api {url}: --> <br \> %s " %  (resp.content)
 #    return "<h1>Welcome to Api Home Page</h1>Getting movie records from api " + url + "-> %s Getting tvSeries records from api " + url + "-> %s " %  (resp.json(), resp2.json())
-    
+
+
+@app.route("/health")
+def health():
+    return "<h1>100% Healthy</h1>" 
+
+@app.route("/index")
+def index():
+    return "<h1>Index Version 1</h1>" 
+
 @app.errorhandler(500)
 def internal_server_error(e):
     # note that we set the 500 status explicitly
