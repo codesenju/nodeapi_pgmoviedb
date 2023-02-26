@@ -2,8 +2,8 @@ from flask import Flask
 import requests,jsonify
 import urllib
 
-url_tvminiseriesfifa = 'http://nodeapi:3000/api/v1/tvminiseries/2022 Fifa World Cup'
-url_endgame = 'http://nodeapi:3000/api/v1/movies/Avengers: Endgame'
+url_tvminiseriesfifa = 'http://nodeapi.api.local:3000/api/v1/tvminiseries/2022 Fifa World Cup'
+url_endgame = 'http://nodeapi.api.local:3000/api/v1/movies/Avengers: Endgame'
 app = Flask(__name__)
 
 @app.route("/")
