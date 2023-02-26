@@ -4,9 +4,20 @@ const APP_PORT = '3000';
 const HOST = '0.0.0.0';
 const table_name = 'title_basics'
 
+
+console.log("App integrated with xray for postgres - updated with segment code block.")
 // Connect to postgresql container instance
+//####################
+//##XRAY INTEGRATION##
+//####################
+var AWSXRay = require('aws-xray-sdk');
+AWSXRay.setContextMissingStrategy("LOG_ERROR");
+var capturePostgres = require('aws-xray-sdk-postgres');
+var pg = capturePostgres(require('pg'));
+//--------//
+
 const Pool = require("pg").Pool;
-const pool = new Pool({
+const pool = new pg.Pool({
   user: process.env.DB_USERNAME,
   host: process.env.DB_HOST,
   database:  process.env.DB_NAME,
@@ -19,6 +30,10 @@ const pool = new Pool({
 
 // App
 const app = express();
+// XRAY --//
+app.use(AWSXRay.express.openSegment("Nodeapi-Health-Segment"));
+//--------//
+
 app.get('/health', (req, res) => {
   res.send('Health OK!');
 });
@@ -26,6 +41,13 @@ app.get('/health', (req, res) => {
 app.get('/', (req, res) => {
   res.send('<h1>Welcome to nodeapi.</h1>');
 });
+// XRAY --//
+app.use(AWSXRay.express.closeSegment());
+//--------//
+
+// XRAY --//
+app.use(AWSXRay.express.openSegment("Postgres-Segment"));
+//--------//
 
 //Create Query
 app.get("/api/v1/movies", (req, res) => {
@@ -106,6 +128,10 @@ app.get("/api/v1/tvminiseries", (req, res) => {
     );
   });
 
+
+// XRAY --//
+  app.use(AWSXRay.express.closeSegment());
+//--------//
 
   app.listen(APP_PORT, HOST);
   console.log(`Running on http://${HOST}:${APP_PORT}`);

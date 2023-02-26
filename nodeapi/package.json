@@ -20,5 +20,9 @@
     "pg": "^8.5.1",
     "request": "^2.88.2",
     "require": "^2.4.20"
+  },
+  "dependencies": {
+    "aws-xray-sdk": "^3.4.1",
+    "aws-xray-sdk-postgres": "^3.4.1"
   }
 }
