@@ -1,21 +1,18 @@
 from flask import Flask
 import requests,jsonify
 import urllib
-url = 'http://index:5000'
+from prometheus_flask_exporter import PrometheusMetrics # Prometheus flask exporter metrics integration https://github.com/rycus86/prometheus_flask_exporter
+
+
+url = 'http://index.api.local:5000'
 app = Flask(__name__)
+metrics= PrometheusMetrics(app) # Prometheus flask exporter metrics integration
+metrics.info('app_info', 'Application info', service_name='frontend') # Static information as metric
 
 @app.route("/")
 def home():
-    # url = 'http://nodeapi.service.local:3000/api/v1/movies/'
-    # url = 'http://localhost:3000/api/v1/movies/'
-    # Making a get request
     resp = requests.get(url)
-#    resp2 = requests.get(url_tvseries)
-#    resp3 = requests.get(url_tvminiseries)
-#    resp4 = requests.get(url_tvminiseriesfifa)
-#    resp5 = requests.get(url_endgame)
     return f"<h1>Welcome to Api Frontend</h1><br \>Getting records from api index {url}: --> <br \> %s " %  (resp.content)
-#    return "<h1>Welcome to Api Home Page</h1>Getting movie records from api " + url + "-> %s Getting tvSeries records from api " + url + "-> %s " %  (resp.json(), resp2.json())
 
 @app.route("/health")
 def health():

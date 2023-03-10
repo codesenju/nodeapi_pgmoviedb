@@ -5,8 +5,8 @@ networks:
 volumes:
   PGDATA:
 services:
-  pgmoviedb:
-    image:  codesenju/pgmoviedb.api.local:k8s
+  pgmoviedb.api.local:
+    image:  codesenju/pgmoviedb.api.local:ecs
     build: ./postgres
     container_name: postgres
     hostname: postgres
@@ -20,12 +20,12 @@ services:
       - devops
     ports:
       - 5432:5432
-  nodeapi:
-    image:   codesenju/nodeapi.api.local:k8s
+  nodeapi.api.local:
+    image:   codesenju/nodeapi.api.local:ecs
     build: ./nodeapi
     container_name: nodeapi
     environment:
-       - DB_HOST=pgmoviedb
+       - DB_HOST=pgmoviedb.api.local
        - DB_PASSWORD=12345
        - DB_NAME=movie
        - DB_PORT=5432
@@ -35,8 +35,9 @@ services:
       - devops
     ports:
       - 3000:3000
-  index:
-    image:  codesenju/index.api.local:k8s
+      - 9464:9464
+  index.api.local:
+    image:  codesenju/index.api.local:ecs
     build: ./index.api.local
     container_name: index
     restart: unless-stopped
@@ -44,8 +45,8 @@ services:
       - devops
 #    ports:
 #      - 81:5000
-  indexv2:
-    image:  codesenju/index.api.local:k8s_v2
+  indexv2.api.local:
+    image:  codesenju/index.api.local:ecs_v2
     build: ./indexv2.api.local
     container_name: indexv2
     restart: unless-stopped
@@ -53,8 +54,8 @@ services:
       - devops
 #    ports:
 #      - 82:5000
-  indexv3:
-    image:  codesenju/index.api.local:k8s_v3
+  indexv3.api.local:
+    image:  codesenju/index.api.local:ecs_v3
     build: ./indexv3.api.local
     container_name: indexv3
     restart: unless-stopped
@@ -62,8 +63,8 @@ services:
       - devops
 #    ports:
 #      - 83:5000
-  frontend:
-    image:  codesenju/frontend.api.local:k8s
+  frontend.api.local:
+    image:  codesenju/frontend.api.local:ecs
     build: ./frontend.api.local
     container_name: frontend
     restart: unless-stopped
@@ -71,8 +72,8 @@ services:
       - devops
     ports:
       - 5000:5000
-  index-backend:
-    image:  codesenju/index-backend.api.local:k8s
+  index-backend.api.local:
+    image:  codesenju/index-backend.api.local:ecs
     build: ./index-backend.api.local
     container_name: index-backend
     restart: unless-stopped

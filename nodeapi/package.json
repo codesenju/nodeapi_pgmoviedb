@@ -22,6 +22,7 @@
     "require": "^2.4.20"
   },
   "dependencies": {
+    "@opentelemetry/exporter-prometheus": "^0.35.1",
     "aws-xray-sdk": "^3.4.1",
     "aws-xray-sdk-postgres": "^3.4.1"
   }

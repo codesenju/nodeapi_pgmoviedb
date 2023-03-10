@@ -7,3 +7,4 @@ node_app/node_modules/
 *.gz
 .DS_Store
 **/node_modules/
+.venv

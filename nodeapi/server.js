@@ -5,6 +5,26 @@ const HOST = '0.0.0.0';
 const table_name = 'title_basics'
 
 
+// ## Prometheus metrics integration - START ##
+const { PrometheusExporter } = require('@opentelemetry/exporter-prometheus');
+const { MeterProvider }  = require('@opentelemetry/sdk-metrics');
+
+// Add your port and startServer to the Prometheus options
+const options = {port: 9464, startServer: true};
+const exporter = new PrometheusExporter(options);
+
+// Creates MeterProvider and installs the exporter as a MetricReader
+const meterProvider = new MeterProvider();
+meterProvider.addMetricReader(exporter);
+const meter = meterProvider.getMeter('example-prometheus');
+
+// Now, start recording data
+const counter = meter.createCounter('metric_name', {
+  description: 'Example of a counter'
+});
+counter.add(10, { pid: process.pid });
+// ## Prometheus metrics integration - END ##
+
 console.log("App integrated with xray for postgres - updated with segment code block.")
 // Connect to postgresql container instance
 //####################
