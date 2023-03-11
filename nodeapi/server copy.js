@@ -3,7 +3,6 @@ const express = require('express');
 const APP_PORT = '3000';
 const HOST = '0.0.0.0';
 const table_name = 'title_basics'
-const morgan = require('morgan'); // Import morgan package
 
 console.log("App integrated with xray for postgres - updated with segment code block.")
 console.log("Added retry attempts and error handling.\n\nHave a nice day!\n\n")
@@ -28,9 +27,6 @@ const pool = new pg.Pool({
 
 // App
 const app = express();
-
-// Add logging middleware MORGAN
-app.use(morgan('combined'));
 
 // XRAY
 app.use(AWSXRay.express.openSegment("Nodeapi-Health-Segment"));
@@ -68,13 +64,13 @@ function connectDB(callback) {
 }
 
 // Middleware function for logging incoming requests
-//const logRequests = (req, res, next) => {
-//  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} - ${res.statusCode}`);
-//  next();
-//};
+const logRequests = (req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} - ${res.statusCode}`);
+  next();
+};
 
 // Apply the middleware function to all API routes
-//app.use(logRequests);
+app.use(logRequests);
 
 //Create Query
 app.get("/api/v1/movies", (req, res) => {
