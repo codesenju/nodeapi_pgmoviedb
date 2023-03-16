@@ -1,19 +1,15 @@
 from flask import Flask
 import requests,jsonify
 import urllib
+import os
 
-url_tvminiseriesfifa = 'http://nodeapi:3000/api/v1/tvminiseries/2022 Fifa World Cup'
-url_endgame = 'http://nodeapi:3000/api/v1/movies/Avengers: Endgame'
+url_tvminiseriesfifa = os.environ.get("TVMINISERIES_FIFA_URL")
+url_endgame = os.environ.get("ENDGAME_URL")
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    # url = 'http://nodeapi.service.local:3000/api/v1/movies/'
-    # url = 'http://localhost:3000/api/v1/movies/'
     # Making a get request
-#    resp = requests.get(url)
-#    resp2 = requests.get(url_tvseries)
-#    resp3 = requests.get(url_tvminiseries)
     resp4 = requests.get(url_tvminiseriesfifa)
     resp5 = requests.get(url_endgame)
     return f"<h4>Welcome to Index Backend</h4> \
@@ -28,7 +24,6 @@ def health():
 @app.route("/index-backend")
 def index():
     return "<h1>Index-Backend</h1>" 
-
 
 @app.errorhandler(500)
 def internal_server_error(e):

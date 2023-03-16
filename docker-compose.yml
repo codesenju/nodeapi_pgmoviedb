@@ -12,8 +12,8 @@ services:
     hostname: postgres
     restart: unless-stopped
     environment:
-       - POSTGRES_DB=movie
-       - POSTGRES_PASSWORD=12345
+       POSTGRES_DB: movie
+       POSTGRES_PASSWORD: 12345
     volumes:
        - PGDATA:/var/lib/postgresql/data
     networks:
@@ -25,11 +25,11 @@ services:
     build: ./nodeapi
     container_name: nodeapi
     environment:
-       - DB_HOST=pgmoviedb
-       - DB_PASSWORD=12345
-       - DB_NAME=movie
-       - DB_PORT=5432
-       - DB_USERNAME=postgres
+       DB_HOST: pgmoviedb
+       DB_PASSWORD: 12345
+       DB_NAME: movie
+       DB_PORT: 5432
+       DB_USERNAME: postgres
     restart: unless-stopped
     networks:
       - devops
@@ -40,6 +40,11 @@ services:
     build: ./index.api.local
     container_name: index
     restart: unless-stopped
+    environment:
+       MOVIES_URL: 'http://nodeapi:3000/api/v1/movies/'
+       TVSERIES_URL: 'http://nodeapi:3000/api/v1/tvseries/'
+       TVMINISERIES_URL: 'http://nodeapi:3000/api/v1/tvminiseries/'
+       INDEX_BACKEND_URL: 'http://index-backend:5000/'
     networks:
       - devops
 #    ports:
@@ -49,6 +54,11 @@ services:
     build: ./indexv2.api.local
     container_name: indexv2
     restart: unless-stopped
+    environment:
+       MOVIES_URL: 'http://nodeapi:3000/api/v1/movies/'
+       TVSERIES_URL: 'http://nodeapi:3000/api/v1/tvseries/'
+       TVMINISERIES_URL: 'http://nodeapi:3000/api/v1/tvminiseries/'
+       INDEX_BACKEND_URL: 'http://index-backend:5000/'
     networks:
       - devops
 #    ports:
@@ -58,6 +68,11 @@ services:
     build: ./indexv3.api.local
     container_name: indexv3
     restart: unless-stopped
+    environment:
+       MOVIES_URL: 'http://nodeapi:3000/api/v1/movies/'
+       TVSERIES_URL: 'http://nodeapi:3000/api/v1/tvseries/'
+       TVMINISERIES_URL: 'http://nodeapi:3000/api/v1/tvminiseries/'
+       INDEX_BACKEND_URL: 'http://index-backend:5000/'
     networks:
       - devops
 #    ports:
@@ -67,6 +82,8 @@ services:
     build: ./frontend.api.local
     container_name: frontend
     restart: unless-stopped
+    environment:
+       INDEX_URL: http://indexv3:5000/
     networks:
       - devops
     ports:
@@ -76,6 +93,9 @@ services:
     build: ./index-backend.api.local
     container_name: index-backend
     restart: unless-stopped
+    environment:
+      TVMINISERIES_FIFA_URL: 'http://nodeapi:3000/api/v1/tvminiseries/2022 Fifa World Cup'
+      ENDGAME_URL: 'http://nodeapi:3000/api/v1/movies/Avengers: Endgame'
     networks:
       - devops
 #    ports:

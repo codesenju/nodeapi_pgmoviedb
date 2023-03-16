@@ -1,7 +1,9 @@
 from flask import Flask
 import requests,jsonify
 import urllib
-url = 'http://index:5000'
+import os
+
+url = os.environ.get("INDEX_URL")
 app = Flask(__name__)
 
 @app.route("/")
