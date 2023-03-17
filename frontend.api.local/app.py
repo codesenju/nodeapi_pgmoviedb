@@ -4,6 +4,9 @@ import urllib
 # https://pypi.org/project/prometheus-flask-exporter/ && https://blog.viktoradam.net/2020/05/11/prometheus-flask-exporter/
 from prometheus_flask_exporter import PrometheusMetrics 
 import os
+# https://pypi.org/project/prometheus-flask-exporter/ && https://blog.viktoradam.net/2020/05/11/prometheus-flask-exporter/
+from prometheus_flask_exporter import PrometheusMetrics 
+import os
 
 url = os.environ.get("INDEX_URL")
 
