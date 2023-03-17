@@ -1,10 +1,11 @@
 from flask import Flask
 import requests,jsonify
 import urllib
-from prometheus_flask_exporter import PrometheusMetrics # Prometheus flask exporter metrics integration https://github.com/rycus86/prometheus_flask_exporter
 
+import os
 
-url = 'http://index.api.local:5000'
+url = os.environ.get("INDEX_URL")
+
 app = Flask(__name__)
 metrics= PrometheusMetrics(app) # Prometheus flask exporter metrics integration
 metrics.info('app_info', 'Application info', service_name='frontend') # Static information as metric

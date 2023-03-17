@@ -1,16 +1,18 @@
 from flask import Flask
 import requests,jsonify
 import urllib
-url = 'http://nodeapi.api.local:3000/api/v1/movies/'
+
+import os
+
+url_movies = os.environ.get("MOVIES_URL")
+
 app = Flask(__name__)
 
 @app.route("/")
 def home():
     # Making a get request
     resp = requests.get(url)
-    return f"<h2>Welcome to Nodeapi Index Version 1</h2><br \><h3>Movies</h3>Getting movie records from api {url}: --> <br \> %s " %  (resp.content)
-#    return "<h1>Welcome to Api Home Page</h1>Getting movie records from api " + url + "-> %s Getting tvSeries records from api " + url + "-> %s " %  (resp.json(), resp2.json())
-
+    return f"<h2>Welcome to Nodeapi Index Version 1</h2><br \><h3>Movies</h3>Getting movie records from api {url_movies}: --> <br \> %s " %  (resp.content)
 
 @app.route("/health")
 def health():
@@ -24,4 +26,4 @@ def index():
 def internal_server_error(e):
     # note that we set the 500 status explicitly
     return f"<h2>Nodeapi Index Version 1 Error code 500</h2><br \><h3>Unable to get to api endpoints</h3> \
-            Endpoint(s) --> {url} ", 500
+            Endpoint(s) --> {url_movies} ", 500
