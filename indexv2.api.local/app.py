@@ -2,7 +2,6 @@ from flask import Flask
 import requests,jsonify
 import urllib
 import os
-
 url_movies = os.environ.get("MOVIES_URL")
 url_tvseries = os.environ.get("TVSERIES_URL")
 url_tvminiseries = os.environ.get("TVMINISERIES_URL")

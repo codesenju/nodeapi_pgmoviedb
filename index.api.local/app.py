@@ -1,6 +1,7 @@
 from flask import Flask
 import requests,jsonify
 import urllib
+
 import os
 
 url_movies = os.environ.get("MOVIES_URL")
@@ -12,7 +13,6 @@ def home():
     # Making a get request
     resp = requests.get(url)
     return f"<h2>Welcome to Nodeapi Index Version 1</h2><br \><h3>Movies</h3>Getting movie records from api {url_movies}: --> <br \> %s " %  (resp.content)
-#    return "<h1>Welcome to Api Home Page</h1>Getting movie records from api " + url + "-> %s Getting tvSeries records from api " + url + "-> %s " %  (resp.json(), resp2.json())
 
 @app.route("/health")
 def health():

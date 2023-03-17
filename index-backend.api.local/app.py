@@ -5,6 +5,7 @@ import os
 
 url_tvminiseriesfifa = os.environ.get("TVMINISERIES_FIFA_URL")
 url_endgame = os.environ.get("ENDGAME_URL")
+
 app = Flask(__name__)
 
 @app.route("/")

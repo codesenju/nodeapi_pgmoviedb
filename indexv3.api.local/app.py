@@ -6,6 +6,7 @@ url_movies = os.environ.get("MOVIES_URL")
 url_tvseries = os.environ.get("TVSERIES_URL")
 url_tvminiseries = os.environ.get("TVMINISERIES_URL")
 url_backend = os.environ.get("INDEX_BACKEND_URL")
+
 app = Flask(__name__)
 
 @app.route("/")
