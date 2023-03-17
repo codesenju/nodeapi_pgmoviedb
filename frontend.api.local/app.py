@@ -2,9 +2,15 @@ from flask import Flask
 import requests,jsonify
 import urllib
 import os
+# https://pypi.org/project/prometheus-flask-exporter/ && https://blog.viktoradam.net/2020/05/11/prometheus-flask-exporter/
+from prometheus_flask_exporter import PrometheusMetrics 
+import os
+
+
 
 url = os.environ.get("INDEX_URL")
 app = Flask(__name__)
+metrics= PrometheusMetrics(app) # Prometheus flask exporter metrics integration
 
 @app.route("/")
 def home():
