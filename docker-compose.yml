@@ -84,11 +84,11 @@ services:
     container_name: frontend
     restart: unless-stopped
     environment:
-       INDEX_URL: http://indexv3:5000/
+       INDEX_URL: 'http://indexv3:5000/'
     networks:
       - devops
     ports:
-      - 5000:5000
+      - 8080:5000
   index-backend:
     image:  codesenju/index-backend.api.local:latest
     build: ./index-backend.api.local
