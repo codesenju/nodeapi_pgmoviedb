@@ -18,7 +18,7 @@ def home():
     <h5>Avengers Endgame</h5>Getting Avengers Endgame records from api {url_endgame}: --> <br \> %s " %  (resp4.content, resp5.content)
 #    return "<h1>Welcome to Api Home Page</h1>Getting movie records from api " + url + "-> %s Getting tvSeries records from api " + url + "-> %s " %  (resp.json(), resp2.json())
 
-@app.route("/health")
+@app.route("/healthz")
 def health():
     return "<h1>100% Healthy</h1>" 
 

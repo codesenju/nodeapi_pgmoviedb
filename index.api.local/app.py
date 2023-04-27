@@ -11,10 +11,10 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     # Making a get request
-    resp = requests.get(url)
+    resp = requests.get(url_movies)
     return f"<h2>Welcome to Nodeapi Index Version 1</h2><br \><h3>Movies</h3>Getting movie records from api {url_movies}: --> <br \> %s " %  (resp.content)
 
-@app.route("/health")
+@app.route("/healthz")
 def health():
     return "<h1>100% Healthy</h1>" 
 

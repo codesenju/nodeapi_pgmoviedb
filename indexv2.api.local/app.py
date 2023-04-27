@@ -17,7 +17,7 @@ def home():
     <br \><h3>TV Series</h3>Getting tvSeries records from api {url_tvseries}: --> <br \> %s \
     <br \><h3>TV Mini Series</h3>Getting tvMiniSeries records from api {url_tvminiseries}: --> <br \> %s" %  (resp.content, resp2.content, resp3.content)
 
-@app.route("/health")
+@app.route("/healthz")
 def health():
     return "<h1>100% Healthy</h1>" 
 
