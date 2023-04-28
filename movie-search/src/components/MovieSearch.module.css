@@ -1,0 +1,58 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .form {
+    display: flex;
+    margin-bottom: 1rem;
+  }
+  
+  .input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+  }
+  
+  .button {
+    margin-left: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .table {
+    margin-top: 1rem;
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.5rem;
+    text-align: left;
+    vertical-align: middle;
+  }
+  
+  .table th {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+  }
+  
+  .table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+  }
+  .button.disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+  }
+  .error {
+    color: red;
+  }
+  
