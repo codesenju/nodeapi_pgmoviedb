@@ -1,20 +1,26 @@
 const express = require('express');
 const { Sequelize, DataTypes } = require('sequelize');
 const fs = require('fs');
+const debug = require('debug')('app:server');
 
-const APP_PORT = '3000';
-const HOST = '0.0.0.0';
+const APP_PORT = process.env.APP_PORT || '3000';
+const HOST = process.env.HOST || '0.0.0.0';
 const TABLE_NAME = 'title_basics';
+const DB_NAME = process.env.DB_NAME || 'movie';
+const DB_USERNAME = process.env.DB_USERNAME || 'postgres';
+const DB_PASSWORD = process.env.DB_PASSWORD || '12345';
+const DB_HOST = process.env.DB_HOST || 'localhost';
+const DB_PORT = process.env.DB_PORT || '5432';
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
+const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
+  host: DB_HOST,
+  port: DB_PORT,
   dialect: 'postgres',
   dialectOptions: {
     ssl: {
       require: true,
       rejectUnauthorized: false,
-      ca: fs.readFileSync('/certs/server.crt').toString(),
+      ca: fs.readFileSync('./certs/server.crt').toString(),
     },
   },
   pool: {
@@ -52,9 +58,9 @@ app.use((req, res, next) => {
   next();
 });
 
-
 app.get('/api/v1/movies', async (req, res) => {
   try {
+    debug('Executing query for movies');
     const movies = await Title.findAll({
       where: {
         titletype: 'movie',
@@ -70,6 +76,7 @@ app.get('/api/v1/movies', async (req, res) => {
 
 app.get('/api/v1/tvseries', async (req, res) => {
   try {
+    debug('Executing query for TV series');
     const tvseries = await Title.findAll({
       where: {
         titletype: 'tvSeries',
@@ -85,6 +92,7 @@ app.get('/api/v1/tvseries', async (req, res) => {
 
 app.get('/api/v1/tvminiseries', async (req, res) => {
   try {
+    debug('Executing query for TV mini-series');
     const tvminiseries = await Title.findAll({
       where: {
         titletype: 'tvMiniSeries',
@@ -100,6 +108,7 @@ app.get('/api/v1/tvminiseries', async (req, res) => {
 
 app.get('/api/v1/movies/:title', async (req, res) => {
   try {
+    debug(`Executing for movie with title ${req.params.title}`);
     const movies = await Title.findAll({
       where: {
         primarytitle: {
@@ -117,6 +126,7 @@ app.get('/api/v1/movies/:title', async (req, res) => {
 
 app.get('/api/v1/tvseries/:title', async (req, res) => {
   try {
+    debug(`Executing query for TV series with title ${req.params.title}`);
     const tvseries = await Title.findAll({
       where: {
         primarytitle: {
@@ -134,6 +144,7 @@ app.get('/api/v1/tvseries/:title', async (req, res) => {
 
 app.get('/api/v1/tvminiseries/:title', async (req, res) => {
   try {
+    debug(`Executing query for TV mini-series with title ${req.params.title}`);
     const tvminiseries = await Title.findAll({
       where: {
         primarytitle: {
@@ -149,7 +160,13 @@ app.get('/api/v1/tvminiseries/:title', async (req, res) => {
   }
 });
 
+// Error handling middleware
+app.use((error, req, res, next) => {
+  console.error(`Error: ${error.message}`);
+  res.status(500).send('Internal Server Error');
+});
+
 app.listen(APP_PORT, HOST, () => {
-  console.log(`Running on http://${HOST}:${APP_PORT}`);
-  console.log(`Integrated with Sequelize ORM \nSSL connection to postgress enabled`);
+  debug(`Running on http://${HOST}:${APP_PORT}`);
+  debug(`Integrated with Sequelize ORM \nSSL connection to postgress enabled`);
 });

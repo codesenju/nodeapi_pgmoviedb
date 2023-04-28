@@ -4,7 +4,7 @@ cd postgres
 docker buildx build --push --platform linux/arm64/v8,linux/amd64 --tag codesenju/pgmoviedb.api.local:latest .
 
 cd ../nodeapi
-docker buildx build --push --platform linux/arm64/v8,linux/amd64 --tag codesenju/nodeapi.api.local:latest .
+docker buildx build --push --platform linux/arm64/v8,linux/amd64 --tag codesenju/nodeapi.api.local:v2 .
 
 cd ../index.api.local
 docker buildx build --push --platform linux/arm64/v8,linux/amd64 --tag codesenju/index.api.local:v1 .
@@ -20,3 +20,6 @@ docker buildx build --push --platform linux/arm64/v8,linux/amd64 --tag codesenju
 
 cd ../index-backend.api.local
 docker buildx build --push --platform linux/arm64/v8,linux/amd64 --tag codesenju/index-backend.api.local:latest .
+
+cd ../movie-search
+docker buildx build --push --platform linux/arm64/v8,linux/amd64 --tag codesenju/movie-search:latest  .

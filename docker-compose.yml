@@ -4,7 +4,16 @@ networks:
     driver: bridge
 volumes:
   PGDATA:
+  redis-data:
 services:
+  movie-search:
+    image:  codesenju/movie-search.api.local:latest
+    build: ./movie-search
+    container_name: movie-search
+    networks:
+      - devops
+    ports:
+      - 8080:3000
   pgmoviedb:
     image:  codesenju/pgmoviedb.api.local:latest
     build: ./postgres
@@ -31,6 +40,8 @@ services:
        DB_PORT: 5432
        DB_USERNAME: postgres
     restart: unless-stopped
+    depends_on:
+      - pgmoviedb
     networks:
       - devops
     ports:
@@ -87,7 +98,7 @@ services:
     networks:
       - devops
     ports:
-      - 8080:5000
+      - 8081:5000
   index-backend:
     image:  codesenju/index-backend.api.local:latest
     build: ./index-backend.api.local
@@ -100,3 +111,20 @@ services:
       - devops
 #    ports:
 #      - 84:5000
+#  redis:
+#    image: redis:7
+#    container_name: redis
+#    restart: unless-stopped
+#    command:
+#      - redis-server
+#      - --save
+#      - "60" 
+#      - "1" 
+#      - --loglevel
+#      - warning
+#    networks:
+#        - devops
+#    volumes:
+#       - redis-data:/data
+#    ports:
+#      - 6379:6379

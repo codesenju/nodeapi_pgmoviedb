@@ -23,5 +23,7 @@ COPY . .
 
 COPY ./certs/server.crt /certs/server.crt
 
+ENV DEBUG=app:server
+
 EXPOSE 3000
 CMD [ "node", "server.js" ]

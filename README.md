@@ -16,5 +16,5 @@ docker-compose up -d
 curl localhost:3000/api/v1/movies | jq 
 ```
 
-### Video:
-![video](media/moviedb_vid.gif)
+
+## Visit http://localhost:8080
