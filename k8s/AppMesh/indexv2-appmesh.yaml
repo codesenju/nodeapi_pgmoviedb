@@ -1,0 +1,40 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualNode
+metadata:
+  name: indexv2-node
+  namespace: api
+spec:
+  awsName: indexv2-node
+  podSelector:
+    matchLabels:
+      app: indexv2
+  listeners:
+    - portMapping:
+        port: 5000
+        protocol: http
+      timeout: # https://aws.github.io/aws-app-mesh-controller-for-k8s/reference/api_spec/#appmesh.k8s.aws/v1beta2.ListenerTimeout
+        http:
+          perRequest:
+            value: 30
+            unit: "s"
+  serviceDiscovery:
+    dns:
+      hostname: indexv2.api.svc.cluster.local
+  backends:
+    - virtualService:
+       virtualServiceRef:
+          name: index-backend
+    - virtualService:
+       virtualServiceRef:
+          name: nodeapi
+# apiVersion: appmesh.k8s.aws/v1beta2
+# kind: VirtualService
+# metadata:
+#  name: indexv2
+#  namespace: api
+# spec:
+#   awsName: indexv2
+#   provider:
+#    virtualNode:
+#       virtualNodeRef:
+#         name: indexv2-node

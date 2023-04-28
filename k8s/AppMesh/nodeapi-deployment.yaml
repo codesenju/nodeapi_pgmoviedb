@@ -1,0 +1,95 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeapi
+  namespace: api
+  labels:
+    app: nodeapi
+spec:
+  selector:
+    matchLabels:
+      app: nodeapi
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nodeapi
+    spec:
+      serviceAccountName: envoy-proxy
+      nodeSelector:
+       karpenter.sh/provisioner-name: default
+      containers:
+      - name: nodeapi
+        image: codesenju/nodeapi.api.local:v2
+        imagePullPolicy: Always
+        env:
+        - name: DB_HOST
+          value: pgmoviedb
+        - name: DB_NAME
+          value: movie
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: pgmoviedb-secret
+              key: DB_USERNAME
+        - name: DB_PASSWORD
+          valueFrom:     # Was getting auth errors from DB side base64 is adding leading spaces to password
+            secretKeyRef:
+              name: pgmoviedb-secret
+              key: DB_PASSWORD
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        livenessProbe:
+          tcpSocket:
+            port: 3000
+          initialDelaySeconds: 10
+          timeoutSeconds: 60
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        readinessProbe:
+          tcpSocket:
+            port: 3000
+#          httpGet:
+#            path: /
+#            port: 3000
+          initialDelaySeconds: 10
+          timeoutSeconds: 60
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        ports:
+        - containerPort: 3000
+          name: nodeapi-3000
+
+#############
+## SERVICE ##
+#############
+# https://kubernetes.io/docs/concepts/services-networking/service/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: api
+  name: nodeapi
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  type: ClusterIP
+  selector:
+    app: nodeapi

@@ -1,0 +1,45 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualNode
+metadata:
+  name: index-node
+  namespace: api
+spec:
+  awsName: index-node
+  podSelector:
+    matchLabels:
+      app: index
+  listeners:
+    - portMapping:
+        port: 5000
+        protocol: http
+      timeout: # https://aws.github.io/aws-app-mesh-controller-for-k8s/reference/api_spec/#appmesh.k8s.aws/v1beta2.ListenerTimeout
+        http:
+          perRequest:
+            value: 30
+            unit: "s"
+  serviceDiscovery:
+    dns:
+      hostname: index.api.svc.cluster.local
+  backends:
+    - virtualService:
+       virtualServiceRef:
+          name: index-backend
+    - virtualService:
+       virtualServiceRef:
+          name: nodeapi
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualService
+metadata:
+  name: index
+  namespace: api
+spec:
+  awsName: index
+  provider:
+#    virtualNode:
+#      virtualNodeRef:
+#        name: index-node
+# Virtual router provider https://github.com/aws/aws-app-mesh-examples/blob/main/walkthroughs/howto-k8s-alb/v1beta2/manifest.yaml.template
+    virtualRouter:
+      virtualRouterRef:
+        name: index-router

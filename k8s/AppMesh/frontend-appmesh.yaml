@@ -1,0 +1,44 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualNode
+metadata:
+  name: frontend-node
+  namespace: api
+spec:
+  awsName: frontend-node
+  podSelector:
+    matchLabels:
+      app: frontend
+  listeners:
+    - portMapping:
+        port: 5000
+        protocol: http
+      timeout:
+        http:
+          perRequest:
+            value: 30
+            unit: "s"
+  serviceDiscovery:
+    dns:
+      hostname: frontend.api.svc.cluster.local
+  backends:
+    - virtualService:
+       virtualServiceRef:
+          name: index-backend
+    - virtualService:
+       virtualServiceRef:
+          name: index
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualService
+metadata:
+  name: frontend
+  namespace: api
+spec:
+  awsName: frontend
+  provider:
+#    virtualNode:
+#      virtualNodeRef:
+#        name: frontend-node
+    virtualRouter:
+      virtualRouterRef:
+        name: frontend-router

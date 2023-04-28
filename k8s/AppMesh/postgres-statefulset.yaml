@@ -1,0 +1,133 @@
+#############
+## SERVICE ##
+#############
+# https://kubernetes.io/docs/concepts/services-networking/service/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgmoviedb
+  namespace: api
+spec:
+  selector:
+    app: pgmoviedb
+  type: ClusterIP
+  ports:
+  - name: postgres-5432
+    protocol: TCP
+    port: 5432
+    targetPort: 5432
+---
+# https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pgmoviedb
+  namespace: api
+spec:
+  selector:
+    matchLabels:
+      app: pgmoviedb
+  serviceName: pgmoviedb
+#  replicas: 3 # by default is 1
+  template:
+    metadata:
+      labels:
+        app: pgmoviedb # has to match .spec.selector.matchLabels
+    spec:
+      serviceAccountName: envoy-proxy
+      containers:
+      - name: pgmoviedb
+        image: codesenju/pgmoviedb.api.local:v2
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 2048m
+            memory: 1024Mi
+          limits:
+            cpu: 4096m
+            memory: 2048Mi
+        livenessProbe:
+          tcpSocket:
+            port: 5432
+          initialDelaySeconds: 180
+          timeoutSeconds: 60
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 60
+        readinessProbe:
+          exec:
+            command:
+              - pg_isready
+          initialDelaySeconds: 120
+          timeoutSeconds: 60
+          periodSeconds: 10
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pgmoviedb-secret
+              key: DB_PASSWORD
+        - name: pgmoviedb_USER
+          valueFrom:
+            secretKeyRef:
+              name: pgmoviedb-secret
+              key: DB_USERNAME
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: pgmoviedb-config
+              key: DB_NAME
+        volumeMounts:
+        - name: pgdata
+          mountPath: /var/lib/pgmoviedbql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: pgdata
+    spec:
+      storageClassName: efs-sc-dynamic
+      accessModes:
+      - ReadWriteMany
+      resources:
+        requests:
+          storage: 1Gi
+################
+## CONFIG MAP ##
+################
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgmoviedb-config
+  namespace: api
+data:
+  DB_NAME: movie
+#############
+## SECRETS ##
+#############
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pgmoviedb-secret
+  namespace: api
+data:
+  DB_PASSWORD: MTIzNDU=
+  DB_USERNAME: cG9zdGdyZXM=
+#############
+## HPA ##
+#############
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: pgmoviedb
+  namespace: api
+spec:
+  maxReplicas: 20
+  minReplicas: 3
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: StatefulSet
+    name: pgmoviedb
+  targetCPUUtilizationPercentage: 80

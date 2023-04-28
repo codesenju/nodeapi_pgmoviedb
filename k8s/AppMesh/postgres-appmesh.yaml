@@ -1,0 +1,34 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualNode
+metadata:
+  name: pgmoviedb-node
+  namespace: api
+spec:
+  awsName: pgmoviedb-node
+  podSelector:
+    matchLabels:
+      app: pgmoviedb
+  listeners:
+    - portMapping:
+        port: 5432
+        protocol: tcp
+#      timeout: # https://aws.github.io/aws-app-mesh-controller-for-k8s/reference/api_spec/#appmesh.k8s.aws/v1beta2.ListenerTimeout
+#        tcp:
+#          idle:
+#            value: 30
+#            unit: "s"
+  serviceDiscovery:
+    dns:
+      hostname: pgmoviedb.api.svc.cluster.local
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualService
+metadata:
+  name: pgmoviedb
+  namespace: api
+spec:
+  awsName: pgmoviedb
+  provider:
+    virtualNode:
+      virtualNodeRef:
+        name: pgmoviedb-node

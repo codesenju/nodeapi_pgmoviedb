@@ -1,0 +1,14 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: Mesh
+metadata:
+  name: api-eks
+spec:
+  namespaceSelector:
+    matchLabels:
+      mesh: api-eks
+#  egressFilter: "ALLOW_ALL"
+# Error from server: error when creating "api-mesh.yaml": admission webhook "mmesh.appmesh.k8s.aws" denied the request: json: cannot unmarshal string into Go struct field MeshSpec.spec.egressFilter of type v1beta2.EgressFilter
+
+# https://github.com/aws/eks-charts/issues/696
+
+# aws appmesh update-mesh --mesh-name api-eks --spec '{"egressFilter": {"type": "DROP_ALL"}}'

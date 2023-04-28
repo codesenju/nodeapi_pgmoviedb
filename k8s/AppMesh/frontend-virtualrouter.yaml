@@ -1,0 +1,24 @@
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualRouter
+metadata:
+  namespace: api
+  name: frontend-router
+spec:
+  listeners:
+    - portMapping:
+        port: 8080
+        protocol: http
+  routes:
+    - name: frontend-router
+      httpRoute:
+        match:
+          prefix: /
+        action:
+          weightedTargets:
+            - virtualNodeRef:
+                name: frontend-node # Running on port 5000
+              weight: 1
+            - virtualNodeRef:
+                name: movie-search-node # Running on port 3000
+              weight: 3

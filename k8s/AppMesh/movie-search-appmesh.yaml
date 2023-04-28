@@ -1,0 +1,41 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualNode
+metadata:
+  name: movie-search-node
+  namespace: api
+spec:
+  awsName: movie-search-node
+  podSelector:
+    matchLabels:
+      app: movie-search
+  listeners:
+    - portMapping:
+        port: 3000
+        protocol: http
+      timeout:
+        http:
+          perRequest:
+            value: 30
+            unit: "s"
+  serviceDiscovery:
+    dns:
+      hostname: movie-search.api.svc.cluster.local
+  backends:
+    - virtualService:
+       virtualServiceRef:
+          name: nodeapi
+#    - virtualService:
+#       virtualServiceRef:
+#          name: index
+#---
+# apiVersion: appmesh.k8s.aws/v1beta2
+# kind: VirtualService
+# metadata:
+#   name: movie-search
+#   namespace: api
+# spec:
+#   awsName: movie-search
+#   provider:
+#     virtualNode:
+#       virtualNodeRef:
+#         name: movie-search-node

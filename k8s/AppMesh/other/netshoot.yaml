@@ -1,0 +1,72 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualNode
+metadata:
+  name: netshoot-node
+  namespace: api
+spec:
+  awsName: netshoot-node
+  podSelector:
+    matchLabels:
+      app: netshoot
+  listeners:
+    - portMapping:
+         port: 80
+         protocol: http
+  serviceDiscovery:
+    dns:
+      hostname: netshoot.api.svc.cluster.local
+  backends:
+    - virtualService:
+       virtualServiceRef:
+          name: pgmoviedb-service
+#    - virtualService:
+#       virtualServiceRef:
+#          name: nodeapi-service
+#    - virtualService:
+#       virtualServiceRef:
+#          name: index-backend-service
+#    - virtualService:
+#       virtualServiceRef:
+#          name: frontend-service
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualService
+metadata:
+  name: netshoot-service
+  namespace: api
+spec:
+  awsName: netshoot-service
+  provider:
+    virtualNode:
+      virtualNodeRef:
+        name: netshoot-node
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netshoot
+  namespace: api
+  labels:
+    app: netshoot
+spec:
+  selector:
+    matchLabels:
+      app: netshoot
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: netshoot
+    spec:
+      serviceAccount: envoy-proxy
+#      nodeSelector:
+#        karpenter.sh/provisioner-name: arm-fleet
+      containers:
+          - name: netshoot
+            image: codesenju/netshoot
+            command: ["sh", "-c", "while true; do echo 'Infinite loop'; sleep 60; done"]

@@ -1,0 +1,92 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movie-search
+  namespace: api
+  labels:
+    app: movie-search
+spec:
+  selector:
+    matchLabels:
+      app: movie-search
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: movie-search
+    spec:
+      serviceAccount: envoy-proxy
+#      nodeSelector:
+#       karpenter.sh/provisioner-name: default
+      containers:
+      - name: movie-search
+        image: codesenju/movie-search:latest
+        imagePullPolicy: Always
+#        env:
+#        - name: INDEX_URL
+#          value: 'http://index:3000/'
+        ports:
+        - containerPort: 3000
+          name: movie-3000
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 5
+          timeoutSeconds: 60
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 5
+          timeoutSeconds: 60
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+#############
+## SERVICE ##
+#############
+---
+apiVersion: v1
+kind: Service
+metadata:
+#  name: movie-search-nlb
+  name: movie-search
+  namespace: api
+#  # Create a service with an internet-facing Network Load Balancer that load balances to IP targets
+#  # https://docs.aws.amazon.com/eks/latest/userguide/network-load-balancing.html#network-load-balancer
+#  # https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/service/nlb/
+#  annotations:
+#    service.beta.kubernetes.io/aws-load-balancer-type: external
+#    # service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
+#    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+#    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+#    service.beta.kubernetes.io/aws-load-balancer-name: movie-search-nlb # Optional
+#    # service.beta.kubernetes.io/aws-load-balancer-healthcheck-path:
+#    ## https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/service/annotations/#subnets
+#    ##service.beta.kubernetes.io/aws-load-balancer-subnets: subnet-0afa2013429dcf39d, subnet-059f8983857cffa5e
+spec:
+  ports:
+    - port: 3000 # same as listener port if using as AWS NLB
+      targetPort: 3000
+      protocol: TCP
+#  type: LoadBalancer
+  type: ClusterIP
+  selector:
+    app: movie-search

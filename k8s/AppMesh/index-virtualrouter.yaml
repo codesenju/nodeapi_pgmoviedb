@@ -1,0 +1,27 @@
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualRouter
+metadata:
+  namespace: api
+  name: index-router
+spec:
+  listeners:
+    - portMapping:
+        port: 5000
+        protocol: http
+  routes:
+    - name: index-router
+      httpRoute:
+        match:
+          prefix: /
+        action:
+          weightedTargets:
+            - virtualNodeRef:
+                name: index-node
+              weight: 1
+            - virtualNodeRef:
+                name: indexv2-node
+              weight: 1
+            - virtualNodeRef:
+                name: indexv3-node
+              weight: 1

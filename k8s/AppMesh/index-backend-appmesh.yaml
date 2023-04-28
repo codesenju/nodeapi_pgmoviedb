@@ -1,0 +1,41 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualNode
+metadata:
+  name: index-backend-node
+  namespace: api
+spec:
+  awsName: index-backend-node
+  podSelector:
+    matchLabels:
+      app: index-backend
+  listeners:
+    - portMapping:
+        port: 5000
+        protocol: http
+      timeout: # https://aws.github.io/aws-app-mesh-controller-for-k8s/reference/api_spec/#appmesh.k8s.aws/v1beta2.ListenerTimeout
+        http:
+          perRequest:
+            value: 30
+            unit: "s"
+  serviceDiscovery:
+    dns:
+      hostname: index-backend.api.svc.cluster.local
+  backends:
+    - virtualService:
+       virtualServiceRef:
+          name: nodeapi
+    - virtualService:
+       virtualServiceRef:
+          name: pgmoviedb
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualService
+metadata:
+  name: index-backend
+  namespace: api
+spec:
+  awsName: index-backend
+  provider:
+    virtualNode:
+      virtualNodeRef:
+        name: index-backend-node
