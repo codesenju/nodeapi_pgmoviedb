@@ -21,5 +21,7 @@ RUN npm install
 # Bundle app source
 COPY . .
 
+COPY ./certs/server.crt /certs/server.crt
+
 EXPOSE 3000
 CMD [ "node", "server.js" ]

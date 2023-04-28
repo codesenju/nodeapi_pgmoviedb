@@ -8,3 +8,8 @@ psql -U postgres -c "alter system set hot_standby = on;" && \
 psql -U postgres -c "alter system set promote_trigger_file='promote.signal'" && \
 echo host replication replicator 0.0.0.0/0 trust >> "$PGDATA/pg_hba.conf"
 echo "User Replicator added!"
+
+# Configure SSL
+psql -U postgres -c "ALTER SYSTEM SET ssl TO 'on'" && \
+psql -U postgres -c "ALTER SYSTEM set ssl_cert_file = '/var/lib/postgresql/data/certs/server.crt';" && \
+psql -U postgres -c "ALTER SYSTEM set ssl_key_file = '/var/lib/postgresql/data/certs/server.key';"

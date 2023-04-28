@@ -35,7 +35,6 @@ services:
       - devops
     ports:
       - 3000:3000
-      - 9464:9464
   index:
     image:  codesenju/index.api.local:v1
     build: ./index.api.local

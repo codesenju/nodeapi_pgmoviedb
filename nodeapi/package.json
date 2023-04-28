@@ -25,6 +25,9 @@
     "@opentelemetry/exporter-prometheus": "^0.35.1",
     "aws-xray-sdk": "^3.4.1",
     "aws-xray-sdk-postgres": "^3.4.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "pg-hstore": "^2.3.4",
+    "prom-client": "^14.2.0",
+    "sequelize": "^6.31.0"
   }
 }

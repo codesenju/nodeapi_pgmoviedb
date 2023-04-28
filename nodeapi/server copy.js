@@ -3,6 +3,7 @@ const express = require('express');
 const APP_PORT = '3000';
 const HOST = '0.0.0.0';
 const table_name = 'title_basics'
+const morgan = require('morgan'); // Import morgan package
 
 console.log("App integrated with xray for postgres - updated with segment code block.")
 console.log("Added retry attempts and error handling.\n\nHave a nice day!\n\n")
@@ -28,15 +29,18 @@ const pool = new pg.Pool({
 // App
 const app = express();
 
-// XRAY
-app.use(AWSXRay.express.openSegment("Nodeapi-Health-Segment"));
-app.get('/health', (req, res) => {
+// Add logging middleware MORGAN
+app.use(morgan('combined'));
+
+
+app.get('/healthz', (req, res) => {
   res.send('Health OK!');
 });
+
 app.get('/', (req, res) => {
   res.send('<h1>Welcome to nodeapi.</h1>');
 });
-app.use(AWSXRay.express.closeSegment());
+
 
 // Retry logic
 const retryInterval = 5000; // retry every 5 seconds
@@ -63,14 +67,9 @@ function connectDB(callback) {
   });
 }
 
-// Middleware function for logging incoming requests
-const logRequests = (req, res, next) => {
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} - ${res.statusCode}`);
-  next();
-};
-
-// Apply the middleware function to all API routes
-app.use(logRequests);
+// XRAY --//
+app.use(AWSXRay.express.openSegment("postgres"));
+//-------//
 
 //Create Query
 app.get("/api/v1/movies", (req, res) => {
@@ -162,7 +161,7 @@ app.get("/api/v1/tvMiniSeries/:title", (req, res) => {
 });
 
 // XRAY --//
-app.use(AWSXRay.express.closeSegment());
+app.use(AWSXRay.express.closeSegment("postgres"));
 //--------//
 
 // Add a retry logic in case of failure to connect to the database
