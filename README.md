@@ -16,5 +16,4 @@ docker-compose up -d
 curl localhost:3000/api/v1/movies | jq 
 ```
 
-
 ## Visit http://localhost:8080

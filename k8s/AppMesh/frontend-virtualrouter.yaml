@@ -18,7 +18,7 @@ spec:
           weightedTargets:
             - virtualNodeRef:
                 name: frontend-node # Running on port 5000
-              weight: 1
+              weight: 0
             - virtualNodeRef:
                 name: movie-search-node # Running on port 3000
-              weight: 3
+              weight: 1

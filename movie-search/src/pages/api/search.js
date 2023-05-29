@@ -16,4 +16,5 @@ export default async function handler(req, res) {
     console.error(`Error: ${error.message}`);
     res.status(500).json({ message: 'Server Side Error: Unable to connect to the server. Please try again later.' });
   }
+  
 }

@@ -13,7 +13,7 @@ services:
     networks:
       - devops
     ports:
-      - 8080:3000
+      - 3000:3000
   pgmoviedb:
     image:  codesenju/pgmoviedb.api.local:latest
     build: ./postgres
@@ -44,8 +44,8 @@ services:
       - pgmoviedb
     networks:
       - devops
-    ports:
-      - 3000:3000
+#    ports:
+#      - 3000:3000
   index:
     image:  codesenju/index.api.local:v1
     build: ./index.api.local

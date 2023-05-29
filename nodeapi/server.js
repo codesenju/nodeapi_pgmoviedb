@@ -2,6 +2,7 @@ const express = require('express');
 const { Sequelize, DataTypes } = require('sequelize');
 const fs = require('fs');
 const debug = require('debug')('app:server');
+const AWSXRay = require('aws-xray-sdk');
 
 const APP_PORT = process.env.APP_PORT || '3000';
 const HOST = process.env.HOST || '0.0.0.0';
@@ -22,6 +23,7 @@ const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
       rejectUnauthorized: false,
       ca: fs.readFileSync('./certs/server.crt').toString(),
     },
+    diaectModule: AWSXRay.capturePostgres(require('pg')),
   },
   pool: {
     max: 100,
@@ -57,6 +59,11 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
+
+// XRAY --//
+app.use(AWSXRay.express.openSegment("postgres"));
+//-------//
+
 
 app.get('/api/v1/movies', async (req, res) => {
   try {
@@ -165,6 +172,10 @@ app.use((error, req, res, next) => {
   console.error(`Error: ${error.message}`);
   res.status(500).send('Internal Server Error');
 });
+
+// XRAY --//
+app.use(AWSXRay.express.closeSegment());
+//--------//
 
 app.listen(APP_PORT, HOST, () => {
   debug(`Running on http://${HOST}:${APP_PORT}`);

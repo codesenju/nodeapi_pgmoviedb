@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Table } from 'react-bootstrap';
 import styles from './MovieSearch.module.css';
 
-
 export default function MovieSearch() {
   const [searchTerm, setSearchTerm] = useState('');
   const [movieData, setMovieData] = useState([]);
@@ -14,7 +13,8 @@ export default function MovieSearch() {
     event.preventDefault();
     setIsLoading(true);
     try {
-      const response = await fetch(`http://localhost:3000/api/search?searchTerm=${searchTerm}`);
+      // const response = await fetch(`http://localhost:3000/api/search?searchTerm=${searchTerm}`);
+      const response = await fetch(`/api/search?searchTerm=${searchTerm}`);
       if (!response.ok) {
         throw new Error(`Unable to connect to the server. Please try again later.`);
       }
