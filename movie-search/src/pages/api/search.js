@@ -10,6 +10,8 @@ export default async function handler(req, res) {
 
   try {
     const response = await api.get(`movies/${searchTerm}`);
+    console.log("Server side:")
+    console.log(response.data.baseURL)
     const data = response.data;
     res.status(200).json(data);
   } catch (error) {

@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { Table } from 'react-bootstrap';
-import styles from './MovieSearch.module.css';
+import styles from '../styles/MovieSearch.module.css';
+//import axios from 'axios';
+
+//const api = axios.create({
+//  baseURL: process.env.NEXT_APP_API_URL,
+//});
 
 export default function MovieSearch() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,10 +20,14 @@ export default function MovieSearch() {
     try {
       // const response = await fetch(`http://localhost:3000/api/search?searchTerm=${searchTerm}`);
       const response = await fetch(`/api/search?searchTerm=${searchTerm}`);
+      //const response = await api.get(`/api/search?searchTerm=${searchTerm}`);
       if (!response.ok) {
         throw new Error(`Unable to connect to the server. Please try again later.`);
       }
+      console.log("Client side:")
+      console.log(response.url)
       const data = await response.json();
+      // const data = response.data;
       setMovieData(data);
       setIsLoading(false);
       setError(null);
