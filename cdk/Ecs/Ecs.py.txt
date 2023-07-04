@@ -1,0 +1,149 @@
+#!/usr/bin/env python3
+from aws_cdk import (
+    Stack,
+    aws_ecs as ecs,
+    aws_ec2 as ec2,
+    aws_autoscaling as autoscaling,
+    aws_iam as iam,
+    aws_appmesh as appmesh,
+    aws_ecr as ecr,
+    aws_ecr_assets as ecr_assets,
+    aws_ssm as ssm,
+    aws_servicediscovery as servicediscovery
+)
+import os
+from constructs import Construct
+import aws_cdk as cdk
+from aws_cdk.aws_ecr_assets import DockerImageAsset
+
+class EcsClusterStack(Stack):
+    def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
+        super().__init__(scope, construct_id, **kwargs)
+
+        vpc_name = "<VPC_NAME>"
+        cluster_name = "<CLUSTER_NAME>"
+        
+        # Import existing vpc
+        vpc = ec2.Vpc.from_lookup(
+            self, "ImportedVpc",
+            vpc_name= vpc_name
+        )
+
+        # Import Scurity group
+        security_group = ec2.SecurityGroup.from_security_group_id(self, "ImportedSG", os.getenv("SG"))
+
+        # Create New Namespace
+        #nodeapi_namespace = servicediscovery.PrivateDnsNamespace(self, "NodeapiNamespace",
+        #    name="api.local",
+        #    vpc=vpc
+        #)
+
+        # Import Namespace api.local
+        #api_namespace= servicediscovery.PrivateDnsNamespace.from_private_dns_namespace_attributes(self, "ImportedNamespace",
+        #    namespace_arn=os.getenv("NAMESPACE_ARN"),
+        #    namespace_id=os.getenv("NAMESPACE_ID"),
+        #    namespace_name=os.getenv("NAMESPACE_NAME"),
+        #)
+
+        # Create an ECS cluster in the imported VPC
+        cluster = ecs.Cluster(self, "api", vpc=vpc,
+        cluster_name=cluster_name,
+        container_insights=True,
+        )
+
+        cluster.add_default_cloud_map_namespace(name="api.local",
+                                                use_for_service_connect=True,
+                                                type=servicediscovery.NamespaceType.DNS_PRIVATE
+                                                )
+
+
+        # configure the ECS agent to drain Spot Instances upon catching a Spot Interruption notice from instance metadata
+        user_data = ec2.UserData.custom(
+            #f"#!/bin/bash\n echo ECS_CLUSTER={os.getenv('ECS_CLUSTER_NAME')} >> /etc/ecs/ecs.config"
+            f"#!/bin/bash\n echo ECS_CLUSTER={os.getenv('ECS_CLUSTER_NAME')} >> /etc/ecs/ecs.config\n echo ECS_ENABLE_SPOT_INSTANCE_DRAINING=true >> /etc/ecs/ecs.config"
+        )
+        # user_data=ec2.UserData.add_commands(f"echo ECS_CLUSTER={os.getenv('ECS_CLUSTER_NAME')}  >> /etc/ecs/ecs.config","echo ECS_ENABLE_SPOT_INSTANCE_DRAINING=true >> /etc/ecs/ecs.config"),
+
+        # Create custom launch template
+        launch = ec2.LaunchTemplate(self, "NodeapiLaunchTemplate",
+        launch_template_name="nodeapi-launch-template",
+        security_group=ec2.SecurityGroup(self, "LaunchTemplateSG",vpc=vpc, security_group_name="api-sg",allow_all_outbound=True),
+        user_data=user_data,
+        role=iam.Role.from_role_name(self, "ecsworkshopRole","ecsworkshop-admin"),
+        machine_image=ecs.EcsOptimizedImage.amazon_linux2(ecs.AmiHardwareType.ARM),
+        #machine_image=ecs.EcsOptimizedImage.amazon_linux2(),
+        #instance_type=ec2.InstanceType("t2.xlarge"),
+        instance_type=ec2.InstanceType("a1.2xlarge"),
+        )
+
+        ## add customized capacity.
+        auto_scaling_group = autoscaling.AutoScalingGroup(self, "ASG",
+            vpc=vpc,
+            launch_template=launch, # Amazon ECS-optimized AMI in launch type already defined
+            max_capacity=4,
+            min_capacity=0,
+            desired_capacity=0,
+            new_instances_protected_from_scale_in=True,
+            auto_scaling_group_name="api-asg"
+        )
+
+        ## Creates the Capasity provider and adds it to the ECS cluster
+        capacity_provider = ecs.AsgCapacityProvider(self, "AsgCapacityProvider",
+           auto_scaling_group=auto_scaling_group,
+           enable_managed_scaling=True,
+           enable_managed_termination_protection=True,
+           capacity_provider_name="api-capasity-provider"
+        )
+        cluster.add_asg_capacity_provider(capacity_provider)
+
+
+        ####################
+        ## SPOT INSTANCES ##
+        ####################
+        ## add customized capacity. Be sure to start the Amazon ECS-optimized AMI.
+        spot_auto_scaling_group = autoscaling.AutoScalingGroup(self, "SPOT_ASG",
+            vpc=vpc,
+            # launch_template=launch, # Amazon ECS-optimized AMI in launch type already defined
+            max_capacity=4,
+            min_capacity=0,
+            desired_capacity=0,
+            new_instances_protected_from_scale_in=True,
+            auto_scaling_group_name="spot-api-asg",
+            #spot_price="0.0735",
+            # Enable the Automated Spot Draining support for Amazon ECS
+            #spot_instance_draining=True,
+            mixed_instances_policy=autoscaling.MixedInstancesPolicy(
+            launch_template=launch,
+            instances_distribution=autoscaling.InstancesDistribution(
+                on_demand_base_capacity=0,
+                on_demand_percentage_above_base_capacity=0,
+                spot_allocation_strategy=autoscaling.SpotAllocationStrategy.LOWEST_PRICE),
+            launch_template_overrides=[autoscaling.LaunchTemplateOverrides(instance_type=ec2.InstanceType("t4g.micro"),launch_template=launch),
+            autoscaling.LaunchTemplateOverrides(instance_type=ec2.InstanceType("t4g.small"),launch_template=launch), 
+            autoscaling.LaunchTemplateOverrides(instance_type=ec2.InstanceType("t4g.medium"),launch_template=launch), 
+            autoscaling.LaunchTemplateOverrides(instance_type=ec2.InstanceType("t4g.large"),launch_template=launch), 
+            autoscaling.LaunchTemplateOverrides(instance_type=ec2.InstanceType("t4g.xlarge"),launch_template=launch), 
+            autoscaling.LaunchTemplateOverrides(instance_type=ec2.InstanceType("t4g.2xlarge"),launch_template=launch),
+            ]
+        
+           ),
+           
+        )
+
+                
+         ## Creates the Capasity provider and adds it to the ECS cluster
+        spot_capacity_provider = ecs.AsgCapacityProvider(self, "SpotAsgCapacityProvider",
+           auto_scaling_group=spot_auto_scaling_group,
+           enable_managed_scaling=True,
+           enable_managed_termination_protection=True,
+           capacity_provider_name="spot-api-capasity-provider",
+           
+        )
+        cluster.add_asg_capacity_provider(spot_capacity_provider)
+
+
+app = cdk.App()
+
+# ECS Cluster
+EcsClusterStack(app, "EcsClusterStack", env=cdk.Environment(account=os.getenv('AWS_ACCOUNT_ID'), region=os.getenv('AWS_REGION')),)
+app.synth()

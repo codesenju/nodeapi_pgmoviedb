@@ -1,0 +1,590 @@
+{
+ "Resources": {
+  "ImportedIndexSGfromvgwStackimportedelbSG045ADAD65000EC187D0E": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "Description": "Load balancer to target",
+    "FromPort": 5000,
+    "GroupId": {
+     "Fn::ImportValue": "vgwSGID"
+    },
+    "SourceSecurityGroupId": {
+     "Fn::ImportValue": "elbSGID"
+    },
+    "ToPort": 5000
+   },
+   "Metadata": {
+    "aws:cdk:path": "vgwStack/ImportedIndexSG/from vgwStackimportedelbSG045ADAD6:5000"
+   }
+  },
+  "importedelbSGfrom000008011DCB00D": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "CidrIp": "0.0.0.0/0",
+    "Description": "Allow from anyone on port 80",
+    "FromPort": 80,
+    "GroupId": {
+     "Fn::ImportValue": "elbSGID"
+    },
+    "ToPort": 80
+   },
+   "Metadata": {
+    "aws:cdk:path": "vgwStack/importedelbSG/from 0.0.0.0_0:80"
+   }
+  },
+  "ImportedTaskExecutionRolePolicy23E279F9": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "vgwLogGroup7975F3A7",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ImportedTaskExecutionRolePolicy23E279F9",
+    "Roles": [
+     "ecsTaskExecutionRole"
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "vgwStack/ImportedTaskExecutionRole/Policy/Resource"
+   }
+  },
+  "ImportedEcsExecTaskRolePolicy6CAEEF74": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ssmmessages:CreateControlChannel",
+        "ssmmessages:CreateDataChannel",
+        "ssmmessages:OpenControlChannel",
+        "ssmmessages:OpenDataChannel"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "logs:DescribeLogGroups",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:DescribeLogStreams",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ImportedEcsExecTaskRolePolicy6CAEEF74",
+    "Roles": [
+     "000A_ecsExecTaskRole"
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "vgwStack/ImportedEcsExecTaskRole/Policy/Resource"
+   }
+  },
+  "gatewayB15F83BA": {
+   "Type": "AWS::AppMesh::VirtualGateway",
+   "Properties": {
+    "MeshName": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::Split": [
+        "/",
+        {
+         "Fn::Select": [
+          5,
+          {
+           "Fn::Split": [
+            ":",
+            {
+             "Fn::ImportValue": "EcsApiMeshArn"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "Spec": {
+     "Listeners": [
+      {
+       "PortMapping": {
+        "Port": 5000,
+        "Protocol": "http"
+       }
+      }
+     ]
+    },
+    "MeshOwner": {
+     "Fn::Select": [
+      4,
+      {
+       "Fn::Split": [
+        ":",
+        {
+         "Fn::ImportValue": "EcsApiMeshArn"
+        }
+       ]
+      }
+     ]
+    },
+    "VirtualGatewayName": "mesh_vgw"
+   },
+   "Metadata": {
+    "aws:cdk:path": "vgwStack/gateway/Resource"
+   }
+  },
+  "gatewaygatewayroutehttpE3A67AEB": {
+   "Type": "AWS::AppMesh::GatewayRoute",
+   "Properties": {
+    "MeshName": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::Split": [
+        "/",
+        {
+         "Fn::Select": [
+          5,
+          {
+           "Fn::Split": [
+            ":",
+            {
+             "Fn::ImportValue": "EcsApiMeshArn"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "Spec": {
+     "HttpRoute": {
+      "Action": {
+       "Target": {
+        "VirtualService": {
+         "VirtualServiceName": "frontend.api.local"
+        }
+       }
+      },
+      "Match": {
+       "Prefix": "/"
+      }
+     }
+    },
+    "VirtualGatewayName": {
+     "Fn::GetAtt": [
+      "gatewayB15F83BA",
+      "VirtualGatewayName"
+     ]
+    },
+    "GatewayRouteName": "mesh_frontend_route",
+    "MeshOwner": {
+     "Fn::Select": [
+      4,
+      {
+       "Fn::Split": [
+        ":",
+        {
+         "Fn::ImportValue": "EcsApiMeshArn"
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "vgwStack/gateway/gateway-route-http/Resource"
+   }
+  },
+  "vgwTaskDef17B82096": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Cpu": 256,
+      "DependsOn": [
+       {
+        "Condition": "START",
+        "ContainerName": "xray"
+       }
+      ],
+      "Environment": [
+       {
+        "Name": "AWS_REGION",
+        "Value": "us-east-1"
+       },
+       {
+        "Name": "ENVOY_LOG_LEVEL",
+        "Value": "debug"
+       },
+       {
+        "Name": "ENABLE_ENVOY_STATS_TAGS",
+        "Value": "1"
+       },
+       {
+        "Name": "ENABLE_ENVOY_XRAY_TRACING",
+        "Value": "1"
+       },
+       {
+        "Name": "APPMESH_RESOURCE_ARN",
+        "Value": {
+         "Ref": "gatewayB15F83BA"
+        }
+       }
+      ],
+      "Essential": true,
+      "HealthCheck": {
+       "Command": [
+        "CMD-SHELL",
+        "curl -s http://localhost:9901/server_info | grep state | grep -q LIVE"
+       ],
+       "Interval": 5,
+       "Retries": 10,
+       "Timeout": 10
+      },
+      "Image": "public.ecr.aws/appmesh/aws-appmesh-envoy:arm64-v1.24.2.0-prod",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "vgwLogGroup7975F3A7"
+        },
+        "awslogs-stream-prefix": "/envoy-container",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "MemoryReservation": 512,
+      "Name": "envoy",
+      "PortMappings": [
+       {
+        "ContainerPort": 5000,
+        "Name": "envoy",
+        "Protocol": "tcp"
+       }
+      ],
+      "Ulimits": [
+       {
+        "HardLimit": 15000,
+        "Name": "nofile",
+        "SoftLimit": 15000
+       }
+      ],
+      "User": "1337"
+     },
+     {
+      "Cpu": 256,
+      "Environment": [
+       {
+        "Name": "AWS_REGION",
+        "Value": "us-east-1"
+       }
+      ],
+      "Essential": true,
+      "Image": "amazon/aws-xray-daemon",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "vgwLogGroup7975F3A7"
+        },
+        "awslogs-stream-prefix": "/xray-container",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "MemoryReservation": 512,
+      "Name": "xray",
+      "User": "1337"
+     }
+    ],
+    "Cpu": "1024",
+    "ExecutionRoleArn": "arn:aws:iam::587878432697:role/ecsTaskExecutionRole",
+    "Family": "vgwStackvgwTaskDef3ADEA08A",
+    "Memory": "2048",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "EC2",
+     "FARGATE"
+    ],
+    "TaskRoleArn": "arn:aws:iam::587878432697:role/000A_ecsExecTaskRole"
+   },
+   "Metadata": {
+    "aws:cdk:path": "vgwStack/vgwTaskDef/Resource"
+   }
+  },
+  "vgwLogGroup7975F3A7": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/ecs/api/vgw",
+    "RetentionInDays": 7
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "vgwStack/vgwLogGroup/Resource"
+   }
+  },
+  "meshvgwService6E8673EC": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "CapacityProviderStrategy": [
+     {
+      "CapacityProvider": "spot-api-capasity-provider",
+      "Weight": 1
+     }
+    ],
+    "Cluster": "api",
+    "DeploymentConfiguration": {
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "EnableECSManagedTags": false,
+    "EnableExecuteCommand": true,
+    "HealthCheckGracePeriodSeconds": 500000,
+    "LoadBalancers": [
+     {
+      "ContainerName": "envoy",
+      "ContainerPort": 5000,
+      "TargetGroupArn": {
+       "Ref": "vgwLoadBalancervgwListenervgwTargetsGroup663682D5"
+      }
+     }
+    ],
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "DISABLED",
+      "SecurityGroups": [
+       {
+        "Fn::ImportValue": "vgwSGID"
+       }
+      ],
+      "Subnets": [
+       "subnet-01b1911df0ad91eb7",
+       "subnet-02ae900ec00be7b2f",
+       "subnet-08d2609ae2ad75bcc"
+      ]
+     }
+    },
+    "SchedulingStrategy": "REPLICA",
+    "ServiceName": "mesh_vgw",
+    "TaskDefinition": {
+     "Ref": "vgwTaskDef17B82096"
+    }
+   },
+   "DependsOn": [
+    "vgwLoadBalancervgwListener03E23148",
+    "vgwLoadBalancervgwListenervgwTargetsGroup663682D5"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "vgwStack/mesh_vgw/Service"
+   }
+  },
+  "meshvgwTaskCountTargetB1C03F91": {
+   "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+   "Properties": {
+    "MaxCapacity": 10,
+    "MinCapacity": 1,
+    "ResourceId": {
+     "Fn::Join": [
+      "",
+      [
+       "service/api/",
+       {
+        "Fn::GetAtt": [
+         "meshvgwService6E8673EC",
+         "Name"
+        ]
+       }
+      ]
+     ]
+    },
+    "RoleARN": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::587878432697:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+      ]
+     ]
+    },
+    "ScalableDimension": "ecs:service:DesiredCount",
+    "ServiceNamespace": "ecs"
+   },
+   "Metadata": {
+    "aws:cdk:path": "vgwStack/mesh_vgw/TaskCount/Target/Resource"
+   }
+  },
+  "meshvgwTaskCountTargetCpuScaling04D3668A": {
+   "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+   "Properties": {
+    "PolicyName": "vgwStackmeshvgwTaskCountTargetCpuScalingAFD6731E",
+    "PolicyType": "TargetTrackingScaling",
+    "ScalingTargetId": {
+     "Ref": "meshvgwTaskCountTargetB1C03F91"
+    },
+    "TargetTrackingScalingPolicyConfiguration": {
+     "PredefinedMetricSpecification": {
+      "PredefinedMetricType": "ECSServiceAverageCPUUtilization"
+     },
+     "TargetValue": 60
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "vgwStack/mesh_vgw/TaskCount/Target/CpuScaling/Resource"
+   }
+  },
+  "vgwLoadBalancerC22B538E": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+   "Properties": {
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     }
+    ],
+    "Scheme": "internet-facing",
+    "SecurityGroups": [
+     {
+      "Fn::ImportValue": "elbSGID"
+     }
+    ],
+    "Subnets": [
+     "subnet-0a6cb385222142b7f",
+     "subnet-04b96da3213c9da46",
+     "subnet-02d97f91df8f209b0"
+    ],
+    "Type": "application"
+   },
+   "Metadata": {
+    "aws:cdk:path": "vgwStack/vgwLoadBalancer/Resource"
+   }
+  },
+  "vgwLoadBalancervgwListener03E23148": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "vgwLoadBalancervgwListenervgwTargetsGroup663682D5"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "vgwLoadBalancerC22B538E"
+    },
+    "Port": 80,
+    "Protocol": "HTTP"
+   },
+   "Metadata": {
+    "aws:cdk:path": "vgwStack/vgwLoadBalancer/vgwListener/Resource"
+   }
+  },
+  "vgwLoadBalancervgwListenervgwTargetsGroup663682D5": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "HealthCheckPath": "/health",
+    "Port": 80,
+    "Protocol": "HTTP",
+    "TargetGroupAttributes": [
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "ip",
+    "VpcId": "vpc-0f168d381ce65cfb5"
+   },
+   "Metadata": {
+    "aws:cdk:path": "vgwStack/vgwLoadBalancer/vgwListener/vgwTargetsGroup/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11S0W7CMAz8Ft5DBp34gI1NaBLSEEV7nUwwxWtIqsQBoar/vjSlUHiyfXe2c1YyOZvJyQjOfqx25VjTVtY5gyrFGr0NTqGI3G+NKpPzvclRBUd8WTgbqi9TOPReEBxlvbKa1EVETZc1AqrqiP4g6x9yHEAvgPEMSfKEXOPaBsaWHtaNQOVlvQFffuCeDDFZ04qeEWsYyKAbYJ8qy9GdSKWpfZor0LDV2A6Y22C4EdoWccfSFslXK+7zZCP6gXYgBLY+dpMp4pVuY1yBnBY8Il3YuHjM2JB3ffczPQDRpQbPpLSF3TaOMSpyp0zWb/f1y8i9Jw5d98ZBPdSRZzRXTZ8P+O5hN6uDsmla4DtwFZKj/g80YnXhgzUvr3I6kdNs9OeJxi7ejo4o1138B9yynBFLAgAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "vgwStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "VgwElbEndpoint": {
+   "Value": {
+    "Fn::GetAtt": [
+     "vgwLoadBalancerC22B538E",
+     "DNSName"
+    ]
+   },
+   "Export": {
+    "Name": "VgwApiElbEndpoint"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

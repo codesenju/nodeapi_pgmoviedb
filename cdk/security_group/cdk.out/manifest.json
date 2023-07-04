@@ -1,0 +1,244 @@
+{
+  "version": "22.0.0",
+  "artifacts": {
+    "SGStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SGStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SGStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://587878432697/us-east-1",
+      "properties": {
+        "templateFile": "SGStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-deploy-role-587878432697-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-cfn-exec-role-587878432697-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-587878432697-us-east-1/0ba2ec8f2e8c1d3c2b0aa6c06bd1e0e71aa0cfee0133ed7efbaac97484dd20a4.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SGStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-lookup-role-587878432697-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SGStack.assets"
+      ],
+      "metadata": {
+        "/SGStack/Elb_SG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ElbSG3E53E50B"
+          }
+        ],
+        "/SGStack/Elb_SG/to SGStackNodeapiSGE9955138:3000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ElbSGtoSGStackNodeapiSGE99551383000F85FB403"
+          }
+        ],
+        "/SGStack/Elb_SG/to SGStackIndexSGE0495283:5000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ElbSGtoSGStackIndexSGE0495283500006C3E9E5"
+          }
+        ],
+        "/SGStack/Elb_SG/to SGStackFrontendSGDAAA2EE6:5000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ElbSGtoSGStackFrontendSGDAAA2EE65000F9D159B2"
+          }
+        ],
+        "/SGStack/Elb_SG/to SGStackvgwSG982DE95C:5000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ElbSGtoSGStackvgwSG982DE95C50006C8F8C32"
+          }
+        ],
+        "/SGStack/Nodeapi_SG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiSGA07C109D"
+          }
+        ],
+        "/SGStack/Nodeapi_SG/from SGStackIndexSGE0495283:3000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiSGfromSGStackIndexSGE0495283300053F9CB81"
+          }
+        ],
+        "/SGStack/Nodeapi_SG/from SGStackElbSGB205EC9A:3000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiSGfromSGStackElbSGB205EC9A3000A62BB91F"
+          }
+        ],
+        "/SGStack/Nodeapi_SG/to SGStackPostgresSG29D36B09:5432": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiSGtoSGStackPostgresSG29D36B095432BC1F5FA3"
+          }
+        ],
+        "/SGStack/Postgres_SG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresSGA5349B77"
+          }
+        ],
+        "/SGStack/Postgres_SG/from SGStackNodeapiSGE9955138:5432": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresSGfromSGStackNodeapiSGE9955138543212533268"
+          }
+        ],
+        "/SGStack/Postgres_SG/to SGStackEFSallowInbound2049SG650B26E9:2049": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresSGtoSGStackEFSallowInbound2049SG650B26E92049EA2E4F5B"
+          }
+        ],
+        "/SGStack/Index_SG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexSGB8721386"
+          }
+        ],
+        "/SGStack/Index_SG/from SGStackFrontendSGDAAA2EE6:5000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexSGfromSGStackFrontendSGDAAA2EE65000822EBE2F"
+          }
+        ],
+        "/SGStack/Index_SG/to SGStackNodeapiSGE9955138:3000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexSGtoSGStackNodeapiSGE995513830004C44DC89"
+          }
+        ],
+        "/SGStack/Index_SG/from SGStackElbSGB205EC9A:5000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexSGfromSGStackElbSGB205EC9A50005CD6A908"
+          }
+        ],
+        "/SGStack/Frontend_SG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendSGA609D887"
+          }
+        ],
+        "/SGStack/Frontend_SG/to SGStackIndexSGE0495283:5000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendSGtoSGStackIndexSGE04952835000BE0EC2C9"
+          }
+        ],
+        "/SGStack/Frontend_SG/from SGStackElbSGB205EC9A:5000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendSGfromSGStackElbSGB205EC9A5000FA5FF2F7"
+          }
+        ],
+        "/SGStack/EFS_allowInbound2049_SG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EFSallowInbound2049SG521C9F79"
+          }
+        ],
+        "/SGStack/vgw_SG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "vgwSGF9435F8A"
+          }
+        ],
+        "/SGStack/vgw_SG/to SGStackFrontendSGDAAA2EE6:5000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "vgwSGtoSGStackFrontendSGDAAA2EE6500019858F12"
+          }
+        ],
+        "/SGStack/vgw_SG/from SGStackElbSGB205EC9A:5000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "vgwSGfromSGStackElbSGB205EC9A5000567BFDD3"
+          }
+        ],
+        "/SGStack/pgmoviedb_sg": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "pgmoviedbsg"
+          }
+        ],
+        "/SGStack/nodeapi_sg": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "nodeapisg"
+          }
+        ],
+        "/SGStack/index_sg": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "indexsg"
+          }
+        ],
+        "/SGStack/frontend_sg": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "frontendsg"
+          }
+        ],
+        "/SGStack/elb_sg": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "elbsg"
+          }
+        ],
+        "/SGStack/efs_sg": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "efssg"
+          }
+        ],
+        "/SGStack/vgw_sg": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "vgwsg"
+          }
+        ],
+        "/SGStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SGStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SGStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SGStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

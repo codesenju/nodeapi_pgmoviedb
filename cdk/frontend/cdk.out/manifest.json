@@ -1,0 +1,160 @@
+{
+  "version": "22.0.0",
+  "artifacts": {
+    "FrontendStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "FrontendStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "FrontendStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://587878432697/us-east-1",
+      "properties": {
+        "templateFile": "FrontendStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-deploy-role-587878432697-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-cfn-exec-role-587878432697-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-587878432697-us-east-1/3eac6f89b4773c2016685e801f33457c4cb448dfd33e5646e6ffa48e4014dac1.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "FrontendStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-lookup-role-587878432697-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "FrontendStack.assets"
+      ],
+      "metadata": {
+        "/FrontendStack/ImportedIndexSG/from FrontendStackimportedelbSG570C35E4:5000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedIndexSGfromFrontendStackimportedelbSG570C35E4500013BA8729"
+          }
+        ],
+        "/FrontendStack/importedelbSG/from 0.0.0.0_0:80": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "importedelbSGfrom000008011DCB00D"
+          }
+        ],
+        "/FrontendStack/ImportedTaskExecutionRole/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedTaskExecutionRolePolicy23E279F9"
+          }
+        ],
+        "/FrontendStack/ImportedEcsExecTaskRole/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedEcsExecTaskRolePolicy6CAEEF74"
+          }
+        ],
+        "/FrontendStack/node/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "nodeE52CB09E"
+          }
+        ],
+        "/FrontendStack/frontendVirtualService/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "frontendVirtualServiceEFCD3A36"
+          }
+        ],
+        "/FrontendStack/FrontendTaskDef/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendTaskDef7D3FD156"
+          }
+        ],
+        "/FrontendStack/frontendLogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "frontendLogGroupB0BC7A13"
+          }
+        ],
+        "/FrontendStack/Frontend/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendService8B3C6A55"
+          }
+        ],
+        "/FrontendStack/Frontend/TaskCount/Target/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendTaskCountTargetC428911A"
+          }
+        ],
+        "/FrontendStack/Frontend/TaskCount/Target/CpuScaling/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendTaskCountTargetCpuScalingC3082A72"
+          }
+        ],
+        "/FrontendStack/Frontend/TaskCount/Target/MemoryScaling/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendTaskCountTargetMemoryScaling7675946F"
+          }
+        ],
+        "/FrontendStack/FrontendLoadBalancer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendLoadBalancerDBDBDFF7"
+          }
+        ],
+        "/FrontendStack/FrontendLoadBalancer/FrontendListener/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendLoadBalancerFrontendListenerCF68BDEA"
+          }
+        ],
+        "/FrontendStack/FrontendLoadBalancer/FrontendListener/FrontendTargetsGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendLoadBalancerFrontendListenerFrontendTargetsGroup80B6629B"
+          }
+        ],
+        "/FrontendStack/ApiFrontendDns": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiFrontendDns"
+          }
+        ],
+        "/FrontendStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/FrontendStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/FrontendStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "FrontendStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

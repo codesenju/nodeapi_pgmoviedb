@@ -1,0 +1,4 @@
+{
+"app": "python3 nodeapi.py",
+"watch": "python3 nodeapi.py"
+}

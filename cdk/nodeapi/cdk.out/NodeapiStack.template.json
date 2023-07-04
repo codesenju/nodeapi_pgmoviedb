@@ -1,0 +1,641 @@
+{
+ "Resources": {
+  "ImportedTaskExecutionRolePolicy23E279F9": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "nodeapiLogGroup86E8778D",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ImportedTaskExecutionRolePolicy23E279F9",
+    "Roles": [
+     "ecsTaskExecutionRole"
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeapiStack/ImportedTaskExecutionRole/Policy/Resource"
+   }
+  },
+  "ImportedEcsExecTaskRolePolicy6CAEEF74": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ssmmessages:CreateControlChannel",
+        "ssmmessages:CreateDataChannel",
+        "ssmmessages:OpenControlChannel",
+        "ssmmessages:OpenDataChannel"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "logs:DescribeLogGroups",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:DescribeLogStreams",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ImportedEcsExecTaskRolePolicy6CAEEF74",
+    "Roles": [
+     "000A_ecsExecTaskRole"
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeapiStack/ImportedEcsExecTaskRole/Policy/Resource"
+   }
+  },
+  "nodeE52CB09E": {
+   "Type": "AWS::AppMesh::VirtualNode",
+   "Properties": {
+    "MeshName": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::Split": [
+        "/",
+        {
+         "Fn::Select": [
+          5,
+          {
+           "Fn::Split": [
+            ":",
+            {
+             "Fn::ImportValue": "EcsApiMeshArn"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "Spec": {
+     "Backends": [
+      {
+       "VirtualService": {
+        "VirtualServiceName": "pgmoviedb.api.local"
+       }
+      }
+     ],
+     "Listeners": [
+      {
+       "HealthCheck": {
+        "HealthyThreshold": 3,
+        "IntervalMillis": 5000,
+        "Path": "/health",
+        "Port": 3000,
+        "Protocol": "http",
+        "TimeoutMillis": 2000,
+        "UnhealthyThreshold": 2
+       },
+       "PortMapping": {
+        "Port": 3000,
+        "Protocol": "http"
+       },
+       "Timeout": {
+        "HTTP": {
+         "Idle": {
+          "Unit": "ms",
+          "Value": 5000
+         }
+        }
+       }
+      }
+     ],
+     "Logging": {
+      "AccessLog": {
+       "File": {
+        "Path": "/dev/stdout"
+       }
+      }
+     },
+     "ServiceDiscovery": {
+      "DNS": {
+       "Hostname": "nodeapi.api.local"
+      }
+     }
+    },
+    "MeshOwner": {
+     "Fn::Select": [
+      4,
+      {
+       "Fn::Split": [
+        ":",
+        {
+         "Fn::ImportValue": "EcsApiMeshArn"
+        }
+       ]
+      }
+     ]
+    },
+    "VirtualNodeName": "nodeapi-node"
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeapiStack/node/Resource"
+   }
+  },
+  "IndexVirtualServiceA047C49B": {
+   "Type": "AWS::AppMesh::VirtualService",
+   "Properties": {
+    "MeshName": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::Split": [
+        "/",
+        {
+         "Fn::Select": [
+          5,
+          {
+           "Fn::Split": [
+            ":",
+            {
+             "Fn::ImportValue": "EcsApiMeshArn"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "Spec": {
+     "Provider": {
+      "VirtualNode": {
+       "VirtualNodeName": {
+        "Fn::GetAtt": [
+         "nodeE52CB09E",
+         "VirtualNodeName"
+        ]
+       }
+      }
+     }
+    },
+    "VirtualServiceName": {
+     "Fn::Join": [
+      "",
+      [
+       "nodeapi.",
+       {
+        "Fn::ImportValue": "ApiNamespaceName"
+       }
+      ]
+     ]
+    },
+    "MeshOwner": {
+     "Fn::Select": [
+      4,
+      {
+       "Fn::Split": [
+        ":",
+        {
+         "Fn::ImportValue": "EcsApiMeshArn"
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeapiStack/IndexVirtualService/Resource"
+   }
+  },
+  "NodeapiTaskDef9CAD3311": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "DependsOn": [
+       {
+        "Condition": "HEALTHY",
+        "ContainerName": "envoy"
+       }
+      ],
+      "Environment": [
+       {
+        "Name": "DB_HOST",
+        "Value": "pgmoviedb.api.local"
+       },
+       {
+        "Name": "DB_PASSWORD",
+        "Value": "12345"
+       },
+       {
+        "Name": "DB_NAME",
+        "Value": "movie"
+       },
+       {
+        "Name": "DB_USERNAME",
+        "Value": "postgres"
+       }
+      ],
+      "Essential": true,
+      "Image": "codesenju/nodeapi.api.local:amd",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "nodeapiLogGroup86E8778D"
+        },
+        "awslogs-stream-prefix": "/nodeapi-container",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "MemoryReservation": 512,
+      "Name": "nodeapi",
+      "PortMappings": [
+       {
+        "ContainerPort": 3000,
+        "Name": "nodeapi",
+        "Protocol": "tcp"
+       }
+      ]
+     },
+     {
+      "DependsOn": [
+       {
+        "Condition": "START",
+        "ContainerName": "xray"
+       }
+      ],
+      "Environment": [
+       {
+        "Name": "AWS_REGION",
+        "Value": "us-east-1"
+       },
+       {
+        "Name": "ENVOY_LOG_LEVEL",
+        "Value": "debug"
+       },
+       {
+        "Name": "ENABLE_ENVOY_STATS_TAGS",
+        "Value": "1"
+       },
+       {
+        "Name": "ENABLE_ENVOY_XRAY_TRACING",
+        "Value": "1"
+       },
+       {
+        "Name": "APPMESH_RESOURCE_ARN",
+        "Value": {
+         "Ref": "nodeE52CB09E"
+        }
+       }
+      ],
+      "Essential": true,
+      "HealthCheck": {
+       "Command": [
+        "CMD-SHELL",
+        "curl -s http://localhost:9901/server_info | grep state | grep -q LIVE"
+       ],
+       "Interval": 5,
+       "Retries": 10,
+       "Timeout": 10
+      },
+      "Image": "public.ecr.aws/appmesh/aws-appmesh-envoy:v1.25.1.0-prod",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "nodeapiLogGroup86E8778D"
+        },
+        "awslogs-stream-prefix": "/envoy-container",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "MemoryReservation": 512,
+      "Name": "envoy",
+      "Ulimits": [
+       {
+        "HardLimit": 1048576,
+        "Name": "nofile",
+        "SoftLimit": 524288
+       }
+      ],
+      "User": "1337"
+     },
+     {
+      "Environment": [
+       {
+        "Name": "AWS_REGION",
+        "Value": "us-east-1"
+       }
+      ],
+      "Essential": true,
+      "Image": "amazon/aws-xray-daemon",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "nodeapiLogGroup86E8778D"
+        },
+        "awslogs-stream-prefix": "/xray-container",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "MemoryReservation": 512,
+      "Name": "xray",
+      "User": "1337"
+     },
+     {
+      "Command": [
+       "--config=/etc/ecs/otel-config.yaml"
+      ],
+      "Environment": [
+       {
+        "Name": "AWS_REGION",
+        "Value": "us-east-1"
+       },
+       {
+        "Name": "AWS_PROMETHEUS_ENDPOINT",
+        "Value": "https://aps-workspaces.us-east-1.amazonaws.com/workspaces/ws-5f8b1530-3388-4177-82af-eae1c6d54d57/api/v1/remote_write"
+       }
+      ],
+      "Essential": true,
+      "Image": "codesenju/aws-otel-collector:amd",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "nodeapiLogGroup86E8778D"
+        },
+        "awslogs-stream-prefix": "/otel-container",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "MemoryReservation": 512,
+      "Name": "otel"
+     }
+    ],
+    "Cpu": "1024",
+    "ExecutionRoleArn": "arn:aws:iam::587878432697:role/ecsTaskExecutionRole",
+    "Family": "NodeapiStackNodeapiTaskDef6CA0A54B",
+    "Memory": "2048",
+    "NetworkMode": "awsvpc",
+    "ProxyConfiguration": {
+     "ContainerName": "envoy",
+     "ProxyConfigurationProperties": [
+      {
+       "Name": "AppPorts",
+       "Value": "3000"
+      },
+      {
+       "Name": "ProxyEgressPort",
+       "Value": "15001"
+      },
+      {
+       "Name": "ProxyIngressPort",
+       "Value": "15000"
+      },
+      {
+       "Name": "EgressIgnoredIPs",
+       "Value": "169.254.170.2,169.254.169.254"
+      },
+      {
+       "Name": "IgnoredUID",
+       "Value": "1337"
+      }
+     ],
+     "Type": "APPMESH"
+    },
+    "RequiresCompatibilities": [
+     "EC2",
+     "FARGATE"
+    ],
+    "TaskRoleArn": "arn:aws:iam::587878432697:role/000A_ecsExecTaskRole"
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeapiStack/NodeapiTaskDef/Resource"
+   }
+  },
+  "nodeapiLogGroup86E8778D": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/ecs/api/nodeapi",
+    "RetentionInDays": 7
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "NodeapiStack/nodeapiLogGroup/Resource"
+   }
+  },
+  "NodeapiServiceED3ECEE4": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "CapacityProviderStrategy": [
+     {
+      "CapacityProvider": "amd-spot-api-capasity-provider",
+      "Weight": 1
+     }
+    ],
+    "Cluster": "api",
+    "DeploymentConfiguration": {
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "EnableECSManagedTags": false,
+    "EnableExecuteCommand": true,
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "DISABLED",
+      "SecurityGroups": [
+       {
+        "Fn::ImportValue": "nodeapiSGID"
+       }
+      ],
+      "Subnets": [
+       "subnet-01b1911df0ad91eb7",
+       "subnet-02ae900ec00be7b2f",
+       "subnet-08d2609ae2ad75bcc"
+      ]
+     }
+    },
+    "SchedulingStrategy": "REPLICA",
+    "ServiceName": "nodeapi",
+    "ServiceRegistries": [
+     {
+      "RegistryArn": {
+       "Fn::GetAtt": [
+        "NodeapiCloudmapServiceDA7CB468",
+        "Arn"
+       ]
+      }
+     }
+    ],
+    "TaskDefinition": {
+     "Ref": "NodeapiTaskDef9CAD3311"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeapiStack/Nodeapi/Service"
+   }
+  },
+  "NodeapiCloudmapServiceDA7CB468": {
+   "Type": "AWS::ServiceDiscovery::Service",
+   "Properties": {
+    "DnsConfig": {
+     "DnsRecords": [
+      {
+       "TTL": 60,
+       "Type": "A"
+      }
+     ],
+     "NamespaceId": {
+      "Fn::ImportValue": "ApiNamespaceId"
+     },
+     "RoutingPolicy": "MULTIVALUE"
+    },
+    "HealthCheckCustomConfig": {
+     "FailureThreshold": 1
+    },
+    "Name": "nodeapi",
+    "NamespaceId": {
+     "Fn::ImportValue": "ApiNamespaceId"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeapiStack/Nodeapi/CloudmapService/Resource"
+   }
+  },
+  "NodeapiTaskCountTargetCCDA0A70": {
+   "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+   "Properties": {
+    "MaxCapacity": 10,
+    "MinCapacity": 4,
+    "ResourceId": {
+     "Fn::Join": [
+      "",
+      [
+       "service/api/",
+       {
+        "Fn::GetAtt": [
+         "NodeapiServiceED3ECEE4",
+         "Name"
+        ]
+       }
+      ]
+     ]
+    },
+    "RoleARN": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::587878432697:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+      ]
+     ]
+    },
+    "ScalableDimension": "ecs:service:DesiredCount",
+    "ServiceNamespace": "ecs"
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeapiStack/Nodeapi/TaskCount/Target/Resource"
+   }
+  },
+  "NodeapiTaskCountTargetCpuScalingA6F64E36": {
+   "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+   "Properties": {
+    "PolicyName": "NodeapiStackNodeapiTaskCountTargetCpuScalingEB3F2BF4",
+    "PolicyType": "TargetTrackingScaling",
+    "ScalingTargetId": {
+     "Ref": "NodeapiTaskCountTargetCCDA0A70"
+    },
+    "TargetTrackingScalingPolicyConfiguration": {
+     "PredefinedMetricSpecification": {
+      "PredefinedMetricType": "ECSServiceAverageCPUUtilization"
+     },
+     "TargetValue": 80
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeapiStack/Nodeapi/TaskCount/Target/CpuScaling/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2VRy27CMBD8Fu6OC6n4Alr1UrWIIK7IOEtY4ngjP6iiyP9eOyFtaE87nt2Z0a5zvl7z5UJ82UyWdabwxPvCCVmzHVjyRgKLvWOPouH9lhTKjm3OekSBibZtwF54f0DjvFAfVELqz593XIC5oZx370xgIC3v98LWL3BGjQ5Jp7G/DGknUIOZca8yn/lOsJBCiZOCZLAhr11giqqY8U7VmyHfpuEJB2ZHWYlW0g1MFy/wz3NYNe4sUqzwjmzMQF3F2Z8wU4EbJI/MWPYmHjUKilH3e8oHIoREfXrX+sFq+oTAtp27kH565qslX+WLq0XMTFwNG+C7sX4DmLcTC8wBAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "NodeapiStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "nodeapiServiceArn": {
+   "Value": {
+    "Ref": "NodeapiServiceED3ECEE4"
+   },
+   "Export": {
+    "Name": "nodeapiServiceArn"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

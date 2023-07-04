@@ -1,0 +1,154 @@
+{
+  "version": "22.0.0",
+  "artifacts": {
+    "vgwStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "vgwStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "vgwStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://587878432697/us-east-1",
+      "properties": {
+        "templateFile": "vgwStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-deploy-role-587878432697-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-cfn-exec-role-587878432697-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-587878432697-us-east-1/1e12a58bfedd94dd3d84e4530144eaa80720133e05234de72fc2838ea50c6663.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "vgwStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-lookup-role-587878432697-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "vgwStack.assets"
+      ],
+      "metadata": {
+        "/vgwStack/ImportedIndexSG/from vgwStackimportedelbSG045ADAD6:5000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedIndexSGfromvgwStackimportedelbSG045ADAD65000EC187D0E"
+          }
+        ],
+        "/vgwStack/importedelbSG/from 0.0.0.0_0:80": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "importedelbSGfrom000008011DCB00D"
+          }
+        ],
+        "/vgwStack/ImportedTaskExecutionRole/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedTaskExecutionRolePolicy23E279F9"
+          }
+        ],
+        "/vgwStack/ImportedEcsExecTaskRole/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedEcsExecTaskRolePolicy6CAEEF74"
+          }
+        ],
+        "/vgwStack/gateway/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "gatewayB15F83BA"
+          }
+        ],
+        "/vgwStack/gateway/gateway-route-http/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "gatewaygatewayroutehttpE3A67AEB"
+          }
+        ],
+        "/vgwStack/vgwTaskDef/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "vgwTaskDef17B82096"
+          }
+        ],
+        "/vgwStack/vgwLogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "vgwLogGroup7975F3A7"
+          }
+        ],
+        "/vgwStack/mesh_vgw/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "meshvgwService6E8673EC"
+          }
+        ],
+        "/vgwStack/mesh_vgw/TaskCount/Target/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "meshvgwTaskCountTargetB1C03F91"
+          }
+        ],
+        "/vgwStack/mesh_vgw/TaskCount/Target/CpuScaling/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "meshvgwTaskCountTargetCpuScaling04D3668A"
+          }
+        ],
+        "/vgwStack/vgwLoadBalancer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "vgwLoadBalancerC22B538E"
+          }
+        ],
+        "/vgwStack/vgwLoadBalancer/vgwListener/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "vgwLoadBalancervgwListener03E23148"
+          }
+        ],
+        "/vgwStack/vgwLoadBalancer/vgwListener/vgwTargetsGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "vgwLoadBalancervgwListenervgwTargetsGroup663682D5"
+          }
+        ],
+        "/vgwStack/VgwElbEndpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VgwElbEndpoint"
+          }
+        ],
+        "/vgwStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/vgwStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/vgwStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "vgwStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

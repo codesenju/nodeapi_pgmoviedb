@@ -1,0 +1,714 @@
+{
+ "Resources": {
+  "ApiProjectVpc88718D71": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "17.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ApiVpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/Resource"
+   }
+  },
+  "ApiProjectVpcPublicSubnet1Subnet9944239D": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "VpcId": {
+     "Ref": "ApiProjectVpc88718D71"
+    },
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "17.0.0.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PublicSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet1/Subnet"
+   }
+  },
+  "ApiProjectVpcPublicSubnet1RouteTableBC1E6D24": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "VpcId": {
+     "Ref": "ApiProjectVpc88718D71"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PublicSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet1/RouteTable"
+   }
+  },
+  "ApiProjectVpcPublicSubnet1RouteTableAssociation23FF755C": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ApiProjectVpcPublicSubnet1RouteTableBC1E6D24"
+    },
+    "SubnetId": {
+     "Ref": "ApiProjectVpcPublicSubnet1Subnet9944239D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet1/RouteTableAssociation"
+   }
+  },
+  "ApiProjectVpcPublicSubnet1DefaultRouteDFA04F2A": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ApiProjectVpcPublicSubnet1RouteTableBC1E6D24"
+    },
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "ApiProjectVpcIGW8608BF98"
+    }
+   },
+   "DependsOn": [
+    "ApiProjectVpcVPCGWEC0301D9"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet1/DefaultRoute"
+   }
+  },
+  "ApiProjectVpcPublicSubnet1EIP097FE3A8": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PublicSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet1/EIP"
+   }
+  },
+  "ApiProjectVpcPublicSubnet1NATGateway96C1BFFF": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "SubnetId": {
+     "Ref": "ApiProjectVpcPublicSubnet1Subnet9944239D"
+    },
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "ApiProjectVpcPublicSubnet1EIP097FE3A8",
+      "AllocationId"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PublicSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "ApiProjectVpcPublicSubnet1DefaultRouteDFA04F2A",
+    "ApiProjectVpcPublicSubnet1RouteTableAssociation23FF755C"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet1/NATGateway"
+   }
+  },
+  "ApiProjectVpcPublicSubnet2SubnetA61E8F85": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "VpcId": {
+     "Ref": "ApiProjectVpc88718D71"
+    },
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "17.0.1.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PublicSubnet2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet2/Subnet"
+   }
+  },
+  "ApiProjectVpcPublicSubnet2RouteTableF2594DDF": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "VpcId": {
+     "Ref": "ApiProjectVpc88718D71"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PublicSubnet2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet2/RouteTable"
+   }
+  },
+  "ApiProjectVpcPublicSubnet2RouteTableAssociation6AC5BCAB": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ApiProjectVpcPublicSubnet2RouteTableF2594DDF"
+    },
+    "SubnetId": {
+     "Ref": "ApiProjectVpcPublicSubnet2SubnetA61E8F85"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet2/RouteTableAssociation"
+   }
+  },
+  "ApiProjectVpcPublicSubnet2DefaultRoute22113CF1": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ApiProjectVpcPublicSubnet2RouteTableF2594DDF"
+    },
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "ApiProjectVpcIGW8608BF98"
+    }
+   },
+   "DependsOn": [
+    "ApiProjectVpcVPCGWEC0301D9"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet2/DefaultRoute"
+   }
+  },
+  "ApiProjectVpcPublicSubnet2EIPD0906495": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PublicSubnet2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet2/EIP"
+   }
+  },
+  "ApiProjectVpcPublicSubnet2NATGateway4CCB7B15": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "SubnetId": {
+     "Ref": "ApiProjectVpcPublicSubnet2SubnetA61E8F85"
+    },
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "ApiProjectVpcPublicSubnet2EIPD0906495",
+      "AllocationId"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PublicSubnet2"
+     }
+    ]
+   },
+   "DependsOn": [
+    "ApiProjectVpcPublicSubnet2DefaultRoute22113CF1",
+    "ApiProjectVpcPublicSubnet2RouteTableAssociation6AC5BCAB"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet2/NATGateway"
+   }
+  },
+  "ApiProjectVpcPublicSubnet3Subnet65F0FD07": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "VpcId": {
+     "Ref": "ApiProjectVpc88718D71"
+    },
+    "AvailabilityZone": "us-east-1c",
+    "CidrBlock": "17.0.2.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PublicSubnet3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet3/Subnet"
+   }
+  },
+  "ApiProjectVpcPublicSubnet3RouteTable38C41BC1": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "VpcId": {
+     "Ref": "ApiProjectVpc88718D71"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PublicSubnet3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet3/RouteTable"
+   }
+  },
+  "ApiProjectVpcPublicSubnet3RouteTableAssociation0545308D": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ApiProjectVpcPublicSubnet3RouteTable38C41BC1"
+    },
+    "SubnetId": {
+     "Ref": "ApiProjectVpcPublicSubnet3Subnet65F0FD07"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet3/RouteTableAssociation"
+   }
+  },
+  "ApiProjectVpcPublicSubnet3DefaultRoute215E2D2F": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ApiProjectVpcPublicSubnet3RouteTable38C41BC1"
+    },
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "ApiProjectVpcIGW8608BF98"
+    }
+   },
+   "DependsOn": [
+    "ApiProjectVpcVPCGWEC0301D9"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet3/DefaultRoute"
+   }
+  },
+  "ApiProjectVpcPublicSubnet3EIPA2A8DE91": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PublicSubnet3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet3/EIP"
+   }
+  },
+  "ApiProjectVpcPublicSubnet3NATGatewayD09861E1": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "SubnetId": {
+     "Ref": "ApiProjectVpcPublicSubnet3Subnet65F0FD07"
+    },
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "ApiProjectVpcPublicSubnet3EIPA2A8DE91",
+      "AllocationId"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PublicSubnet3"
+     }
+    ]
+   },
+   "DependsOn": [
+    "ApiProjectVpcPublicSubnet3DefaultRoute215E2D2F",
+    "ApiProjectVpcPublicSubnet3RouteTableAssociation0545308D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PublicSubnet3/NATGateway"
+   }
+  },
+  "ApiProjectVpcPrivateSubnet1SubnetF9E42D09": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "VpcId": {
+     "Ref": "ApiProjectVpc88718D71"
+    },
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "17.0.3.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PrivateSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PrivateSubnet1/Subnet"
+   }
+  },
+  "ApiProjectVpcPrivateSubnet1RouteTableF6888B30": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "VpcId": {
+     "Ref": "ApiProjectVpc88718D71"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PrivateSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PrivateSubnet1/RouteTable"
+   }
+  },
+  "ApiProjectVpcPrivateSubnet1RouteTableAssociation9EBD4B79": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ApiProjectVpcPrivateSubnet1RouteTableF6888B30"
+    },
+    "SubnetId": {
+     "Ref": "ApiProjectVpcPrivateSubnet1SubnetF9E42D09"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PrivateSubnet1/RouteTableAssociation"
+   }
+  },
+  "ApiProjectVpcPrivateSubnet1DefaultRoute274C17ED": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ApiProjectVpcPrivateSubnet1RouteTableF6888B30"
+    },
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "ApiProjectVpcPublicSubnet1NATGateway96C1BFFF"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PrivateSubnet1/DefaultRoute"
+   }
+  },
+  "ApiProjectVpcPrivateSubnet2Subnet0D2C6BE0": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "VpcId": {
+     "Ref": "ApiProjectVpc88718D71"
+    },
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "17.0.4.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PrivateSubnet2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PrivateSubnet2/Subnet"
+   }
+  },
+  "ApiProjectVpcPrivateSubnet2RouteTable2A6B23EC": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "VpcId": {
+     "Ref": "ApiProjectVpc88718D71"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PrivateSubnet2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PrivateSubnet2/RouteTable"
+   }
+  },
+  "ApiProjectVpcPrivateSubnet2RouteTableAssociationD6A79BD0": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ApiProjectVpcPrivateSubnet2RouteTable2A6B23EC"
+    },
+    "SubnetId": {
+     "Ref": "ApiProjectVpcPrivateSubnet2Subnet0D2C6BE0"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PrivateSubnet2/RouteTableAssociation"
+   }
+  },
+  "ApiProjectVpcPrivateSubnet2DefaultRouteB2E43DBC": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ApiProjectVpcPrivateSubnet2RouteTable2A6B23EC"
+    },
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "ApiProjectVpcPublicSubnet2NATGateway4CCB7B15"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PrivateSubnet2/DefaultRoute"
+   }
+  },
+  "ApiProjectVpcPrivateSubnet3Subnet2BE82E74": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "VpcId": {
+     "Ref": "ApiProjectVpc88718D71"
+    },
+    "AvailabilityZone": "us-east-1c",
+    "CidrBlock": "17.0.5.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PrivateSubnet3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PrivateSubnet3/Subnet"
+   }
+  },
+  "ApiProjectVpcPrivateSubnet3RouteTable051FC932": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "VpcId": {
+     "Ref": "ApiProjectVpc88718D71"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VpcInfraStack/ApiProjectVpc/PrivateSubnet3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PrivateSubnet3/RouteTable"
+   }
+  },
+  "ApiProjectVpcPrivateSubnet3RouteTableAssociation506479B8": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ApiProjectVpcPrivateSubnet3RouteTable051FC932"
+    },
+    "SubnetId": {
+     "Ref": "ApiProjectVpcPrivateSubnet3Subnet2BE82E74"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PrivateSubnet3/RouteTableAssociation"
+   }
+  },
+  "ApiProjectVpcPrivateSubnet3DefaultRoute1B652152": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ApiProjectVpcPrivateSubnet3RouteTable051FC932"
+    },
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "ApiProjectVpcPublicSubnet3NATGatewayD09861E1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/PrivateSubnet3/DefaultRoute"
+   }
+  },
+  "ApiProjectVpcIGW8608BF98": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ApiVpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/IGW"
+   }
+  },
+  "ApiProjectVpcVPCGWEC0301D9": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "VpcId": {
+     "Ref": "ApiProjectVpc88718D71"
+    },
+    "InternetGatewayId": {
+     "Ref": "ApiProjectVpcIGW8608BF98"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/ApiProjectVpc/VPCGW"
+   }
+  },
+  "DefaultSecurityGroup2EBD5835": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Default security group",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "255.255.255.255/32",
+      "Description": "Disallow all traffic",
+      "FromPort": 252,
+      "IpProtocol": "icmp",
+      "ToPort": 86
+     }
+    ],
+    "VpcId": {
+     "Ref": "ApiProjectVpc88718D71"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/DefaultSecurityGroup/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02O3QrCMAyFn8X7rv6xBxAR8UbLJt5KVyPGzXa0iWOI727n1AmBc/JxSM5MpqmcjHQTEnMqkwoL+chJm1JEdAQzk49DbcTybA9qKRQXFZqcCwvUscFljgn2uqhg4ANbhOAMakJnf+HOrDaqk62mtSZodCuUx3u0w+GNJfDRfwN9k8+2oFj1cgNLIgfDHqlde8f1u8M/eIoMgmNv3m93TDX3tT/0KVRLF2fHczmdxBldA2Li2RLeQGa9vgAb+SRDLAEAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "VpcInfraStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ApiVpcId": {
+   "Value": {
+    "Ref": "ApiProjectVpc88718D71"
+   },
+   "Export": {
+    "Name": "ApiVpcId"
+   }
+  },
+  "ApiVpcDefaultSecurityGroupId": {
+   "Value": {
+    "Fn::GetAtt": [
+     "DefaultSecurityGroup2EBD5835",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "ApiVpcDefaultSecurityGroupId"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

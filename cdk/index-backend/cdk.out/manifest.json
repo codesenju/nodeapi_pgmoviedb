@@ -1,0 +1,406 @@
+{
+  "version": "22.0.0",
+  "artifacts": {
+    "NodeApiStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "NodeApiStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "NodeApiStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://587878432697/us-east-1",
+      "properties": {
+        "templateFile": "NodeApiStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-deploy-role-587878432697-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-cfn-exec-role-587878432697-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-587878432697-us-east-1/6a472da7516f9bafe611d842e5500e2fb9b7b5e8b044f0a6caa63df2b4303b6c.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "NodeApiStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-lookup-role-587878432697-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "NodeApiStack.assets"
+      ],
+      "metadata": {
+        "/NodeApiStack/Elb_SG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ElbSG3E53E50B"
+          }
+        ],
+        "/NodeApiStack/Elb_SG/to NodeApiStackFrontendSG15B50514:5000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ElbSGtoNodeApiStackFrontendSG15B505145000F9420D3C"
+          }
+        ],
+        "/NodeApiStack/Nodeapi_SG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiSGA07C109D"
+          }
+        ],
+        "/NodeApiStack/Nodeapi_SG/from NodeApiStackIndexSGCEC1A194:3000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiSGfromNodeApiStackIndexSGCEC1A1943000077108E6"
+          }
+        ],
+        "/NodeApiStack/Nodeapi_SG/to NodeApiStackPostgresSG89FF08BE:5432": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiSGtoNodeApiStackPostgresSG89FF08BE5432840C38BB"
+          }
+        ],
+        "/NodeApiStack/Postgres_SG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresSGA5349B77"
+          }
+        ],
+        "/NodeApiStack/Postgres_SG/from NodeApiStackNodeapiSG6CF93B3F:5432": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresSGfromNodeApiStackNodeapiSG6CF93B3F543211358200"
+          }
+        ],
+        "/NodeApiStack/Postgres_SG/to NodeApiStackEFSallowInbound2049SG73A3CB6A:2049": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresSGtoNodeApiStackEFSallowInbound2049SG73A3CB6A20491511A966"
+          }
+        ],
+        "/NodeApiStack/Index_SG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexSGB8721386"
+          }
+        ],
+        "/NodeApiStack/Index_SG/from NodeApiStackFrontendSG15B50514:5000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexSGfromNodeApiStackFrontendSG15B505145000D5AB8EFA"
+          }
+        ],
+        "/NodeApiStack/Index_SG/to NodeApiStackNodeapiSG6CF93B3F:3000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexSGtoNodeApiStackNodeapiSG6CF93B3F3000EAEF76B4"
+          }
+        ],
+        "/NodeApiStack/Frontend_SG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendSGA609D887"
+          }
+        ],
+        "/NodeApiStack/Frontend_SG/to NodeApiStackIndexSGCEC1A194:5000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendSGtoNodeApiStackIndexSGCEC1A19450002532BF14"
+          }
+        ],
+        "/NodeApiStack/Frontend_SG/from NodeApiStackElbSG8CE0D65C:5000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendSGfromNodeApiStackElbSG8CE0D65C5000B7F46980"
+          }
+        ],
+        "/NodeApiStack/EFS_allowInbound2049_SG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EFSallowInbound2049SG521C9F79"
+          }
+        ],
+        "/NodeApiStack/ImportedTaskExecutionRole/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedTaskExecutionRolePolicy23E279F9"
+          }
+        ],
+        "/NodeApiStack/ImportedEcsExecTaskRole/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedEcsExecTaskRolePolicy6CAEEF74"
+          }
+        ],
+        "/NodeApiStack/PG_EFSFileSystem/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PGEFSFileSystemFB2674A6"
+          }
+        ],
+        "/NodeApiStack/PG_EFSFileSystem/EfsMountTarget1": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PGEFSFileSystemEfsMountTarget19B5123E5"
+          }
+        ],
+        "/NodeApiStack/PG_EFSFileSystem/EfsMountTarget2": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PGEFSFileSystemEfsMountTarget28E365451"
+          }
+        ],
+        "/NodeApiStack/PG_EFSFileSystem/EfsMountTarget3": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PGEFSFileSystemEfsMountTarget37EB7BC6C"
+          }
+        ],
+        "/NodeApiStack/PostgresTaskDef/TaskRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresTaskDefTaskRole5A8B625C"
+          }
+        ],
+        "/NodeApiStack/PostgresTaskDef/TaskRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresTaskDefTaskRoleDefaultPolicy5F027C47"
+          }
+        ],
+        "/NodeApiStack/PostgresTaskDef/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresTaskDef8C46C666"
+          }
+        ],
+        "/NodeApiStack/PostgresTaskDef/Postgres/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresTaskDefPostgresLogGroup8B3E2446"
+          }
+        ],
+        "/NodeApiStack/Postgres/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresService78457626"
+          }
+        ],
+        "/NodeApiStack/Postgres/CloudmapService/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresCloudmapService1B22969B"
+          }
+        ],
+        "/NodeApiStack/Postgres/TaskCount/Target/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresTaskCountTarget912DD5E3"
+          }
+        ],
+        "/NodeApiStack/Postgres/TaskCount/Target/CpuScaling/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresTaskCountTargetCpuScaling863F7E95"
+          }
+        ],
+        "/NodeApiStack/NodeapiTaskDef/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiTaskDef9CAD3311"
+          }
+        ],
+        "/NodeApiStack/NodeapiTaskDef/nodeapi/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiTaskDefnodeapiLogGroupDFFDB24F"
+          }
+        ],
+        "/NodeApiStack/Nodeapi/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiServiceED3ECEE4"
+          }
+        ],
+        "/NodeApiStack/Nodeapi/CloudmapService/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiCloudmapServiceDA7CB468"
+          }
+        ],
+        "/NodeApiStack/Nodeapi/TaskCount/Target/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiTaskCountTargetCCDA0A70"
+          }
+        ],
+        "/NodeApiStack/Nodeapi/TaskCount/Target/CpuScaling/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiTaskCountTargetCpuScalingA6F64E36"
+          }
+        ],
+        "/NodeApiStack/IndexTaskDef/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexTaskDef7FDDA5D5"
+          }
+        ],
+        "/NodeApiStack/IndexTaskDef/index/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexTaskDefindexLogGroup2E9167AB"
+          }
+        ],
+        "/NodeApiStack/Index/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexService427E9591"
+          }
+        ],
+        "/NodeApiStack/Index/CloudmapService/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexCloudmapService77ACFD31"
+          }
+        ],
+        "/NodeApiStack/FrontendTaskDef/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendTaskDef7D3FD156"
+          }
+        ],
+        "/NodeApiStack/FrontendTaskDef/frontend/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendTaskDeffrontendLogGroupFDDEEC5B"
+          }
+        ],
+        "/NodeApiStack/FrontendTaskDef/CrystalServiceProxyContdef/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendTaskDefCrystalServiceProxyContdefLogGroupE8D9CE5B"
+          }
+        ],
+        "/NodeApiStack/Frontend/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendService8B3C6A55"
+          }
+        ],
+        "/NodeApiStack/Frontend/TaskCount/Target/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendTaskCountTargetC428911A"
+          }
+        ],
+        "/NodeApiStack/Frontend/TaskCount/Target/CpuScaling/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendTaskCountTargetCpuScalingC3082A72"
+          }
+        ],
+        "/NodeApiStack/FrontendLoadBalancer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendLoadBalancerDBDBDFF7"
+          }
+        ],
+        "/NodeApiStack/FrontendLoadBalancer/FrontendListener/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendLoadBalancerFrontendListenerCF68BDEA"
+          }
+        ],
+        "/NodeApiStack/FrontendLoadBalancer/FrontendListener/FrontendTargetsGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendLoadBalancerFrontendListenerFrontendTargetsGroup80B6629B"
+          }
+        ],
+        "/NodeApiStack/PostgresServiceArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresServiceArn"
+          }
+        ],
+        "/NodeApiStack/PostgresServiceId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresServiceId"
+          }
+        ],
+        "/NodeApiStack/NodeapiServiceArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiServiceArn"
+          }
+        ],
+        "/NodeApiStack/NodeapiServiceId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiServiceId"
+          }
+        ],
+        "/NodeApiStack/IndexServiceArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexServiceArn"
+          }
+        ],
+        "/NodeApiStack/IndexServiceId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexServiceId"
+          }
+        ],
+        "/NodeApiStack/FrontendServiceArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendServiceArn"
+          }
+        ],
+        "/NodeApiStack/FrontendServiceId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendServiceId"
+          }
+        ],
+        "/NodeApiStack/FrontendElbDnsName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FrontendElbDnsName"
+          }
+        ],
+        "/NodeApiStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/NodeApiStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/NodeApiStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "NodeApiStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

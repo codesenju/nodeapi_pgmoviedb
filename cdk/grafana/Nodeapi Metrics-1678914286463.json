@@ -1,0 +1,468 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS_WS-5F8B1530-3388-4177-82AF-EAE1C6D54D57",
+      "label": "Prometheus ws-5f8b1530-3388-4177-82af-eae1c6d54d57",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": [],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "8.4.7"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1678912950058,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS_WS-5F8B1530-3388-4177-82AF-EAE1C6D54D57}"
+      },
+      "description": "container_cpu_utilized",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS_WS-5F8B1530-3388-4177-82AF-EAE1C6D54D57}"
+          },
+          "exemplar": false,
+          "expr": "container_cpu_utilized{aws_ecs_cluster_name=\"api\",aws_ecs_task_family=~\".+Postgres.+|.+Nodeapi.+|.+Index.+|.+Frontend.+\",container_name=~\"$container_name\"}",
+          "interval": "",
+          "legendFormat": "{{container_name}} {{container_image_name}}:{{container_image_tag}} {{aws_ecs_task_id}} {{aws_ecs_task_family}}",
+          "refId": "A"
+        }
+      ],
+      "title": "$container_name | container_cpu_utilized",
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS_WS-5F8B1530-3388-4177-82AF-EAE1C6D54D57}"
+      },
+      "description": "container_memory_utilized",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS_WS-5F8B1530-3388-4177-82AF-EAE1C6D54D57}"
+          },
+          "exemplar": false,
+          "expr": "container_memory_utilized{aws_ecs_cluster_name=\"api\",aws_ecs_task_family=~\".+Postgres.+|.+Nodeapi.+|.+Index.+|.+Frontend.+\",container_name=~\"$container_name\"}",
+          "interval": "",
+          "legendFormat": "{{container_name}} {{container_image_name}}:{{container_image_tag}} {{aws_ecs_task_id}} {{aws_ecs_task_family}}",
+          "refId": "A"
+        }
+      ],
+      "title": "$container_name | container_memory_utilized",
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS_WS-5F8B1530-3388-4177-82AF-EAE1C6D54D57}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS_WS-5F8B1530-3388-4177-82AF-EAE1C6D54D57}"
+          },
+          "exemplar": false,
+          "expr": "container_network_rate_tx{aws_ecs_cluster_name=\"api\",aws_ecs_task_family=~\".+Postgres.+|.+Nodeapi.+|.+Index.+|.+Frontend.+\",container_name=~\"$container_name\"}",
+          "interval": "",
+          "legendFormat": "{{container_name}} {{container_image_name}}:{{container_image_tag}} {{aws_ecs_task_id}} {{aws_ecs_task_family}}",
+          "refId": "A"
+        }
+      ],
+      "title": "$container_name | network_rate_tx",
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_PROMETHEUS_WS-5F8B1530-3388-4177-82AF-EAE1C6D54D57}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS_WS-5F8B1530-3388-4177-82AF-EAE1C6D54D57}"
+          },
+          "exemplar": false,
+          "expr": "container_network_rate_rx{aws_ecs_cluster_name=\"api\",aws_ecs_task_family=~\".+Postgres.+|.+Nodeapi.+|.+Index.+|.+Frontend.+\",container_name=~\"$container_name\"}",
+          "interval": "",
+          "legendFormat": "{{container_name}} {{container_image_name}}:{{container_image_tag}} {{aws_ecs_task_id}} {{aws_ecs_task_family}}",
+          "refId": "A"
+        }
+      ],
+      "title": "$container_name | network_rate_rx",
+      "transparent": true,
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 35,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS_PROMETHEUS_WS-5F8B1530-3388-4177-82AF-EAE1C6D54D57}"
+        },
+        "definition": "container_cpu_utilized{aws_ecs_cluster_name=\"api\"}",
+        "description": "container_name",
+        "hide": 0,
+        "includeAll": false,
+        "label": "container_name",
+        "multi": true,
+        "name": "container_name",
+        "options": [],
+        "query": {
+          "query": "container_cpu_utilized{aws_ecs_cluster_name=\"api\"}",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "/.*container_name=\"([^\"]*).*/",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Nodeapi Metrics",
+  "uid": "M-JC7E-4k",
+  "version": 13,
+  "weekStart": ""
+}

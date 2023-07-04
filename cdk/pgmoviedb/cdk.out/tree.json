@@ -1,0 +1,1154 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "PostgresStack": {
+        "id": "PostgresStack",
+        "path": "PostgresStack",
+        "children": {
+          "ImportedVpc": {
+            "id": "ImportedVpc",
+            "path": "PostgresStack/ImportedVpc",
+            "children": {
+              "PublicSubnet1": {
+                "id": "PublicSubnet1",
+                "path": "PostgresStack/ImportedVpc/PublicSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PublicSubnet2": {
+                "id": "PublicSubnet2",
+                "path": "PostgresStack/ImportedVpc/PublicSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PublicSubnet3": {
+                "id": "PublicSubnet3",
+                "path": "PostgresStack/ImportedVpc/PublicSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PrivateSubnet1": {
+                "id": "PrivateSubnet1",
+                "path": "PostgresStack/ImportedVpc/PrivateSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PrivateSubnet2": {
+                "id": "PrivateSubnet2",
+                "path": "PostgresStack/ImportedVpc/PrivateSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PrivateSubnet3": {
+                "id": "PrivateSubnet3",
+                "path": "PostgresStack/ImportedVpc/PrivateSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImporteDefaultApiClusterSG": {
+            "id": "ImporteDefaultApiClusterSG",
+            "path": "PostgresStack/ImporteDefaultApiClusterSG",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedPgmoviedbSGID": {
+            "id": "ImportedPgmoviedbSGID",
+            "path": "PostgresStack/ImportedPgmoviedbSGID",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImporteEfsSGID": {
+            "id": "ImporteEfsSGID",
+            "path": "PostgresStack/ImporteEfsSGID",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedTaskExecutionRole": {
+            "id": "ImportedTaskExecutionRole",
+            "path": "PostgresStack/ImportedTaskExecutionRole",
+            "children": {
+              "Policy": {
+                "id": "Policy",
+                "path": "PostgresStack/ImportedTaskExecutionRole/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "PostgresStack/ImportedTaskExecutionRole/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "logs:CreateLogStream",
+                                "logs:PutLogEvents"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "PostgresTaskDefPostgresLogGroup8B3E2446",
+                                  "Arn"
+                                ]
+                              }
+                            },
+                            {
+                              "Action": [
+                                "logs:CreateLogStream",
+                                "logs:PutLogEvents"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "PostgresLogGroup3ED00616",
+                                  "Arn"
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "ImportedTaskExecutionRolePolicy23E279F9",
+                        "roles": [
+                          "ecsTaskExecutionRole"
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedEcsExecTaskRole": {
+            "id": "ImportedEcsExecTaskRole",
+            "path": "PostgresStack/ImportedEcsExecTaskRole",
+            "children": {
+              "Policy": {
+                "id": "Policy",
+                "path": "PostgresStack/ImportedEcsExecTaskRole/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "PostgresStack/ImportedEcsExecTaskRole/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "ssmmessages:CreateControlChannel",
+                                "ssmmessages:CreateDataChannel",
+                                "ssmmessages:OpenControlChannel",
+                                "ssmmessages:OpenDataChannel"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": "logs:DescribeLogGroups",
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": [
+                                "logs:CreateLogStream",
+                                "logs:DescribeLogStreams",
+                                "logs:PutLogEvents"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "ImportedEcsExecTaskRolePolicy6CAEEF74",
+                        "roles": [
+                          "000A_ecsExecTaskRole"
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedNamespace": {
+            "id": "ImportedNamespace",
+            "path": "PostgresStack/ImportedNamespace",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedCluster": {
+            "id": "ImportedCluster",
+            "path": "PostgresStack/ImportedCluster",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "PG_EFSFileSystem": {
+            "id": "PG_EFSFileSystem",
+            "path": "PostgresStack/PG_EFSFileSystem",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "PostgresStack/PG_EFSFileSystem/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EFS::FileSystem",
+                  "aws:cdk:cloudformation:props": {
+                    "encrypted": true,
+                    "fileSystemTags": [
+                      {
+                        "key": "Name",
+                        "value": "PostgresStack/PG_EFSFileSystem"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_efs.CfnFileSystem",
+                  "version": "2.55.0"
+                }
+              },
+              "EfsMountTarget1": {
+                "id": "EfsMountTarget1",
+                "path": "PostgresStack/PG_EFSFileSystem/EfsMountTarget1",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EFS::MountTarget",
+                  "aws:cdk:cloudformation:props": {
+                    "fileSystemId": {
+                      "Ref": "PGEFSFileSystemFB2674A6"
+                    },
+                    "securityGroups": [
+                      {
+                        "Fn::ImportValue": "efsSGID"
+                      }
+                    ],
+                    "subnetId": "subnet-01b1911df0ad91eb7"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_efs.CfnMountTarget",
+                  "version": "2.55.0"
+                }
+              },
+              "EfsMountTarget2": {
+                "id": "EfsMountTarget2",
+                "path": "PostgresStack/PG_EFSFileSystem/EfsMountTarget2",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EFS::MountTarget",
+                  "aws:cdk:cloudformation:props": {
+                    "fileSystemId": {
+                      "Ref": "PGEFSFileSystemFB2674A6"
+                    },
+                    "securityGroups": [
+                      {
+                        "Fn::ImportValue": "efsSGID"
+                      }
+                    ],
+                    "subnetId": "subnet-02ae900ec00be7b2f"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_efs.CfnMountTarget",
+                  "version": "2.55.0"
+                }
+              },
+              "EfsMountTarget3": {
+                "id": "EfsMountTarget3",
+                "path": "PostgresStack/PG_EFSFileSystem/EfsMountTarget3",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EFS::MountTarget",
+                  "aws:cdk:cloudformation:props": {
+                    "fileSystemId": {
+                      "Ref": "PGEFSFileSystemFB2674A6"
+                    },
+                    "securityGroups": [
+                      {
+                        "Fn::ImportValue": "efsSGID"
+                      }
+                    ],
+                    "subnetId": "subnet-08d2609ae2ad75bcc"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_efs.CfnMountTarget",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_efs.FileSystem",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedEcsApiMesh": {
+            "id": "ImportedEcsApiMesh",
+            "path": "PostgresStack/ImportedEcsApiMesh",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "node": {
+            "id": "node",
+            "path": "PostgresStack/node",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "PostgresStack/node/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::AppMesh::VirtualNode",
+                  "aws:cdk:cloudformation:props": {
+                    "meshName": {
+                      "Fn::Select": [
+                        1,
+                        {
+                          "Fn::Split": [
+                            "/",
+                            {
+                              "Fn::Select": [
+                                5,
+                                {
+                                  "Fn::Split": [
+                                    ":",
+                                    {
+                                      "Fn::ImportValue": "EcsApiMeshArn"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "spec": {
+                      "listeners": [
+                        {
+                          "portMapping": {
+                            "port": 5432,
+                            "protocol": "tcp"
+                          },
+                          "healthCheck": {
+                            "protocol": "tcp",
+                            "healthyThreshold": 3,
+                            "unhealthyThreshold": 2,
+                            "intervalMillis": 5000,
+                            "timeoutMillis": 2000,
+                            "port": 5432
+                          },
+                          "timeout": {
+                            "tcp": {
+                              "idle": {
+                                "unit": "ms",
+                                "value": 5000
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "serviceDiscovery": {
+                        "dns": {
+                          "hostname": "pgmoviedb.api.local"
+                        }
+                      },
+                      "logging": {
+                        "accessLog": {
+                          "file": {
+                            "path": "/dev/stdout"
+                          }
+                        }
+                      }
+                    },
+                    "meshOwner": {
+                      "Fn::Select": [
+                        4,
+                        {
+                          "Fn::Split": [
+                            ":",
+                            {
+                              "Fn::ImportValue": "EcsApiMeshArn"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "virtualNodeName": "pgmoviedb-node"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_appmesh.CfnVirtualNode",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_appmesh.VirtualNode",
+              "version": "2.55.0"
+            }
+          },
+          "pgmoviedbVirtualService": {
+            "id": "pgmoviedbVirtualService",
+            "path": "PostgresStack/pgmoviedbVirtualService",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "PostgresStack/pgmoviedbVirtualService/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::AppMesh::VirtualService",
+                  "aws:cdk:cloudformation:props": {
+                    "meshName": {
+                      "Fn::Select": [
+                        1,
+                        {
+                          "Fn::Split": [
+                            "/",
+                            {
+                              "Fn::Select": [
+                                5,
+                                {
+                                  "Fn::Split": [
+                                    ":",
+                                    {
+                                      "Fn::ImportValue": "EcsApiMeshArn"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "spec": {
+                      "provider": {
+                        "virtualNode": {
+                          "virtualNodeName": {
+                            "Fn::GetAtt": [
+                              "nodeE52CB09E",
+                              "VirtualNodeName"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "virtualServiceName": {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "pgmoviedb.",
+                          {
+                            "Fn::ImportValue": "ApiNamespaceName"
+                          }
+                        ]
+                      ]
+                    },
+                    "meshOwner": {
+                      "Fn::Select": [
+                        4,
+                        {
+                          "Fn::Split": [
+                            ":",
+                            {
+                              "Fn::ImportValue": "EcsApiMeshArn"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_appmesh.CfnVirtualService",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_appmesh.VirtualService",
+              "version": "2.55.0"
+            }
+          },
+          "PostgresTaskDef": {
+            "id": "PostgresTaskDef",
+            "path": "PostgresStack/PostgresTaskDef",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "PostgresStack/PostgresTaskDef/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::TaskDefinition",
+                  "aws:cdk:cloudformation:props": {
+                    "containerDefinitions": [
+                      {
+                        "dependsOn": [
+                          {
+                            "containerName": "envoy",
+                            "condition": "HEALTHY"
+                          }
+                        ],
+                        "essential": true,
+                        "image": "codesenju/pgmoviedb.api.local:amd",
+                        "memoryReservation": 2048,
+                        "mountPoints": [
+                          {
+                            "containerPath": "/var/lib/postgresql/data",
+                            "readOnly": false,
+                            "sourceVolume": "PGDATA"
+                          }
+                        ],
+                        "name": "Postgres",
+                        "portMappings": [
+                          {
+                            "containerPort": 5432,
+                            "hostPort": 5432,
+                            "protocol": "tcp",
+                            "name": "postgres"
+                          }
+                        ],
+                        "logConfiguration": {
+                          "logDriver": "awslogs",
+                          "options": {
+                            "awslogs-group": {
+                              "Ref": "PostgresTaskDefPostgresLogGroup8B3E2446"
+                            },
+                            "awslogs-stream-prefix": "postgres",
+                            "awslogs-region": "us-east-1"
+                          }
+                        },
+                        "environment": [
+                          {
+                            "name": "POSTGRES_DB",
+                            "value": "movie"
+                          },
+                          {
+                            "name": "POSTGRES_PASSWORD",
+                            "value": "12345"
+                          }
+                        ]
+                      },
+                      {
+                        "dependsOn": [
+                          {
+                            "containerName": "xray",
+                            "condition": "START"
+                          }
+                        ],
+                        "essential": true,
+                        "image": "public.ecr.aws/appmesh/aws-appmesh-envoy:v1.25.1.0-prod",
+                        "memoryReservation": 128,
+                        "name": "envoy",
+                        "ulimits": [
+                          {
+                            "name": "nofile",
+                            "softLimit": 15000,
+                            "hardLimit": 15000
+                          }
+                        ],
+                        "user": "1337",
+                        "logConfiguration": {
+                          "logDriver": "awslogs",
+                          "options": {
+                            "awslogs-group": {
+                              "Ref": "PostgresLogGroup3ED00616"
+                            },
+                            "awslogs-stream-prefix": "/envoy-container",
+                            "awslogs-region": "us-east-1"
+                          }
+                        },
+                        "environment": [
+                          {
+                            "name": "AWS_REGION",
+                            "value": "us-east-1"
+                          },
+                          {
+                            "name": "ENVOY_LOG_LEVEL",
+                            "value": "debug"
+                          },
+                          {
+                            "name": "ENABLE_ENVOY_STATS_TAGS",
+                            "value": "1"
+                          },
+                          {
+                            "name": "ENABLE_ENVOY_XRAY_TRACING",
+                            "value": "1"
+                          },
+                          {
+                            "name": "APPMESH_RESOURCE_ARN",
+                            "value": {
+                              "Ref": "nodeE52CB09E"
+                            }
+                          }
+                        ],
+                        "healthCheck": {
+                          "command": [
+                            "CMD-SHELL",
+                            "curl -s http://localhost:9901/server_info | grep state | grep -q LIVE"
+                          ],
+                          "interval": 5,
+                          "retries": 10,
+                          "timeout": 10
+                        }
+                      },
+                      {
+                        "essential": true,
+                        "image": "amazon/aws-xray-daemon",
+                        "memoryReservation": 512,
+                        "name": "xray",
+                        "user": "1337",
+                        "logConfiguration": {
+                          "logDriver": "awslogs",
+                          "options": {
+                            "awslogs-group": {
+                              "Ref": "PostgresLogGroup3ED00616"
+                            },
+                            "awslogs-stream-prefix": "/xray-container",
+                            "awslogs-region": "us-east-1"
+                          }
+                        },
+                        "environment": [
+                          {
+                            "name": "AWS_REGION",
+                            "value": "us-east-1"
+                          }
+                        ]
+                      },
+                      {
+                        "command": [
+                          "--config=/etc/ecs/otel-config.yaml"
+                        ],
+                        "essential": true,
+                        "image": "codesenju/aws-otel-collector:amd",
+                        "memoryReservation": 512,
+                        "name": "otel",
+                        "logConfiguration": {
+                          "logDriver": "awslogs",
+                          "options": {
+                            "awslogs-group": {
+                              "Ref": "PostgresLogGroup3ED00616"
+                            },
+                            "awslogs-stream-prefix": "/otel-container",
+                            "awslogs-region": "us-east-1"
+                          }
+                        },
+                        "environment": [
+                          {
+                            "name": "AWS_REGION",
+                            "value": "us-east-1"
+                          },
+                          {
+                            "name": "AWS_PROMETHEUS_ENDPOINT",
+                            "value": "https://aps-workspaces.us-east-1.amazonaws.com/workspaces/ws-5f8b1530-3388-4177-82af-eae1c6d54d57/api/v1/remote_write"
+                          }
+                        ]
+                      }
+                    ],
+                    "cpu": "2048",
+                    "executionRoleArn": "arn:aws:iam::587878432697:role/ecsTaskExecutionRole",
+                    "family": "PostgresStackPostgresTaskDef3C83CBE9",
+                    "memory": "4096",
+                    "networkMode": "awsvpc",
+                    "proxyConfiguration": {
+                      "containerName": "envoy",
+                      "proxyConfigurationProperties": [
+                        {
+                          "name": "AppPorts",
+                          "value": "5432"
+                        },
+                        {
+                          "name": "ProxyEgressPort",
+                          "value": "15001"
+                        },
+                        {
+                          "name": "ProxyIngressPort",
+                          "value": "15000"
+                        },
+                        {
+                          "name": "EgressIgnoredIPs",
+                          "value": "169.254.170.2,169.254.169.254"
+                        },
+                        {
+                          "name": "EgressIgnoredPorts",
+                          "value": "2049"
+                        },
+                        {
+                          "name": "IgnoredUID",
+                          "value": "1337"
+                        }
+                      ],
+                      "type": "APPMESH"
+                    },
+                    "requiresCompatibilities": [
+                      "EC2",
+                      "FARGATE"
+                    ],
+                    "taskRoleArn": "arn:aws:iam::587878432697:role/000A_ecsExecTaskRole",
+                    "volumes": [
+                      {
+                        "name": "PGDATA",
+                        "efsVolumeConfiguration": {
+                          "filesystemId": {
+                            "Ref": "PGEFSFileSystemFB2674A6"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnTaskDefinition",
+                  "version": "2.55.0"
+                }
+              },
+              "Postgres": {
+                "id": "Postgres",
+                "path": "PostgresStack/PostgresTaskDef/Postgres",
+                "children": {
+                  "LogGroup": {
+                    "id": "LogGroup",
+                    "path": "PostgresStack/PostgresTaskDef/Postgres/LogGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "PostgresStack/PostgresTaskDef/Postgres/LogGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                          "aws:cdk:cloudformation:props": {}
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                          "version": "2.55.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                  "version": "2.55.0"
+                }
+              },
+              "CrystalServiceProxyContdef": {
+                "id": "CrystalServiceProxyContdef",
+                "path": "PostgresStack/PostgresTaskDef/CrystalServiceProxyContdef",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                  "version": "2.55.0"
+                }
+              },
+              "NodeapiXrayContainer": {
+                "id": "NodeapiXrayContainer",
+                "path": "PostgresStack/PostgresTaskDef/NodeapiXrayContainer",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                  "version": "2.55.0"
+                }
+              },
+              "NodeapiOtelContainer": {
+                "id": "NodeapiOtelContainer",
+                "path": "PostgresStack/PostgresTaskDef/NodeapiOtelContainer",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.TaskDefinition",
+              "version": "2.55.0"
+            }
+          },
+          "PostgresLogGroup": {
+            "id": "PostgresLogGroup",
+            "path": "PostgresStack/PostgresLogGroup",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "PostgresStack/PostgresLogGroup/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "logGroupName": "/ecs/api/pgmoviedb",
+                    "retentionInDays": 7
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+              "version": "2.55.0"
+            }
+          },
+          "Postgres": {
+            "id": "Postgres",
+            "path": "PostgresStack/Postgres",
+            "children": {
+              "Service": {
+                "id": "Service",
+                "path": "PostgresStack/Postgres/Service",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::Service",
+                  "aws:cdk:cloudformation:props": {
+                    "capacityProviderStrategy": [
+                      {
+                        "capacityProvider": "amd-spot-api-capasity-provider",
+                        "weight": 1
+                      }
+                    ],
+                    "cluster": "api",
+                    "deploymentConfiguration": {
+                      "maximumPercent": 200,
+                      "minimumHealthyPercent": 50
+                    },
+                    "enableEcsManagedTags": false,
+                    "enableExecuteCommand": true,
+                    "networkConfiguration": {
+                      "awsvpcConfiguration": {
+                        "assignPublicIp": "DISABLED",
+                        "subnets": [
+                          "subnet-01b1911df0ad91eb7",
+                          "subnet-02ae900ec00be7b2f",
+                          "subnet-08d2609ae2ad75bcc"
+                        ],
+                        "securityGroups": [
+                          {
+                            "Fn::ImportValue": "pgmoviedbSGID"
+                          }
+                        ]
+                      }
+                    },
+                    "schedulingStrategy": "REPLICA",
+                    "serviceName": "postgres",
+                    "serviceRegistries": [
+                      {
+                        "registryArn": {
+                          "Fn::GetAtt": [
+                            "PostgresCloudmapService1B22969B",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    ],
+                    "taskDefinition": {
+                      "Ref": "PostgresTaskDef8C46C666"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnService",
+                  "version": "2.55.0"
+                }
+              },
+              "CloudmapService": {
+                "id": "CloudmapService",
+                "path": "PostgresStack/Postgres/CloudmapService",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "PostgresStack/Postgres/CloudmapService/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ServiceDiscovery::Service",
+                      "aws:cdk:cloudformation:props": {
+                        "dnsConfig": {
+                          "dnsRecords": [
+                            {
+                              "type": "A",
+                              "ttl": 60
+                            }
+                          ],
+                          "namespaceId": {
+                            "Fn::ImportValue": "ApiNamespaceId"
+                          },
+                          "routingPolicy": "MULTIVALUE"
+                        },
+                        "healthCheckCustomConfig": {
+                          "failureThreshold": 1
+                        },
+                        "name": "pgmoviedb",
+                        "namespaceId": {
+                          "Fn::ImportValue": "ApiNamespaceId"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_servicediscovery.CfnService",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_servicediscovery.Service",
+                  "version": "2.55.0"
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "PostgresStack/Postgres/ScalingRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "TaskCount": {
+                "id": "TaskCount",
+                "path": "PostgresStack/Postgres/TaskCount",
+                "children": {
+                  "Target": {
+                    "id": "Target",
+                    "path": "PostgresStack/Postgres/TaskCount/Target",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "PostgresStack/Postgres/TaskCount/Target/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApplicationAutoScaling::ScalableTarget",
+                          "aws:cdk:cloudformation:props": {
+                            "maxCapacity": 10,
+                            "minCapacity": 1,
+                            "resourceId": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "service/api/",
+                                  {
+                                    "Fn::GetAtt": [
+                                      "PostgresService78457626",
+                                      "Name"
+                                    ]
+                                  }
+                                ]
+                              ]
+                            },
+                            "roleArn": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "arn:",
+                                  {
+                                    "Ref": "AWS::Partition"
+                                  },
+                                  ":iam::587878432697:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+                                ]
+                              ]
+                            },
+                            "scalableDimension": "ecs:service:DesiredCount",
+                            "serviceNamespace": "ecs"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_applicationautoscaling.CfnScalableTarget",
+                          "version": "2.55.0"
+                        }
+                      },
+                      "CpuScaling": {
+                        "id": "CpuScaling",
+                        "path": "PostgresStack/Postgres/TaskCount/Target/CpuScaling",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "PostgresStack/Postgres/TaskCount/Target/CpuScaling/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyName": "PostgresStackPostgresTaskCountTargetCpuScalingF4872F1B",
+                                "policyType": "TargetTrackingScaling",
+                                "scalingTargetId": {
+                                  "Ref": "PostgresTaskCountTarget912DD5E3"
+                                },
+                                "targetTrackingScalingPolicyConfiguration": {
+                                  "predefinedMetricSpecification": {
+                                    "predefinedMetricType": "ECSServiceAverageCPUUtilization"
+                                  },
+                                  "targetValue": 80
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_applicationautoscaling.CfnScalingPolicy",
+                              "version": "2.55.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_applicationautoscaling.TargetTrackingScalingPolicy",
+                          "version": "2.55.0"
+                        }
+                      },
+                      "MemoryScaling": {
+                        "id": "MemoryScaling",
+                        "path": "PostgresStack/Postgres/TaskCount/Target/MemoryScaling",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "PostgresStack/Postgres/TaskCount/Target/MemoryScaling/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyName": "PostgresStackPostgresTaskCountTargetMemoryScaling76F2AB8A",
+                                "policyType": "TargetTrackingScaling",
+                                "scalingTargetId": {
+                                  "Ref": "PostgresTaskCountTarget912DD5E3"
+                                },
+                                "targetTrackingScalingPolicyConfiguration": {
+                                  "predefinedMetricSpecification": {
+                                    "predefinedMetricType": "ECSServiceAverageMemoryUtilization"
+                                  },
+                                  "targetValue": 80
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_applicationautoscaling.CfnScalingPolicy",
+                              "version": "2.55.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_applicationautoscaling.TargetTrackingScalingPolicy",
+                          "version": "2.55.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_applicationautoscaling.ScalableTarget",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ScalableTaskCount",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.Ec2Service",
+              "version": "2.55.0"
+            }
+          },
+          "PostgresServiceArn": {
+            "id": "PostgresServiceArn",
+            "path": "PostgresStack/PostgresServiceArn",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "PostgresStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "PostgresStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.213"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "PostgresStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.55.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "PostgresStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.55.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.55.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.1.213"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.55.0"
+    }
+  }
+}

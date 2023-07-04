@@ -1,0 +1,265 @@
+{
+  "version": "22.0.0",
+  "artifacts": {
+    "EcsClusterStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "EcsClusterStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "EcsClusterStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://587878432697/us-east-1",
+      "properties": {
+        "templateFile": "EcsClusterStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-deploy-role-587878432697-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-cfn-exec-role-587878432697-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-587878432697-us-east-1/171d3f8556d600bf5bc5fb45e51c2c02ab046d5306ccde339a2cd566ab64113d.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "EcsClusterStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-lookup-role-587878432697-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "EcsClusterStack.assets"
+      ],
+      "metadata": {
+        "/EcsClusterStack/ApiEcsCluster/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiEcsClusterA70A6453"
+          }
+        ],
+        "/EcsClusterStack/ApiEcsCluster/DefaultServiceDiscoveryNamespace/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiEcsClusterDefaultServiceDiscoveryNamespaceEB31289B"
+          }
+        ],
+        "/EcsClusterStack/ApiEcsCluster/ApiEcsCluster": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiEcsCluster13FC39E1"
+          }
+        ],
+        "/EcsClusterStack/amdAPIClusterSG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amdAPIClusterSGF323ECD7"
+          }
+        ],
+        "/EcsClusterStack/EcsApiMesh/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsApiMesh4F0E6BC1"
+          }
+        ],
+        "/EcsClusterStack/LaunchTemplateSG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LaunchTemplateSG62F977F3"
+          }
+        ],
+        "/EcsClusterStack/ecsworkshopRole/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ecsworkshopRolePolicyE86D420C"
+          }
+        ],
+        "/EcsClusterStack/NodeapiLaunchTemplate/Profile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiLaunchTemplateProfileB9648EBD"
+          }
+        ],
+        "/EcsClusterStack/NodeapiLaunchTemplate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiLaunchTemplateE853F246"
+          }
+        ],
+        "/EcsClusterStack/SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--arm64--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2arm64recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "/EcsClusterStack/amd-ecsworkshopRole/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amdecsworkshopRolePolicy21E2A37F"
+          }
+        ],
+        "/EcsClusterStack/AmdNodeapiLaunchTemplate/Profile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AmdNodeapiLaunchTemplateProfile73EBDD49"
+          }
+        ],
+        "/EcsClusterStack/AmdNodeapiLaunchTemplate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AmdNodeapiLaunchTemplate8673CD41"
+          }
+        ],
+        "/EcsClusterStack/SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "/EcsClusterStack/ASG": [
+          {
+            "type": "aws:cdk:warning",
+            "data": "desiredCapacity has been configured. Be aware this will reset the size of your AutoScalingGroup on every deployment. See https://github.com/aws/aws-cdk/issues/5215",
+            "trace": [
+              "Annotations.addMessage (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/jsii-kernel-7Yc3wg/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1213)",
+              "Annotations.addWarning (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/jsii-kernel-7Yc3wg/node_modules/aws-cdk-lib/core/lib/annotations.js:1:600)",
+              "new AutoScalingGroup (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/jsii-kernel-7Yc3wg/node_modules/aws-cdk-lib/aws-autoscaling/lib/auto-scaling-group.js:1:13568)",
+              "Kernel._create (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/tmpg96g6gka/lib/program.js:8467:29)",
+              "Kernel.create (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/tmpg96g6gka/lib/program.js:8196:29)",
+              "KernelHost.processRequest (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/tmpg96g6gka/lib/program.js:11482:36)",
+              "KernelHost.run (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/tmpg96g6gka/lib/program.js:11442:22)",
+              "Immediate._onImmediate (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/tmpg96g6gka/lib/program.js:11443:46)",
+              "process.processImmediate (node:internal/timers:476:21)"
+            ]
+          }
+        ],
+        "/EcsClusterStack/ASG/ASG": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ASG46ED3070"
+          }
+        ],
+        "/EcsClusterStack/AsgCapacityProvider/AsgCapacityProvider": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AsgCapacityProvider760D11D9"
+          }
+        ],
+        "/EcsClusterStack/SPOT_ASG": [
+          {
+            "type": "aws:cdk:warning",
+            "data": "desiredCapacity has been configured. Be aware this will reset the size of your AutoScalingGroup on every deployment. See https://github.com/aws/aws-cdk/issues/5215",
+            "trace": [
+              "Annotations.addMessage (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/jsii-kernel-7Yc3wg/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1213)",
+              "Annotations.addWarning (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/jsii-kernel-7Yc3wg/node_modules/aws-cdk-lib/core/lib/annotations.js:1:600)",
+              "new AutoScalingGroup (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/jsii-kernel-7Yc3wg/node_modules/aws-cdk-lib/aws-autoscaling/lib/auto-scaling-group.js:1:13568)",
+              "Kernel._create (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/tmpg96g6gka/lib/program.js:8467:29)",
+              "Kernel.create (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/tmpg96g6gka/lib/program.js:8196:29)",
+              "KernelHost.processRequest (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/tmpg96g6gka/lib/program.js:11482:36)",
+              "KernelHost.run (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/tmpg96g6gka/lib/program.js:11442:22)",
+              "Immediate._onImmediate (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/tmpg96g6gka/lib/program.js:11443:46)",
+              "process.processImmediate (node:internal/timers:476:21)"
+            ]
+          }
+        ],
+        "/EcsClusterStack/SPOT_ASG/ASG": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SPOTASG1F22A3A0"
+          }
+        ],
+        "/EcsClusterStack/SpotAsgCapacityProvider/SpotAsgCapacityProvider": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SpotAsgCapacityProvider1E99DCF5"
+          }
+        ],
+        "/EcsClusterStack/AMD_SPOT_ASG": [
+          {
+            "type": "aws:cdk:warning",
+            "data": "desiredCapacity has been configured. Be aware this will reset the size of your AutoScalingGroup on every deployment. See https://github.com/aws/aws-cdk/issues/5215",
+            "trace": [
+              "Annotations.addMessage (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/jsii-kernel-7Yc3wg/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1213)",
+              "Annotations.addWarning (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/jsii-kernel-7Yc3wg/node_modules/aws-cdk-lib/core/lib/annotations.js:1:600)",
+              "new AutoScalingGroup (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/jsii-kernel-7Yc3wg/node_modules/aws-cdk-lib/aws-autoscaling/lib/auto-scaling-group.js:1:13568)",
+              "Kernel._create (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/tmpg96g6gka/lib/program.js:8467:29)",
+              "Kernel.create (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/tmpg96g6gka/lib/program.js:8196:29)",
+              "KernelHost.processRequest (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/tmpg96g6gka/lib/program.js:11482:36)",
+              "KernelHost.run (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/tmpg96g6gka/lib/program.js:11442:22)",
+              "Immediate._onImmediate (/private/var/folders/bj/wqv1fcvj53sd035d8mpfqbth0000gr/T/tmpg96g6gka/lib/program.js:11443:46)",
+              "process.processImmediate (node:internal/timers:476:21)"
+            ]
+          }
+        ],
+        "/EcsClusterStack/AMD_SPOT_ASG/ASG": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AMDSPOTASG0B22309D"
+          }
+        ],
+        "/EcsClusterStack/AmdSpotAsgCapacityProvider/AmdSpotAsgCapacityProvider": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AmdSpotAsgCapacityProviderD1E0FB3A"
+          }
+        ],
+        "/EcsClusterStack/ApiNamespaceArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiNamespaceArn"
+          }
+        ],
+        "/EcsClusterStack/ApiNamespaceName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiNamespaceName"
+          }
+        ],
+        "/EcsClusterStack/ApiNamespaceId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiNamespaceId"
+          }
+        ],
+        "/EcsClusterStack/amdApiClusterSGID": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amdApiClusterSGID"
+          }
+        ],
+        "/EcsClusterStack/EcsApiMeshArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsApiMeshArn"
+          }
+        ],
+        "/EcsClusterStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/EcsClusterStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/EcsClusterStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "EcsClusterStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

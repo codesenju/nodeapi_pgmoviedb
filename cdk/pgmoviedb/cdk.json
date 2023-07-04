@@ -1,0 +1,4 @@
+{
+"app": "python3 pgmoviedb.py",
+"watch": "python3 pgmoviedb.py"
+}

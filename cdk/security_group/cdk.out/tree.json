@@ -1,0 +1,927 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "SGStack": {
+        "id": "SGStack",
+        "path": "SGStack",
+        "children": {
+          "ImportedVpc": {
+            "id": "ImportedVpc",
+            "path": "SGStack/ImportedVpc",
+            "children": {
+              "PublicSubnet1": {
+                "id": "PublicSubnet1",
+                "path": "SGStack/ImportedVpc/PublicSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PublicSubnet2": {
+                "id": "PublicSubnet2",
+                "path": "SGStack/ImportedVpc/PublicSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PublicSubnet3": {
+                "id": "PublicSubnet3",
+                "path": "SGStack/ImportedVpc/PublicSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PrivateSubnet1": {
+                "id": "PrivateSubnet1",
+                "path": "SGStack/ImportedVpc/PrivateSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PrivateSubnet2": {
+                "id": "PrivateSubnet2",
+                "path": "SGStack/ImportedVpc/PrivateSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PrivateSubnet3": {
+                "id": "PrivateSubnet3",
+                "path": "SGStack/ImportedVpc/PrivateSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "Elb_SG": {
+            "id": "Elb_SG",
+            "path": "SGStack/Elb_SG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SGStack/Elb_SG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "SGStack/Elb_SG",
+                    "groupName": "Elb_SG",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "17.0.0.0/16",
+                        "ipProtocol": "tcp",
+                        "fromPort": 32768,
+                        "toPort": 60999,
+                        "description": "Allow outbound ECS ephemeral port range to targets."
+                      },
+                      {
+                        "cidrIp": "17.0.0.0/16",
+                        "ipProtocol": "tcp",
+                        "fromPort": 5000,
+                        "toPort": 5000,
+                        "description": "Allow outbound traffic on port 5000 to VPC CIDR block."
+                      }
+                    ],
+                    "securityGroupIngress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 80,
+                        "toPort": 80,
+                        "description": "Allow inbound HTTP from from outside world."
+                      },
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 443,
+                        "toPort": 443,
+                        "description": "Allow inbound HTTPS from from outside world."
+                      }
+                    ],
+                    "vpcId": "vpc-0f168d381ce65cfb5"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.55.0"
+                }
+              },
+              "to SGStackNodeapiSGE9955138:3000": {
+                "id": "to SGStackNodeapiSGE9955138:3000",
+                "path": "SGStack/Elb_SG/to SGStackNodeapiSGE9955138:3000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                  "aws:cdk:cloudformation:props": {
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "ElbSG3E53E50B",
+                        "GroupId"
+                      ]
+                    },
+                    "ipProtocol": "tcp",
+                    "description": "Allow traffic to nodeaapi target on port 3000.",
+                    "destinationSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "NodeapiSGA07C109D",
+                        "GroupId"
+                      ]
+                    },
+                    "fromPort": 3000,
+                    "toPort": 3000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                  "version": "2.55.0"
+                }
+              },
+              "to SGStackIndexSGE0495283:5000": {
+                "id": "to SGStackIndexSGE0495283:5000",
+                "path": "SGStack/Elb_SG/to SGStackIndexSGE0495283:5000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                  "aws:cdk:cloudformation:props": {
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "ElbSG3E53E50B",
+                        "GroupId"
+                      ]
+                    },
+                    "ipProtocol": "tcp",
+                    "description": "Allow traffic to index target on port 5000.",
+                    "destinationSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "IndexSGB8721386",
+                        "GroupId"
+                      ]
+                    },
+                    "fromPort": 5000,
+                    "toPort": 5000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                  "version": "2.55.0"
+                }
+              },
+              "to SGStackFrontendSGDAAA2EE6:5000": {
+                "id": "to SGStackFrontendSGDAAA2EE6:5000",
+                "path": "SGStack/Elb_SG/to SGStackFrontendSGDAAA2EE6:5000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                  "aws:cdk:cloudformation:props": {
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "ElbSG3E53E50B",
+                        "GroupId"
+                      ]
+                    },
+                    "ipProtocol": "tcp",
+                    "description": "Allow traffic to frontend target on port 5000.",
+                    "destinationSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "FrontendSGA609D887",
+                        "GroupId"
+                      ]
+                    },
+                    "fromPort": 5000,
+                    "toPort": 5000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                  "version": "2.55.0"
+                }
+              },
+              "to SGStackvgwSG982DE95C:5000": {
+                "id": "to SGStackvgwSG982DE95C:5000",
+                "path": "SGStack/Elb_SG/to SGStackvgwSG982DE95C:5000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                  "aws:cdk:cloudformation:props": {
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "ElbSG3E53E50B",
+                        "GroupId"
+                      ]
+                    },
+                    "ipProtocol": "tcp",
+                    "description": "Allow traffic to Virtual Gateway target on port 5000.",
+                    "destinationSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "vgwSGF9435F8A",
+                        "GroupId"
+                      ]
+                    },
+                    "fromPort": 5000,
+                    "toPort": 5000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.55.0"
+            }
+          },
+          "Nodeapi_SG": {
+            "id": "Nodeapi_SG",
+            "path": "SGStack/Nodeapi_SG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SGStack/Nodeapi_SG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "SGStack/Nodeapi_SG",
+                    "groupName": "Nodeapi_SG",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 443,
+                        "toPort": 443,
+                        "description": "Allow outbound 443"
+                      }
+                    ],
+                    "vpcId": "vpc-0f168d381ce65cfb5"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.55.0"
+                }
+              },
+              "from SGStackIndexSGE0495283:3000": {
+                "id": "from SGStackIndexSGE0495283:3000",
+                "path": "SGStack/Nodeapi_SG/from SGStackIndexSGE0495283:3000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "tcp",
+                    "description": "Allow inbound 3000 from index",
+                    "fromPort": 3000,
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "NodeapiSGA07C109D",
+                        "GroupId"
+                      ]
+                    },
+                    "sourceSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "IndexSGB8721386",
+                        "GroupId"
+                      ]
+                    },
+                    "toPort": 3000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.55.0"
+                }
+              },
+              "from SGStackElbSGB205EC9A:3000": {
+                "id": "from SGStackElbSGB205EC9A:3000",
+                "path": "SGStack/Nodeapi_SG/from SGStackElbSGB205EC9A:3000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "tcp",
+                    "description": "Allow inbound 3000 from ELB",
+                    "fromPort": 3000,
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "NodeapiSGA07C109D",
+                        "GroupId"
+                      ]
+                    },
+                    "sourceSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "ElbSG3E53E50B",
+                        "GroupId"
+                      ]
+                    },
+                    "toPort": 3000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.55.0"
+                }
+              },
+              "to SGStackPostgresSG29D36B09:5432": {
+                "id": "to SGStackPostgresSG29D36B09:5432",
+                "path": "SGStack/Nodeapi_SG/to SGStackPostgresSG29D36B09:5432",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                  "aws:cdk:cloudformation:props": {
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "NodeapiSGA07C109D",
+                        "GroupId"
+                      ]
+                    },
+                    "ipProtocol": "tcp",
+                    "description": "Allow outbound 5432 to postgres",
+                    "destinationSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "PostgresSGA5349B77",
+                        "GroupId"
+                      ]
+                    },
+                    "fromPort": 5432,
+                    "toPort": 5432
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.55.0"
+            }
+          },
+          "Postgres_SG": {
+            "id": "Postgres_SG",
+            "path": "SGStack/Postgres_SG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SGStack/Postgres_SG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "SGStack/Postgres_SG",
+                    "groupName": "Postgres_SG",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 443,
+                        "toPort": 443,
+                        "description": "Allow outbound 443"
+                      }
+                    ],
+                    "vpcId": "vpc-0f168d381ce65cfb5"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.55.0"
+                }
+              },
+              "from SGStackNodeapiSGE9955138:5432": {
+                "id": "from SGStackNodeapiSGE9955138:5432",
+                "path": "SGStack/Postgres_SG/from SGStackNodeapiSGE9955138:5432",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "tcp",
+                    "description": "Allow inbound 5432 for postgres db from Nodeapi",
+                    "fromPort": 5432,
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "PostgresSGA5349B77",
+                        "GroupId"
+                      ]
+                    },
+                    "sourceSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "NodeapiSGA07C109D",
+                        "GroupId"
+                      ]
+                    },
+                    "toPort": 5432
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.55.0"
+                }
+              },
+              "to SGStackEFSallowInbound2049SG650B26E9:2049": {
+                "id": "to SGStackEFSallowInbound2049SG650B26E9:2049",
+                "path": "SGStack/Postgres_SG/to SGStackEFSallowInbound2049SG650B26E9:2049",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                  "aws:cdk:cloudformation:props": {
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "PostgresSGA5349B77",
+                        "GroupId"
+                      ]
+                    },
+                    "ipProtocol": "tcp",
+                    "description": "Allow outbound 2049 for postgres db to EFS",
+                    "destinationSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "EFSallowInbound2049SG521C9F79",
+                        "GroupId"
+                      ]
+                    },
+                    "fromPort": 2049,
+                    "toPort": 2049
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.55.0"
+            }
+          },
+          "Index_SG": {
+            "id": "Index_SG",
+            "path": "SGStack/Index_SG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SGStack/Index_SG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "SGStack/Index_SG",
+                    "groupName": "Index_SG",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 5000,
+                        "toPort": 5000,
+                        "description": "Allow outbound 5000 to index-backend"
+                      },
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 443,
+                        "toPort": 443,
+                        "description": "Allow outbound 443"
+                      }
+                    ],
+                    "vpcId": "vpc-0f168d381ce65cfb5"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.55.0"
+                }
+              },
+              "from SGStackFrontendSGDAAA2EE6:5000": {
+                "id": "from SGStackFrontendSGDAAA2EE6:5000",
+                "path": "SGStack/Index_SG/from SGStackFrontendSGDAAA2EE6:5000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "tcp",
+                    "description": "Allow inbound 5000 from Frontend",
+                    "fromPort": 5000,
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "IndexSGB8721386",
+                        "GroupId"
+                      ]
+                    },
+                    "sourceSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "FrontendSGA609D887",
+                        "GroupId"
+                      ]
+                    },
+                    "toPort": 5000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.55.0"
+                }
+              },
+              "to SGStackNodeapiSGE9955138:3000": {
+                "id": "to SGStackNodeapiSGE9955138:3000",
+                "path": "SGStack/Index_SG/to SGStackNodeapiSGE9955138:3000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                  "aws:cdk:cloudformation:props": {
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "IndexSGB8721386",
+                        "GroupId"
+                      ]
+                    },
+                    "ipProtocol": "tcp",
+                    "description": "Allow outbound 3000 to Nodeapi",
+                    "destinationSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "NodeapiSGA07C109D",
+                        "GroupId"
+                      ]
+                    },
+                    "fromPort": 3000,
+                    "toPort": 3000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                  "version": "2.55.0"
+                }
+              },
+              "from SGStackElbSGB205EC9A:5000": {
+                "id": "from SGStackElbSGB205EC9A:5000",
+                "path": "SGStack/Index_SG/from SGStackElbSGB205EC9A:5000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "tcp",
+                    "description": "Allow inbound 5000 from ELB",
+                    "fromPort": 5000,
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "IndexSGB8721386",
+                        "GroupId"
+                      ]
+                    },
+                    "sourceSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "ElbSG3E53E50B",
+                        "GroupId"
+                      ]
+                    },
+                    "toPort": 5000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.55.0"
+            }
+          },
+          "Frontend_SG": {
+            "id": "Frontend_SG",
+            "path": "SGStack/Frontend_SG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SGStack/Frontend_SG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "SGStack/Frontend_SG",
+                    "groupName": "Frontend_SG",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 443,
+                        "toPort": 443,
+                        "description": "Allow outbound 443"
+                      }
+                    ],
+                    "vpcId": "vpc-0f168d381ce65cfb5"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.55.0"
+                }
+              },
+              "to SGStackIndexSGE0495283:5000": {
+                "id": "to SGStackIndexSGE0495283:5000",
+                "path": "SGStack/Frontend_SG/to SGStackIndexSGE0495283:5000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                  "aws:cdk:cloudformation:props": {
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "FrontendSGA609D887",
+                        "GroupId"
+                      ]
+                    },
+                    "ipProtocol": "tcp",
+                    "description": "Allow outbound 5000 to index",
+                    "destinationSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "IndexSGB8721386",
+                        "GroupId"
+                      ]
+                    },
+                    "fromPort": 5000,
+                    "toPort": 5000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                  "version": "2.55.0"
+                }
+              },
+              "from SGStackElbSGB205EC9A:5000": {
+                "id": "from SGStackElbSGB205EC9A:5000",
+                "path": "SGStack/Frontend_SG/from SGStackElbSGB205EC9A:5000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "tcp",
+                    "description": "Allow inbound 5000 from ELB",
+                    "fromPort": 5000,
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "FrontendSGA609D887",
+                        "GroupId"
+                      ]
+                    },
+                    "sourceSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "ElbSG3E53E50B",
+                        "GroupId"
+                      ]
+                    },
+                    "toPort": 5000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.55.0"
+            }
+          },
+          "EFS_allowInbound2049_SG": {
+            "id": "EFS_allowInbound2049_SG",
+            "path": "SGStack/EFS_allowInbound2049_SG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SGStack/EFS_allowInbound2049_SG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "SGStack/EFS_allowInbound2049_SG",
+                    "groupName": "PostgresEFS_SG",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "255.255.255.255/32",
+                        "description": "Disallow all traffic",
+                        "ipProtocol": "icmp",
+                        "fromPort": 252,
+                        "toPort": 86
+                      }
+                    ],
+                    "securityGroupIngress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 2049,
+                        "toPort": 2049,
+                        "description": "EFS Filesystem to allow inbound 2049 from anywhere"
+                      }
+                    ],
+                    "vpcId": "vpc-0f168d381ce65cfb5"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.55.0"
+            }
+          },
+          "vgw_SG": {
+            "id": "vgw_SG",
+            "path": "SGStack/vgw_SG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SGStack/vgw_SG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "SGStack/vgw_SG",
+                    "groupName": "vgw_SG",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 443,
+                        "toPort": 443,
+                        "description": "Allow outbound 443"
+                      }
+                    ],
+                    "vpcId": "vpc-0f168d381ce65cfb5"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.55.0"
+                }
+              },
+              "to SGStackFrontendSGDAAA2EE6:5000": {
+                "id": "to SGStackFrontendSGDAAA2EE6:5000",
+                "path": "SGStack/vgw_SG/to SGStackFrontendSGDAAA2EE6:5000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                  "aws:cdk:cloudformation:props": {
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "vgwSGF9435F8A",
+                        "GroupId"
+                      ]
+                    },
+                    "ipProtocol": "tcp",
+                    "description": "Allow outbound 5000 to Frontend",
+                    "destinationSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "FrontendSGA609D887",
+                        "GroupId"
+                      ]
+                    },
+                    "fromPort": 5000,
+                    "toPort": 5000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                  "version": "2.55.0"
+                }
+              },
+              "from SGStackElbSGB205EC9A:5000": {
+                "id": "from SGStackElbSGB205EC9A:5000",
+                "path": "SGStack/vgw_SG/from SGStackElbSGB205EC9A:5000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "tcp",
+                    "description": "Allow inbound 5000 from ELB",
+                    "fromPort": 5000,
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "vgwSGF9435F8A",
+                        "GroupId"
+                      ]
+                    },
+                    "sourceSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "ElbSG3E53E50B",
+                        "GroupId"
+                      ]
+                    },
+                    "toPort": 5000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.55.0"
+            }
+          },
+          "pgmoviedb_sg": {
+            "id": "pgmoviedb_sg",
+            "path": "SGStack/pgmoviedb_sg",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "nodeapi_sg": {
+            "id": "nodeapi_sg",
+            "path": "SGStack/nodeapi_sg",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "index_sg": {
+            "id": "index_sg",
+            "path": "SGStack/index_sg",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "frontend_sg": {
+            "id": "frontend_sg",
+            "path": "SGStack/frontend_sg",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "elb_sg": {
+            "id": "elb_sg",
+            "path": "SGStack/elb_sg",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "efs_sg": {
+            "id": "efs_sg",
+            "path": "SGStack/efs_sg",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "vgw_sg": {
+            "id": "vgw_sg",
+            "path": "SGStack/vgw_sg",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "SGStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "SGStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.213"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "SGStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.55.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "SGStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.55.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.55.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.1.213"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.55.0"
+    }
+  }
+}

@@ -1,0 +1,4 @@
+{
+"app": "python3 vgw.py",
+"watch": "python3 vgw.py"
+}

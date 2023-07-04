@@ -1,0 +1,20 @@
+{
+  "version": "22.0.0",
+  "files": {
+    "0aa0cbd12bee6c838d9b32389b3c2999a09bf24c80661b1165d0061d6ca4b66f": {
+      "source": {
+        "path": "NodeapiStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "587878432697-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-587878432697-us-east-1",
+          "objectKey": "0aa0cbd12bee6c838d9b32389b3c2999a09bf24c80661b1165d0061d6ca4b66f.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-file-publishing-role-587878432697-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

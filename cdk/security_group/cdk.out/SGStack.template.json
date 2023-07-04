@@ -1,0 +1,689 @@
+{
+ "Resources": {
+  "ElbSG3E53E50B": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "SGStack/Elb_SG",
+    "GroupName": "Elb_SG",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "17.0.0.0/16",
+      "Description": "Allow outbound ECS ephemeral port range to targets.",
+      "FromPort": 32768,
+      "IpProtocol": "tcp",
+      "ToPort": 60999
+     },
+     {
+      "CidrIp": "17.0.0.0/16",
+      "Description": "Allow outbound traffic on port 5000 to VPC CIDR block.",
+      "FromPort": 5000,
+      "IpProtocol": "tcp",
+      "ToPort": 5000
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow inbound HTTP from from outside world.",
+      "FromPort": 80,
+      "IpProtocol": "tcp",
+      "ToPort": 80
+     },
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow inbound HTTPS from from outside world.",
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "VpcId": "vpc-0f168d381ce65cfb5"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Elb_SG/Resource"
+   }
+  },
+  "ElbSGtoSGStackNodeapiSGE99551383000F85FB403": {
+   "Type": "AWS::EC2::SecurityGroupEgress",
+   "Properties": {
+    "GroupId": {
+     "Fn::GetAtt": [
+      "ElbSG3E53E50B",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "Description": "Allow traffic to nodeaapi target on port 3000.",
+    "DestinationSecurityGroupId": {
+     "Fn::GetAtt": [
+      "NodeapiSGA07C109D",
+      "GroupId"
+     ]
+    },
+    "FromPort": 3000,
+    "ToPort": 3000
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Elb_SG/to SGStackNodeapiSGE9955138:3000"
+   }
+  },
+  "ElbSGtoSGStackIndexSGE0495283500006C3E9E5": {
+   "Type": "AWS::EC2::SecurityGroupEgress",
+   "Properties": {
+    "GroupId": {
+     "Fn::GetAtt": [
+      "ElbSG3E53E50B",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "Description": "Allow traffic to index target on port 5000.",
+    "DestinationSecurityGroupId": {
+     "Fn::GetAtt": [
+      "IndexSGB8721386",
+      "GroupId"
+     ]
+    },
+    "FromPort": 5000,
+    "ToPort": 5000
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Elb_SG/to SGStackIndexSGE0495283:5000"
+   }
+  },
+  "ElbSGtoSGStackFrontendSGDAAA2EE65000F9D159B2": {
+   "Type": "AWS::EC2::SecurityGroupEgress",
+   "Properties": {
+    "GroupId": {
+     "Fn::GetAtt": [
+      "ElbSG3E53E50B",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "Description": "Allow traffic to frontend target on port 5000.",
+    "DestinationSecurityGroupId": {
+     "Fn::GetAtt": [
+      "FrontendSGA609D887",
+      "GroupId"
+     ]
+    },
+    "FromPort": 5000,
+    "ToPort": 5000
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Elb_SG/to SGStackFrontendSGDAAA2EE6:5000"
+   }
+  },
+  "ElbSGtoSGStackvgwSG982DE95C50006C8F8C32": {
+   "Type": "AWS::EC2::SecurityGroupEgress",
+   "Properties": {
+    "GroupId": {
+     "Fn::GetAtt": [
+      "ElbSG3E53E50B",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "Description": "Allow traffic to Virtual Gateway target on port 5000.",
+    "DestinationSecurityGroupId": {
+     "Fn::GetAtt": [
+      "vgwSGF9435F8A",
+      "GroupId"
+     ]
+    },
+    "FromPort": 5000,
+    "ToPort": 5000
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Elb_SG/to SGStackvgwSG982DE95C:5000"
+   }
+  },
+  "NodeapiSGA07C109D": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "SGStack/Nodeapi_SG",
+    "GroupName": "Nodeapi_SG",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow outbound 443",
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "VpcId": "vpc-0f168d381ce65cfb5"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Nodeapi_SG/Resource"
+   }
+  },
+  "NodeapiSGfromSGStackIndexSGE0495283300053F9CB81": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "Description": "Allow inbound 3000 from index",
+    "FromPort": 3000,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "NodeapiSGA07C109D",
+      "GroupId"
+     ]
+    },
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "IndexSGB8721386",
+      "GroupId"
+     ]
+    },
+    "ToPort": 3000
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Nodeapi_SG/from SGStackIndexSGE0495283:3000"
+   }
+  },
+  "NodeapiSGfromSGStackElbSGB205EC9A3000A62BB91F": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "Description": "Allow inbound 3000 from ELB",
+    "FromPort": 3000,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "NodeapiSGA07C109D",
+      "GroupId"
+     ]
+    },
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "ElbSG3E53E50B",
+      "GroupId"
+     ]
+    },
+    "ToPort": 3000
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Nodeapi_SG/from SGStackElbSGB205EC9A:3000"
+   }
+  },
+  "NodeapiSGtoSGStackPostgresSG29D36B095432BC1F5FA3": {
+   "Type": "AWS::EC2::SecurityGroupEgress",
+   "Properties": {
+    "GroupId": {
+     "Fn::GetAtt": [
+      "NodeapiSGA07C109D",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "Description": "Allow outbound 5432 to postgres",
+    "DestinationSecurityGroupId": {
+     "Fn::GetAtt": [
+      "PostgresSGA5349B77",
+      "GroupId"
+     ]
+    },
+    "FromPort": 5432,
+    "ToPort": 5432
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Nodeapi_SG/to SGStackPostgresSG29D36B09:5432"
+   }
+  },
+  "PostgresSGA5349B77": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "SGStack/Postgres_SG",
+    "GroupName": "Postgres_SG",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow outbound 443",
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "VpcId": "vpc-0f168d381ce65cfb5"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Postgres_SG/Resource"
+   }
+  },
+  "PostgresSGfromSGStackNodeapiSGE9955138543212533268": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "Description": "Allow inbound 5432 for postgres db from Nodeapi",
+    "FromPort": 5432,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "PostgresSGA5349B77",
+      "GroupId"
+     ]
+    },
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "NodeapiSGA07C109D",
+      "GroupId"
+     ]
+    },
+    "ToPort": 5432
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Postgres_SG/from SGStackNodeapiSGE9955138:5432"
+   }
+  },
+  "PostgresSGtoSGStackEFSallowInbound2049SG650B26E92049EA2E4F5B": {
+   "Type": "AWS::EC2::SecurityGroupEgress",
+   "Properties": {
+    "GroupId": {
+     "Fn::GetAtt": [
+      "PostgresSGA5349B77",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "Description": "Allow outbound 2049 for postgres db to EFS",
+    "DestinationSecurityGroupId": {
+     "Fn::GetAtt": [
+      "EFSallowInbound2049SG521C9F79",
+      "GroupId"
+     ]
+    },
+    "FromPort": 2049,
+    "ToPort": 2049
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Postgres_SG/to SGStackEFSallowInbound2049SG650B26E9:2049"
+   }
+  },
+  "IndexSGB8721386": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "SGStack/Index_SG",
+    "GroupName": "Index_SG",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow outbound 5000 to index-backend",
+      "FromPort": 5000,
+      "IpProtocol": "tcp",
+      "ToPort": 5000
+     },
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow outbound 443",
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "VpcId": "vpc-0f168d381ce65cfb5"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Index_SG/Resource"
+   }
+  },
+  "IndexSGfromSGStackFrontendSGDAAA2EE65000822EBE2F": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "Description": "Allow inbound 5000 from Frontend",
+    "FromPort": 5000,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "IndexSGB8721386",
+      "GroupId"
+     ]
+    },
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "FrontendSGA609D887",
+      "GroupId"
+     ]
+    },
+    "ToPort": 5000
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Index_SG/from SGStackFrontendSGDAAA2EE6:5000"
+   }
+  },
+  "IndexSGtoSGStackNodeapiSGE995513830004C44DC89": {
+   "Type": "AWS::EC2::SecurityGroupEgress",
+   "Properties": {
+    "GroupId": {
+     "Fn::GetAtt": [
+      "IndexSGB8721386",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "Description": "Allow outbound 3000 to Nodeapi",
+    "DestinationSecurityGroupId": {
+     "Fn::GetAtt": [
+      "NodeapiSGA07C109D",
+      "GroupId"
+     ]
+    },
+    "FromPort": 3000,
+    "ToPort": 3000
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Index_SG/to SGStackNodeapiSGE9955138:3000"
+   }
+  },
+  "IndexSGfromSGStackElbSGB205EC9A50005CD6A908": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "Description": "Allow inbound 5000 from ELB",
+    "FromPort": 5000,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "IndexSGB8721386",
+      "GroupId"
+     ]
+    },
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "ElbSG3E53E50B",
+      "GroupId"
+     ]
+    },
+    "ToPort": 5000
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Index_SG/from SGStackElbSGB205EC9A:5000"
+   }
+  },
+  "FrontendSGA609D887": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "SGStack/Frontend_SG",
+    "GroupName": "Frontend_SG",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow outbound 443",
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "VpcId": "vpc-0f168d381ce65cfb5"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Frontend_SG/Resource"
+   }
+  },
+  "FrontendSGtoSGStackIndexSGE04952835000BE0EC2C9": {
+   "Type": "AWS::EC2::SecurityGroupEgress",
+   "Properties": {
+    "GroupId": {
+     "Fn::GetAtt": [
+      "FrontendSGA609D887",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "Description": "Allow outbound 5000 to index",
+    "DestinationSecurityGroupId": {
+     "Fn::GetAtt": [
+      "IndexSGB8721386",
+      "GroupId"
+     ]
+    },
+    "FromPort": 5000,
+    "ToPort": 5000
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Frontend_SG/to SGStackIndexSGE0495283:5000"
+   }
+  },
+  "FrontendSGfromSGStackElbSGB205EC9A5000FA5FF2F7": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "Description": "Allow inbound 5000 from ELB",
+    "FromPort": 5000,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "FrontendSGA609D887",
+      "GroupId"
+     ]
+    },
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "ElbSG3E53E50B",
+      "GroupId"
+     ]
+    },
+    "ToPort": 5000
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/Frontend_SG/from SGStackElbSGB205EC9A:5000"
+   }
+  },
+  "EFSallowInbound2049SG521C9F79": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "SGStack/EFS_allowInbound2049_SG",
+    "GroupName": "PostgresEFS_SG",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "255.255.255.255/32",
+      "Description": "Disallow all traffic",
+      "FromPort": 252,
+      "IpProtocol": "icmp",
+      "ToPort": 86
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "EFS Filesystem to allow inbound 2049 from anywhere",
+      "FromPort": 2049,
+      "IpProtocol": "tcp",
+      "ToPort": 2049
+     }
+    ],
+    "VpcId": "vpc-0f168d381ce65cfb5"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/EFS_allowInbound2049_SG/Resource"
+   }
+  },
+  "vgwSGF9435F8A": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "SGStack/vgw_SG",
+    "GroupName": "vgw_SG",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow outbound 443",
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "VpcId": "vpc-0f168d381ce65cfb5"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/vgw_SG/Resource"
+   }
+  },
+  "vgwSGtoSGStackFrontendSGDAAA2EE6500019858F12": {
+   "Type": "AWS::EC2::SecurityGroupEgress",
+   "Properties": {
+    "GroupId": {
+     "Fn::GetAtt": [
+      "vgwSGF9435F8A",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "Description": "Allow outbound 5000 to Frontend",
+    "DestinationSecurityGroupId": {
+     "Fn::GetAtt": [
+      "FrontendSGA609D887",
+      "GroupId"
+     ]
+    },
+    "FromPort": 5000,
+    "ToPort": 5000
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/vgw_SG/to SGStackFrontendSGDAAA2EE6:5000"
+   }
+  },
+  "vgwSGfromSGStackElbSGB205EC9A5000567BFDD3": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "Description": "Allow inbound 5000 from ELB",
+    "FromPort": 5000,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "vgwSGF9435F8A",
+      "GroupId"
+     ]
+    },
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "ElbSG3E53E50B",
+      "GroupId"
+     ]
+    },
+    "ToPort": 5000
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/vgw_SG/from SGStackElbSGB205EC9A:5000"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zPSMzXVM1BMLC/WTU7J1s3JTNKrDi5JTM7WCUotzi8tSk7VAcrFpyYbAcVTk0uLMksq3YvySwt0nNPy8Au4phelFhdjCHvmgcVrQRL+pSUFpSUgFsy2Wp2AypKM/Dx9Yz1DAz1DI8Ws4sxM3aLSvJLM3FS9IAgNAL4v6le1AAAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "SGStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "pgmoviedbsg": {
+   "Value": {
+    "Fn::GetAtt": [
+     "PostgresSGA5349B77",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "pgmoviedbSGID"
+   }
+  },
+  "nodeapisg": {
+   "Value": {
+    "Fn::GetAtt": [
+     "NodeapiSGA07C109D",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "nodeapiSGID"
+   }
+  },
+  "indexsg": {
+   "Value": {
+    "Fn::GetAtt": [
+     "IndexSGB8721386",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "indexSGID"
+   }
+  },
+  "frontendsg": {
+   "Value": {
+    "Fn::GetAtt": [
+     "FrontendSGA609D887",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "frontendSGID"
+   }
+  },
+  "elbsg": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ElbSG3E53E50B",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "elbSGID"
+   }
+  },
+  "efssg": {
+   "Value": {
+    "Fn::GetAtt": [
+     "EFSallowInbound2049SG521C9F79",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "efsSGID"
+   }
+  },
+  "vgwsg": {
+   "Value": {
+    "Fn::GetAtt": [
+     "vgwSGF9435F8A",
+     "GroupId"
+    ]
+   },
+   "Export": {
+    "Name": "vgwSGID"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

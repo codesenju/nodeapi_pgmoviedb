@@ -1,0 +1,280 @@
+{
+  "version": "22.0.0",
+  "artifacts": {
+    "VpcInfraStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "VpcInfraStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "VpcInfraStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://587878432697/us-east-1",
+      "properties": {
+        "templateFile": "VpcInfraStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-deploy-role-587878432697-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-cfn-exec-role-587878432697-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-587878432697-us-east-1/9f6ce0d06e934c32806059f08580d4bb0b50d23300d69c91c997b90ecb3a5859.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "VpcInfraStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-lookup-role-587878432697-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "VpcInfraStack.assets"
+      ],
+      "metadata": {
+        "/VpcInfraStack/ApiProjectVpc/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpc88718D71"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet1Subnet9944239D"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet1RouteTableBC1E6D24"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet1RouteTableAssociation23FF755C"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet1DefaultRouteDFA04F2A"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet1/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet1EIP097FE3A8"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet1NATGateway96C1BFFF"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet2SubnetA61E8F85"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet2RouteTableF2594DDF"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet2RouteTableAssociation6AC5BCAB"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet2DefaultRoute22113CF1"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet2/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet2EIPD0906495"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet2/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet2NATGateway4CCB7B15"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet3/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet3Subnet65F0FD07"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet3/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet3RouteTable38C41BC1"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet3/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet3RouteTableAssociation0545308D"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet3/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet3DefaultRoute215E2D2F"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet3/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet3EIPA2A8DE91"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PublicSubnet3/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPublicSubnet3NATGatewayD09861E1"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPrivateSubnet1SubnetF9E42D09"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPrivateSubnet1RouteTableF6888B30"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPrivateSubnet1RouteTableAssociation9EBD4B79"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PrivateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPrivateSubnet1DefaultRoute274C17ED"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPrivateSubnet2Subnet0D2C6BE0"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPrivateSubnet2RouteTable2A6B23EC"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPrivateSubnet2RouteTableAssociationD6A79BD0"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PrivateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPrivateSubnet2DefaultRouteB2E43DBC"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PrivateSubnet3/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPrivateSubnet3Subnet2BE82E74"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PrivateSubnet3/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPrivateSubnet3RouteTable051FC932"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PrivateSubnet3/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPrivateSubnet3RouteTableAssociation506479B8"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/PrivateSubnet3/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcPrivateSubnet3DefaultRoute1B652152"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcIGW8608BF98"
+          }
+        ],
+        "/VpcInfraStack/ApiProjectVpc/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiProjectVpcVPCGWEC0301D9"
+          }
+        ],
+        "/VpcInfraStack/DefaultSecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DefaultSecurityGroup2EBD5835"
+          }
+        ],
+        "/VpcInfraStack/ApiVpcId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiVpcId"
+          }
+        ],
+        "/VpcInfraStack/ApiVpcDefaultSecurityGroupId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiVpcDefaultSecurityGroupId"
+          }
+        ],
+        "/VpcInfraStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/VpcInfraStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/VpcInfraStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "VpcInfraStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

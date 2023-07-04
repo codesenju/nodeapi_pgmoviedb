@@ -1,0 +1,723 @@
+{
+ "Resources": {
+  "ImportedIndexSGfromFrontendStackimportedelbSG570C35E4500013BA8729": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "Description": "Load balancer to target",
+    "FromPort": 5000,
+    "GroupId": {
+     "Fn::ImportValue": "frontendSGID"
+    },
+    "SourceSecurityGroupId": {
+     "Fn::ImportValue": "elbSGID"
+    },
+    "ToPort": 5000
+   },
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/ImportedIndexSG/from FrontendStackimportedelbSG570C35E4:5000"
+   }
+  },
+  "importedelbSGfrom000008011DCB00D": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "CidrIp": "0.0.0.0/0",
+    "Description": "Allow from anyone on port 80",
+    "FromPort": 80,
+    "GroupId": {
+     "Fn::ImportValue": "elbSGID"
+    },
+    "ToPort": 80
+   },
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/importedelbSG/from 0.0.0.0_0:80"
+   }
+  },
+  "ImportedTaskExecutionRolePolicy23E279F9": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "frontendLogGroupB0BC7A13",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ImportedTaskExecutionRolePolicy23E279F9",
+    "Roles": [
+     "ecsTaskExecutionRole"
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/ImportedTaskExecutionRole/Policy/Resource"
+   }
+  },
+  "ImportedEcsExecTaskRolePolicy6CAEEF74": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ssmmessages:CreateControlChannel",
+        "ssmmessages:CreateDataChannel",
+        "ssmmessages:OpenControlChannel",
+        "ssmmessages:OpenDataChannel"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "logs:DescribeLogGroups",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:DescribeLogStreams",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ImportedEcsExecTaskRolePolicy6CAEEF74",
+    "Roles": [
+     "000A_ecsExecTaskRole"
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/ImportedEcsExecTaskRole/Policy/Resource"
+   }
+  },
+  "nodeE52CB09E": {
+   "Type": "AWS::AppMesh::VirtualNode",
+   "Properties": {
+    "MeshName": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::Split": [
+        "/",
+        {
+         "Fn::Select": [
+          5,
+          {
+           "Fn::Split": [
+            ":",
+            {
+             "Fn::ImportValue": "EcsApiMeshArn"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "Spec": {
+     "Backends": [
+      {
+       "VirtualService": {
+        "VirtualServiceName": "index.api.local"
+       }
+      }
+     ],
+     "Listeners": [
+      {
+       "HealthCheck": {
+        "HealthyThreshold": 3,
+        "IntervalMillis": 5000,
+        "Path": "/health",
+        "Port": 5000,
+        "Protocol": "http",
+        "TimeoutMillis": 2000,
+        "UnhealthyThreshold": 2
+       },
+       "PortMapping": {
+        "Port": 5000,
+        "Protocol": "http"
+       },
+       "Timeout": {
+        "HTTP": {
+         "Idle": {
+          "Unit": "ms",
+          "Value": 5000
+         }
+        }
+       }
+      }
+     ],
+     "Logging": {
+      "AccessLog": {
+       "File": {
+        "Path": "/dev/stdout"
+       }
+      }
+     },
+     "ServiceDiscovery": {
+      "DNS": {
+       "Hostname": "frontend.api.local"
+      }
+     }
+    },
+    "MeshOwner": {
+     "Fn::Select": [
+      4,
+      {
+       "Fn::Split": [
+        ":",
+        {
+         "Fn::ImportValue": "EcsApiMeshArn"
+        }
+       ]
+      }
+     ]
+    },
+    "VirtualNodeName": "frontend-node"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/node/Resource"
+   }
+  },
+  "frontendVirtualServiceEFCD3A36": {
+   "Type": "AWS::AppMesh::VirtualService",
+   "Properties": {
+    "MeshName": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::Split": [
+        "/",
+        {
+         "Fn::Select": [
+          5,
+          {
+           "Fn::Split": [
+            ":",
+            {
+             "Fn::ImportValue": "EcsApiMeshArn"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    "Spec": {
+     "Provider": {
+      "VirtualNode": {
+       "VirtualNodeName": {
+        "Fn::GetAtt": [
+         "nodeE52CB09E",
+         "VirtualNodeName"
+        ]
+       }
+      }
+     }
+    },
+    "VirtualServiceName": {
+     "Fn::Join": [
+      "",
+      [
+       "frontend.",
+       {
+        "Fn::ImportValue": "ApiNamespaceName"
+       }
+      ]
+     ]
+    },
+    "MeshOwner": {
+     "Fn::Select": [
+      4,
+      {
+       "Fn::Split": [
+        ":",
+        {
+         "Fn::ImportValue": "EcsApiMeshArn"
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/frontendVirtualService/Resource"
+   }
+  },
+  "FrontendTaskDef7D3FD156": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "DependsOn": [
+       {
+        "Condition": "HEALTHY",
+        "ContainerName": "envoy"
+       }
+      ],
+      "Essential": true,
+      "Image": "codesenju/frontend.api.local:amd",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "frontendLogGroupB0BC7A13"
+        },
+        "awslogs-stream-prefix": "frontend-container",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "MemoryReservation": 512,
+      "Name": "frontend",
+      "PortMappings": [
+       {
+        "ContainerPort": 5000,
+        "HostPort": 5000,
+        "Name": "frontend",
+        "Protocol": "tcp"
+       }
+      ]
+     },
+     {
+      "DependsOn": [
+       {
+        "Condition": "START",
+        "ContainerName": "xray"
+       }
+      ],
+      "Environment": [
+       {
+        "Name": "AWS_REGION",
+        "Value": "us-east-1"
+       },
+       {
+        "Name": "ENVOY_LOG_LEVEL",
+        "Value": "debug"
+       },
+       {
+        "Name": "ENABLE_ENVOY_STATS_TAGS",
+        "Value": "1"
+       },
+       {
+        "Name": "ENABLE_ENVOY_XRAY_TRACING",
+        "Value": "1"
+       },
+       {
+        "Name": "APPMESH_RESOURCE_ARN",
+        "Value": {
+         "Ref": "nodeE52CB09E"
+        }
+       }
+      ],
+      "Essential": true,
+      "HealthCheck": {
+       "Command": [
+        "CMD-SHELL",
+        "curl -s http://localhost:9901/server_info | grep state | grep -q LIVE"
+       ],
+       "Interval": 5,
+       "Retries": 10,
+       "Timeout": 10
+      },
+      "Image": "public.ecr.aws/appmesh/aws-appmesh-envoy:v1.15.1.0-prod",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "frontendLogGroupB0BC7A13"
+        },
+        "awslogs-stream-prefix": "/envoy-container",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "MemoryReservation": 256,
+      "Name": "envoy",
+      "Ulimits": [
+       {
+        "HardLimit": 1048576,
+        "Name": "nofile",
+        "SoftLimit": 524288
+       }
+      ],
+      "User": "1337"
+     },
+     {
+      "Environment": [
+       {
+        "Name": "AWS_REGION",
+        "Value": "us-east-1"
+       }
+      ],
+      "Essential": true,
+      "Image": "amazon/aws-xray-daemon",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "frontendLogGroupB0BC7A13"
+        },
+        "awslogs-stream-prefix": "/xray-container",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "MemoryReservation": 512,
+      "Name": "xray",
+      "User": "1337"
+     },
+     {
+      "Command": [
+       "--config=/etc/ecs/otel-config.yaml"
+      ],
+      "Environment": [
+       {
+        "Name": "AWS_REGION",
+        "Value": "us-east-1"
+       },
+       {
+        "Name": "AWS_PROMETHEUS_ENDPOINT",
+        "Value": "https://aps-workspaces.us-east-1.amazonaws.com/workspaces/ws-5f8b1530-3388-4177-82af-eae1c6d54d57/api/v1/remote_write"
+       }
+      ],
+      "Essential": true,
+      "Image": "codesenju/aws-otel-collector:amd",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "frontendLogGroupB0BC7A13"
+        },
+        "awslogs-stream-prefix": "/otel-container",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "MemoryReservation": 512,
+      "Name": "otel"
+     }
+    ],
+    "Cpu": "1024",
+    "ExecutionRoleArn": "arn:aws:iam::587878432697:role/ecsTaskExecutionRole",
+    "Family": "FrontendStackFrontendTaskDef6AE07748",
+    "Memory": "2048",
+    "NetworkMode": "awsvpc",
+    "ProxyConfiguration": {
+     "ContainerName": "envoy",
+     "ProxyConfigurationProperties": [
+      {
+       "Name": "AppPorts",
+       "Value": "5000"
+      },
+      {
+       "Name": "ProxyEgressPort",
+       "Value": "15001"
+      },
+      {
+       "Name": "ProxyIngressPort",
+       "Value": "15000"
+      },
+      {
+       "Name": "EgressIgnoredIPs",
+       "Value": "169.254.170.2,169.254.169.254"
+      },
+      {
+       "Name": "IgnoredUID",
+       "Value": "1337"
+      }
+     ],
+     "Type": "APPMESH"
+    },
+    "RequiresCompatibilities": [
+     "EC2",
+     "FARGATE"
+    ],
+    "TaskRoleArn": "arn:aws:iam::587878432697:role/000A_ecsExecTaskRole"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/FrontendTaskDef/Resource"
+   }
+  },
+  "frontendLogGroupB0BC7A13": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/ecs/api/frontend",
+    "RetentionInDays": 7
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/frontendLogGroup/Resource"
+   }
+  },
+  "FrontendService8B3C6A55": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "CapacityProviderStrategy": [
+     {
+      "CapacityProvider": "amd-spot-api-capasity-provider",
+      "Weight": 1
+     }
+    ],
+    "Cluster": "api",
+    "DeploymentConfiguration": {
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "EnableECSManagedTags": false,
+    "EnableExecuteCommand": true,
+    "HealthCheckGracePeriodSeconds": 300,
+    "LoadBalancers": [
+     {
+      "ContainerName": "frontend",
+      "ContainerPort": 5000,
+      "TargetGroupArn": {
+       "Ref": "FrontendLoadBalancerFrontendListenerFrontendTargetsGroup80B6629B"
+      }
+     }
+    ],
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "DISABLED",
+      "SecurityGroups": [
+       {
+        "Fn::ImportValue": "frontendSGID"
+       }
+      ],
+      "Subnets": [
+       "subnet-01b1911df0ad91eb7",
+       "subnet-02ae900ec00be7b2f",
+       "subnet-08d2609ae2ad75bcc"
+      ]
+     }
+    },
+    "SchedulingStrategy": "REPLICA",
+    "ServiceName": "frontend",
+    "TaskDefinition": {
+     "Ref": "FrontendTaskDef7D3FD156"
+    }
+   },
+   "DependsOn": [
+    "FrontendLoadBalancerFrontendListenerFrontendTargetsGroup80B6629B",
+    "FrontendLoadBalancerFrontendListenerCF68BDEA"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/Frontend/Service"
+   }
+  },
+  "FrontendTaskCountTargetC428911A": {
+   "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+   "Properties": {
+    "MaxCapacity": 20,
+    "MinCapacity": 3,
+    "ResourceId": {
+     "Fn::Join": [
+      "",
+      [
+       "service/api/",
+       {
+        "Fn::GetAtt": [
+         "FrontendService8B3C6A55",
+         "Name"
+        ]
+       }
+      ]
+     ]
+    },
+    "RoleARN": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::587878432697:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+      ]
+     ]
+    },
+    "ScalableDimension": "ecs:service:DesiredCount",
+    "ServiceNamespace": "ecs"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/Frontend/TaskCount/Target/Resource"
+   }
+  },
+  "FrontendTaskCountTargetCpuScalingC3082A72": {
+   "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+   "Properties": {
+    "PolicyName": "FrontendStackFrontendTaskCountTargetCpuScaling75DC2B49",
+    "PolicyType": "TargetTrackingScaling",
+    "ScalingTargetId": {
+     "Ref": "FrontendTaskCountTargetC428911A"
+    },
+    "TargetTrackingScalingPolicyConfiguration": {
+     "PredefinedMetricSpecification": {
+      "PredefinedMetricType": "ECSServiceAverageCPUUtilization"
+     },
+     "TargetValue": 60
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/Frontend/TaskCount/Target/CpuScaling/Resource"
+   }
+  },
+  "FrontendTaskCountTargetMemoryScaling7675946F": {
+   "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+   "Properties": {
+    "PolicyName": "FrontendStackFrontendTaskCountTargetMemoryScaling70ABE465",
+    "PolicyType": "TargetTrackingScaling",
+    "ScalingTargetId": {
+     "Ref": "FrontendTaskCountTargetC428911A"
+    },
+    "TargetTrackingScalingPolicyConfiguration": {
+     "PredefinedMetricSpecification": {
+      "PredefinedMetricType": "ECSServiceAverageMemoryUtilization"
+     },
+     "TargetValue": 60
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/Frontend/TaskCount/Target/MemoryScaling/Resource"
+   }
+  },
+  "FrontendLoadBalancerDBDBDFF7": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+   "Properties": {
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     }
+    ],
+    "Scheme": "internet-facing",
+    "SecurityGroups": [
+     {
+      "Fn::ImportValue": "elbSGID"
+     }
+    ],
+    "Subnets": [
+     "subnet-0a6cb385222142b7f",
+     "subnet-04b96da3213c9da46",
+     "subnet-02d97f91df8f209b0"
+    ],
+    "Type": "application"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/FrontendLoadBalancer/Resource"
+   }
+  },
+  "FrontendLoadBalancerFrontendListenerCF68BDEA": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "FrontendLoadBalancerFrontendListenerFrontendTargetsGroup80B6629B"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "FrontendLoadBalancerDBDBDFF7"
+    },
+    "Port": 80,
+    "Protocol": "HTTP"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/FrontendLoadBalancer/FrontendListener/Resource"
+   }
+  },
+  "FrontendLoadBalancerFrontendListenerFrontendTargetsGroup80B6629B": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "HealthCheckPath": "/health",
+    "Port": 80,
+    "Protocol": "HTTP",
+    "TargetGroupAttributes": [
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "ip",
+    "VpcId": "vpc-0f168d381ce65cfb5"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/FrontendLoadBalancer/FrontendListener/FrontendTargetsGroup/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11S227CMAz9Ft5DNrrxARubpkloQxTtdTLBFK8hqXJhQlX/fe4Nwp5in2Mf+1jJ5Hwu7yfw66dqV041bWWdB1ClWKO30SkUzH3XqDK52JscVXQUzm/OxurdFA69FwRHWa+sJnUWXNNHjYCqOqI/yPqLXIigP+wOWz5NhzhHdyKVsgPSCFRe1hvw5QvuyVAga9qy/4g1AcigS7BXlSW6Y5gr0LDV2AosbDShEdoWPGNpi85VWzzGnQl2A60gxGA9d5Mp+EYXGVdg6AbcIv2zcXxKbsj7vuuRbgB2qcEHUtrCbssyRjF3ymT9dB2/ZO6549D1OyZ5Wkc+oBlqxjjh+8UuVpO0aVrgM4Yqdo7GH9CI1TkcrLl7kLOZfJz8eKKp49PREeW6f/8AABpAJUgCAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "FrontendStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ApiFrontendDns": {
+   "Value": {
+    "Fn::GetAtt": [
+     "FrontendLoadBalancerDBDBDFF7",
+     "DNSName"
+    ]
+   },
+   "Export": {
+    "Name": "ApiFrontendDns"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

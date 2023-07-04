@@ -1,0 +1,166 @@
+{
+  "version": "22.0.0",
+  "artifacts": {
+    "PostgresStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "PostgresStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "PostgresStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://587878432697/us-east-1",
+      "properties": {
+        "templateFile": "PostgresStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-deploy-role-587878432697-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-cfn-exec-role-587878432697-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-587878432697-us-east-1/5820aef61c556c987a310101e9ae95e442cb6f6e31c0c45ef8d5bad4335c7196.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "PostgresStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-lookup-role-587878432697-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "PostgresStack.assets"
+      ],
+      "metadata": {
+        "/PostgresStack/ImportedTaskExecutionRole/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedTaskExecutionRolePolicy23E279F9"
+          }
+        ],
+        "/PostgresStack/ImportedEcsExecTaskRole/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedEcsExecTaskRolePolicy6CAEEF74"
+          }
+        ],
+        "/PostgresStack/PG_EFSFileSystem/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PGEFSFileSystemFB2674A6"
+          }
+        ],
+        "/PostgresStack/PG_EFSFileSystem/EfsMountTarget1": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PGEFSFileSystemEfsMountTarget19B5123E5"
+          }
+        ],
+        "/PostgresStack/PG_EFSFileSystem/EfsMountTarget2": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PGEFSFileSystemEfsMountTarget28E365451"
+          }
+        ],
+        "/PostgresStack/PG_EFSFileSystem/EfsMountTarget3": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PGEFSFileSystemEfsMountTarget37EB7BC6C"
+          }
+        ],
+        "/PostgresStack/node/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "nodeE52CB09E"
+          }
+        ],
+        "/PostgresStack/pgmoviedbVirtualService/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "pgmoviedbVirtualService5ECFAC21"
+          }
+        ],
+        "/PostgresStack/PostgresTaskDef/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresTaskDef8C46C666"
+          }
+        ],
+        "/PostgresStack/PostgresTaskDef/Postgres/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresTaskDefPostgresLogGroup8B3E2446"
+          }
+        ],
+        "/PostgresStack/PostgresLogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresLogGroup3ED00616"
+          }
+        ],
+        "/PostgresStack/Postgres/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresService78457626"
+          }
+        ],
+        "/PostgresStack/Postgres/CloudmapService/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresCloudmapService1B22969B"
+          }
+        ],
+        "/PostgresStack/Postgres/TaskCount/Target/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresTaskCountTarget912DD5E3"
+          }
+        ],
+        "/PostgresStack/Postgres/TaskCount/Target/CpuScaling/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresTaskCountTargetCpuScaling863F7E95"
+          }
+        ],
+        "/PostgresStack/Postgres/TaskCount/Target/MemoryScaling/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresTaskCountTargetMemoryScalingE186DD53"
+          }
+        ],
+        "/PostgresStack/PostgresServiceArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresServiceArn"
+          }
+        ],
+        "/PostgresStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/PostgresStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/PostgresStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "PostgresStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

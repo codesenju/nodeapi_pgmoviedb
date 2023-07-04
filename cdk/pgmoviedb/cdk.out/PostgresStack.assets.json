@@ -1,0 +1,20 @@
+{
+  "version": "22.0.0",
+  "files": {
+    "5820aef61c556c987a310101e9ae95e442cb6f6e31c0c45ef8d5bad4335c7196": {
+      "source": {
+        "path": "PostgresStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "587878432697-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-587878432697-us-east-1",
+          "objectKey": "5820aef61c556c987a310101e9ae95e442cb6f6e31c0c45ef8d5bad4335c7196.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-file-publishing-role-587878432697-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

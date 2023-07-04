@@ -1,0 +1,20 @@
+{
+  "version": "22.0.0",
+  "files": {
+    "1e12a58bfedd94dd3d84e4530144eaa80720133e05234de72fc2838ea50c6663": {
+      "source": {
+        "path": "vgwStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "587878432697-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-587878432697-us-east-1",
+          "objectKey": "1e12a58bfedd94dd3d84e4530144eaa80720133e05234de72fc2838ea50c6663.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-file-publishing-role-587878432697-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

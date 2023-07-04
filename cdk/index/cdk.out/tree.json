@@ -1,0 +1,866 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "IndexStack": {
+        "id": "IndexStack",
+        "path": "IndexStack",
+        "children": {
+          "ImportedVpc": {
+            "id": "ImportedVpc",
+            "path": "IndexStack/ImportedVpc",
+            "children": {
+              "PublicSubnet1": {
+                "id": "PublicSubnet1",
+                "path": "IndexStack/ImportedVpc/PublicSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PublicSubnet2": {
+                "id": "PublicSubnet2",
+                "path": "IndexStack/ImportedVpc/PublicSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PublicSubnet3": {
+                "id": "PublicSubnet3",
+                "path": "IndexStack/ImportedVpc/PublicSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PrivateSubnet1": {
+                "id": "PrivateSubnet1",
+                "path": "IndexStack/ImportedVpc/PrivateSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PrivateSubnet2": {
+                "id": "PrivateSubnet2",
+                "path": "IndexStack/ImportedVpc/PrivateSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PrivateSubnet3": {
+                "id": "PrivateSubnet3",
+                "path": "IndexStack/ImportedVpc/PrivateSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImporteDefaultApiClusterSG": {
+            "id": "ImporteDefaultApiClusterSG",
+            "path": "IndexStack/ImporteDefaultApiClusterSG",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedIndexSG": {
+            "id": "ImportedIndexSG",
+            "path": "IndexStack/ImportedIndexSG",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "importedelbSG": {
+            "id": "importedelbSG",
+            "path": "IndexStack/importedelbSG",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedTaskExecutionRole": {
+            "id": "ImportedTaskExecutionRole",
+            "path": "IndexStack/ImportedTaskExecutionRole",
+            "children": {
+              "Policy": {
+                "id": "Policy",
+                "path": "IndexStack/ImportedTaskExecutionRole/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IndexStack/ImportedTaskExecutionRole/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "logs:CreateLogStream",
+                                "logs:PutLogEvents"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "indexLogGroup187F7830",
+                                  "Arn"
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "ImportedTaskExecutionRolePolicy23E279F9",
+                        "roles": [
+                          "ecsTaskExecutionRole"
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedEcsExecTaskRole": {
+            "id": "ImportedEcsExecTaskRole",
+            "path": "IndexStack/ImportedEcsExecTaskRole",
+            "children": {
+              "Policy": {
+                "id": "Policy",
+                "path": "IndexStack/ImportedEcsExecTaskRole/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IndexStack/ImportedEcsExecTaskRole/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "ssmmessages:CreateControlChannel",
+                                "ssmmessages:CreateDataChannel",
+                                "ssmmessages:OpenControlChannel",
+                                "ssmmessages:OpenDataChannel"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": "logs:DescribeLogGroups",
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": [
+                                "logs:CreateLogStream",
+                                "logs:DescribeLogStreams",
+                                "logs:PutLogEvents"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "ImportedEcsExecTaskRolePolicy6CAEEF74",
+                        "roles": [
+                          "000A_ecsExecTaskRole"
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedNamespace": {
+            "id": "ImportedNamespace",
+            "path": "IndexStack/ImportedNamespace",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedCluster": {
+            "id": "ImportedCluster",
+            "path": "IndexStack/ImportedCluster",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedEcsApiMesh": {
+            "id": "ImportedEcsApiMesh",
+            "path": "IndexStack/ImportedEcsApiMesh",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedNodeapiVirtualService": {
+            "id": "ImportedNodeapiVirtualService",
+            "path": "IndexStack/ImportedNodeapiVirtualService",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "node": {
+            "id": "node",
+            "path": "IndexStack/node",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "IndexStack/node/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::AppMesh::VirtualNode",
+                  "aws:cdk:cloudformation:props": {
+                    "meshName": {
+                      "Fn::Select": [
+                        1,
+                        {
+                          "Fn::Split": [
+                            "/",
+                            {
+                              "Fn::Select": [
+                                5,
+                                {
+                                  "Fn::Split": [
+                                    ":",
+                                    {
+                                      "Fn::ImportValue": "EcsApiMeshArn"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "spec": {
+                      "backends": [
+                        {
+                          "virtualService": {
+                            "virtualServiceName": "nodeapi.api.local"
+                          }
+                        }
+                      ],
+                      "listeners": [
+                        {
+                          "portMapping": {
+                            "port": 5000,
+                            "protocol": "http"
+                          },
+                          "healthCheck": {
+                            "protocol": "http",
+                            "healthyThreshold": 3,
+                            "unhealthyThreshold": 2,
+                            "intervalMillis": 5000,
+                            "timeoutMillis": 2000,
+                            "path": "/health",
+                            "port": 5000
+                          },
+                          "timeout": {
+                            "http": {
+                              "idle": {
+                                "unit": "ms",
+                                "value": 5000
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "serviceDiscovery": {
+                        "dns": {
+                          "hostname": "index.api.local"
+                        }
+                      },
+                      "logging": {
+                        "accessLog": {
+                          "file": {
+                            "path": "/dev/stdout"
+                          }
+                        }
+                      }
+                    },
+                    "meshOwner": {
+                      "Fn::Select": [
+                        4,
+                        {
+                          "Fn::Split": [
+                            ":",
+                            {
+                              "Fn::ImportValue": "EcsApiMeshArn"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "virtualNodeName": "index-node"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_appmesh.CfnVirtualNode",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_appmesh.VirtualNode",
+              "version": "2.55.0"
+            }
+          },
+          "IndexVirtualService": {
+            "id": "IndexVirtualService",
+            "path": "IndexStack/IndexVirtualService",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "IndexStack/IndexVirtualService/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::AppMesh::VirtualService",
+                  "aws:cdk:cloudformation:props": {
+                    "meshName": {
+                      "Fn::Select": [
+                        1,
+                        {
+                          "Fn::Split": [
+                            "/",
+                            {
+                              "Fn::Select": [
+                                5,
+                                {
+                                  "Fn::Split": [
+                                    ":",
+                                    {
+                                      "Fn::ImportValue": "EcsApiMeshArn"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "spec": {
+                      "provider": {
+                        "virtualNode": {
+                          "virtualNodeName": {
+                            "Fn::GetAtt": [
+                              "nodeE52CB09E",
+                              "VirtualNodeName"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "virtualServiceName": {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "index.",
+                          {
+                            "Fn::ImportValue": "ApiNamespaceName"
+                          }
+                        ]
+                      ]
+                    },
+                    "meshOwner": {
+                      "Fn::Select": [
+                        4,
+                        {
+                          "Fn::Split": [
+                            ":",
+                            {
+                              "Fn::ImportValue": "EcsApiMeshArn"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_appmesh.CfnVirtualService",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_appmesh.VirtualService",
+              "version": "2.55.0"
+            }
+          },
+          "IndexTaskDef": {
+            "id": "IndexTaskDef",
+            "path": "IndexStack/IndexTaskDef",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "IndexStack/IndexTaskDef/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::TaskDefinition",
+                  "aws:cdk:cloudformation:props": {
+                    "containerDefinitions": [
+                      {
+                        "dependsOn": [
+                          {
+                            "containerName": "envoy",
+                            "condition": "HEALTHY"
+                          }
+                        ],
+                        "essential": true,
+                        "image": "codesenju/index.api.local:amd",
+                        "memoryReservation": 512,
+                        "name": "index",
+                        "portMappings": [
+                          {
+                            "containerPort": 5000,
+                            "protocol": "tcp",
+                            "name": "index"
+                          }
+                        ],
+                        "logConfiguration": {
+                          "logDriver": "awslogs",
+                          "options": {
+                            "awslogs-group": {
+                              "Ref": "indexLogGroup187F7830"
+                            },
+                            "awslogs-stream-prefix": "/index-container",
+                            "awslogs-region": "us-east-1"
+                          }
+                        }
+                      },
+                      {
+                        "dependsOn": [
+                          {
+                            "containerName": "xray",
+                            "condition": "START"
+                          }
+                        ],
+                        "essential": true,
+                        "image": "public.ecr.aws/appmesh/aws-appmesh-envoy:v1.25.1.0-prod",
+                        "memoryReservation": 512,
+                        "name": "envoy",
+                        "ulimits": [
+                          {
+                            "name": "nofile",
+                            "softLimit": 524288,
+                            "hardLimit": 1048576
+                          }
+                        ],
+                        "user": "1337",
+                        "logConfiguration": {
+                          "logDriver": "awslogs",
+                          "options": {
+                            "awslogs-group": {
+                              "Ref": "indexLogGroup187F7830"
+                            },
+                            "awslogs-stream-prefix": "/envoy-container",
+                            "awslogs-region": "us-east-1"
+                          }
+                        },
+                        "environment": [
+                          {
+                            "name": "AWS_REGION",
+                            "value": "us-east-1"
+                          },
+                          {
+                            "name": "ENVOY_LOG_LEVEL",
+                            "value": "debug"
+                          },
+                          {
+                            "name": "ENABLE_ENVOY_STATS_TAGS",
+                            "value": "1"
+                          },
+                          {
+                            "name": "ENABLE_ENVOY_XRAY_TRACING",
+                            "value": "1"
+                          },
+                          {
+                            "name": "APPMESH_RESOURCE_ARN",
+                            "value": {
+                              "Ref": "nodeE52CB09E"
+                            }
+                          }
+                        ],
+                        "healthCheck": {
+                          "command": [
+                            "CMD-SHELL",
+                            "curl -s http://localhost:9901/server_info | grep state | grep -q LIVE"
+                          ],
+                          "interval": 5,
+                          "retries": 10,
+                          "timeout": 10
+                        }
+                      },
+                      {
+                        "essential": true,
+                        "image": "amazon/aws-xray-daemon",
+                        "memoryReservation": 512,
+                        "name": "xray",
+                        "user": "1337",
+                        "logConfiguration": {
+                          "logDriver": "awslogs",
+                          "options": {
+                            "awslogs-group": {
+                              "Ref": "indexLogGroup187F7830"
+                            },
+                            "awslogs-stream-prefix": "/xray-container",
+                            "awslogs-region": "us-east-1"
+                          }
+                        },
+                        "environment": [
+                          {
+                            "name": "AWS_REGION",
+                            "value": "us-east-1"
+                          }
+                        ]
+                      },
+                      {
+                        "command": [
+                          "--config=/etc/ecs/otel-config.yaml"
+                        ],
+                        "essential": true,
+                        "image": "codesenju/aws-otel-collector:amd",
+                        "memoryReservation": 512,
+                        "name": "otel",
+                        "logConfiguration": {
+                          "logDriver": "awslogs",
+                          "options": {
+                            "awslogs-group": {
+                              "Ref": "indexLogGroup187F7830"
+                            },
+                            "awslogs-stream-prefix": "/otel-container",
+                            "awslogs-region": "us-east-1"
+                          }
+                        },
+                        "environment": [
+                          {
+                            "name": "AWS_REGION",
+                            "value": "us-east-1"
+                          },
+                          {
+                            "name": "AWS_PROMETHEUS_ENDPOINT",
+                            "value": "https://aps-workspaces.us-east-1.amazonaws.com/workspaces/ws-5f8b1530-3388-4177-82af-eae1c6d54d57/api/v1/remote_write"
+                          }
+                        ]
+                      }
+                    ],
+                    "cpu": "1024",
+                    "executionRoleArn": "arn:aws:iam::587878432697:role/ecsTaskExecutionRole",
+                    "family": "IndexStackIndexTaskDefD645D354",
+                    "memory": "2048",
+                    "networkMode": "awsvpc",
+                    "proxyConfiguration": {
+                      "containerName": "envoy",
+                      "proxyConfigurationProperties": [
+                        {
+                          "name": "AppPorts",
+                          "value": "5000"
+                        },
+                        {
+                          "name": "ProxyEgressPort",
+                          "value": "15001"
+                        },
+                        {
+                          "name": "ProxyIngressPort",
+                          "value": "15000"
+                        },
+                        {
+                          "name": "EgressIgnoredIPs",
+                          "value": "169.254.170.2,169.254.169.254"
+                        },
+                        {
+                          "name": "IgnoredUID",
+                          "value": "1337"
+                        }
+                      ],
+                      "type": "APPMESH"
+                    },
+                    "requiresCompatibilities": [
+                      "EC2",
+                      "FARGATE"
+                    ],
+                    "taskRoleArn": "arn:aws:iam::587878432697:role/000A_ecsExecTaskRole"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnTaskDefinition",
+                  "version": "2.55.0"
+                }
+              },
+              "index": {
+                "id": "index",
+                "path": "IndexStack/IndexTaskDef/index",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                  "version": "2.55.0"
+                }
+              },
+              "IndexEnvoyContainer": {
+                "id": "IndexEnvoyContainer",
+                "path": "IndexStack/IndexTaskDef/IndexEnvoyContainer",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                  "version": "2.55.0"
+                }
+              },
+              "IndexXrayContainer": {
+                "id": "IndexXrayContainer",
+                "path": "IndexStack/IndexTaskDef/IndexXrayContainer",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                  "version": "2.55.0"
+                }
+              },
+              "IndexOtelContainer": {
+                "id": "IndexOtelContainer",
+                "path": "IndexStack/IndexTaskDef/IndexOtelContainer",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.TaskDefinition",
+              "version": "2.55.0"
+            }
+          },
+          "indexLogGroup": {
+            "id": "indexLogGroup",
+            "path": "IndexStack/indexLogGroup",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "IndexStack/indexLogGroup/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "logGroupName": "/ecs/api/index",
+                    "retentionInDays": 7
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+              "version": "2.55.0"
+            }
+          },
+          "Index": {
+            "id": "Index",
+            "path": "IndexStack/Index",
+            "children": {
+              "Service": {
+                "id": "Service",
+                "path": "IndexStack/Index/Service",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::Service",
+                  "aws:cdk:cloudformation:props": {
+                    "capacityProviderStrategy": [
+                      {
+                        "capacityProvider": "amd-spot-api-capasity-provider",
+                        "weight": 1
+                      }
+                    ],
+                    "cluster": "api",
+                    "deploymentConfiguration": {
+                      "maximumPercent": 200,
+                      "minimumHealthyPercent": 50
+                    },
+                    "enableEcsManagedTags": false,
+                    "enableExecuteCommand": true,
+                    "networkConfiguration": {
+                      "awsvpcConfiguration": {
+                        "assignPublicIp": "DISABLED",
+                        "subnets": [
+                          "subnet-01b1911df0ad91eb7",
+                          "subnet-02ae900ec00be7b2f",
+                          "subnet-08d2609ae2ad75bcc"
+                        ],
+                        "securityGroups": [
+                          {
+                            "Fn::ImportValue": "indexSGID"
+                          }
+                        ]
+                      }
+                    },
+                    "schedulingStrategy": "REPLICA",
+                    "serviceName": "index",
+                    "serviceRegistries": [
+                      {
+                        "registryArn": {
+                          "Fn::GetAtt": [
+                            "IndexCloudmapService77ACFD31",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    ],
+                    "taskDefinition": {
+                      "Ref": "IndexTaskDef7FDDA5D5"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnService",
+                  "version": "2.55.0"
+                }
+              },
+              "CloudmapService": {
+                "id": "CloudmapService",
+                "path": "IndexStack/Index/CloudmapService",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IndexStack/Index/CloudmapService/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ServiceDiscovery::Service",
+                      "aws:cdk:cloudformation:props": {
+                        "dnsConfig": {
+                          "dnsRecords": [
+                            {
+                              "type": "A",
+                              "ttl": 60
+                            }
+                          ],
+                          "namespaceId": {
+                            "Fn::ImportValue": "ApiNamespaceId"
+                          },
+                          "routingPolicy": "MULTIVALUE"
+                        },
+                        "healthCheckCustomConfig": {
+                          "failureThreshold": 1
+                        },
+                        "name": "index",
+                        "namespaceId": {
+                          "Fn::ImportValue": "ApiNamespaceId"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_servicediscovery.CfnService",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_servicediscovery.Service",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.Ec2Service",
+              "version": "2.55.0"
+            }
+          },
+          "indexServiceArn": {
+            "id": "indexServiceArn",
+            "path": "IndexStack/indexServiceArn",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "IndexStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "IndexStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.213"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "IndexStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.55.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "IndexStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.55.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.55.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.1.213"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.55.0"
+    }
+  }
+}

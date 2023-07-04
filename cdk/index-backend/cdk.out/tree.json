@@ -1,0 +1,2432 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "NodeApiStack": {
+        "id": "NodeApiStack",
+        "path": "NodeApiStack",
+        "children": {
+          "ImportedVpc": {
+            "id": "ImportedVpc",
+            "path": "NodeApiStack/ImportedVpc",
+            "children": {
+              "PublicSubnet1": {
+                "id": "PublicSubnet1",
+                "path": "NodeApiStack/ImportedVpc/PublicSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PublicSubnet2": {
+                "id": "PublicSubnet2",
+                "path": "NodeApiStack/ImportedVpc/PublicSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PublicSubnet3": {
+                "id": "PublicSubnet3",
+                "path": "NodeApiStack/ImportedVpc/PublicSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PrivateSubnet1": {
+                "id": "PrivateSubnet1",
+                "path": "NodeApiStack/ImportedVpc/PrivateSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PrivateSubnet2": {
+                "id": "PrivateSubnet2",
+                "path": "NodeApiStack/ImportedVpc/PrivateSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PrivateSubnet3": {
+                "id": "PrivateSubnet3",
+                "path": "NodeApiStack/ImportedVpc/PrivateSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedSG": {
+            "id": "ImportedSG",
+            "path": "NodeApiStack/ImportedSG",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "Elb_SG": {
+            "id": "Elb_SG",
+            "path": "NodeApiStack/Elb_SG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "NodeApiStack/Elb_SG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "NodeApiStack/Elb_SG",
+                    "groupName": "Elb_SG",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 32768,
+                        "toPort": 60999,
+                        "description": "Allow outbound ECS ephemeral port range to targets"
+                      }
+                    ],
+                    "securityGroupIngress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 80,
+                        "toPort": 80,
+                        "description": "Allow inbound 80 from from outside world"
+                      }
+                    ],
+                    "vpcId": "vpc-0f168d381ce65cfb5"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.55.0"
+                }
+              },
+              "to NodeApiStackFrontendSG15B50514:5000": {
+                "id": "to NodeApiStackFrontendSG15B50514:5000",
+                "path": "NodeApiStack/Elb_SG/to NodeApiStackFrontendSG15B50514:5000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                  "aws:cdk:cloudformation:props": {
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "ElbSG3E53E50B",
+                        "GroupId"
+                      ]
+                    },
+                    "ipProtocol": "tcp",
+                    "description": "Load balancer to target",
+                    "destinationSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "FrontendSGA609D887",
+                        "GroupId"
+                      ]
+                    },
+                    "fromPort": 5000,
+                    "toPort": 5000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.55.0"
+            }
+          },
+          "Nodeapi_SG": {
+            "id": "Nodeapi_SG",
+            "path": "NodeApiStack/Nodeapi_SG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "NodeApiStack/Nodeapi_SG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "NodeApiStack/Nodeapi_SG",
+                    "groupName": "Nodeapi_SG",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 443,
+                        "toPort": 443,
+                        "description": "Allow outbound 443"
+                      }
+                    ],
+                    "vpcId": "vpc-0f168d381ce65cfb5"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.55.0"
+                }
+              },
+              "from NodeApiStackIndexSGCEC1A194:3000": {
+                "id": "from NodeApiStackIndexSGCEC1A194:3000",
+                "path": "NodeApiStack/Nodeapi_SG/from NodeApiStackIndexSGCEC1A194:3000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "tcp",
+                    "description": "Allow inbound 3000 from index",
+                    "fromPort": 3000,
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "NodeapiSGA07C109D",
+                        "GroupId"
+                      ]
+                    },
+                    "sourceSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "IndexSGB8721386",
+                        "GroupId"
+                      ]
+                    },
+                    "toPort": 3000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.55.0"
+                }
+              },
+              "to NodeApiStackPostgresSG89FF08BE:5432": {
+                "id": "to NodeApiStackPostgresSG89FF08BE:5432",
+                "path": "NodeApiStack/Nodeapi_SG/to NodeApiStackPostgresSG89FF08BE:5432",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                  "aws:cdk:cloudformation:props": {
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "NodeapiSGA07C109D",
+                        "GroupId"
+                      ]
+                    },
+                    "ipProtocol": "tcp",
+                    "description": "Allow outbound 5432 to postgres",
+                    "destinationSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "PostgresSGA5349B77",
+                        "GroupId"
+                      ]
+                    },
+                    "fromPort": 5432,
+                    "toPort": 5432
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.55.0"
+            }
+          },
+          "Postgres_SG": {
+            "id": "Postgres_SG",
+            "path": "NodeApiStack/Postgres_SG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "NodeApiStack/Postgres_SG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "NodeApiStack/Postgres_SG",
+                    "groupName": "Postgres_SG",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 443,
+                        "toPort": 443,
+                        "description": "Allow outbound 443"
+                      }
+                    ],
+                    "vpcId": "vpc-0f168d381ce65cfb5"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.55.0"
+                }
+              },
+              "from NodeApiStackNodeapiSG6CF93B3F:5432": {
+                "id": "from NodeApiStackNodeapiSG6CF93B3F:5432",
+                "path": "NodeApiStack/Postgres_SG/from NodeApiStackNodeapiSG6CF93B3F:5432",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "tcp",
+                    "description": "Allow inbound 5432 for postgres db from Nodeapi",
+                    "fromPort": 5432,
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "PostgresSGA5349B77",
+                        "GroupId"
+                      ]
+                    },
+                    "sourceSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "NodeapiSGA07C109D",
+                        "GroupId"
+                      ]
+                    },
+                    "toPort": 5432
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.55.0"
+                }
+              },
+              "to NodeApiStackEFSallowInbound2049SG73A3CB6A:2049": {
+                "id": "to NodeApiStackEFSallowInbound2049SG73A3CB6A:2049",
+                "path": "NodeApiStack/Postgres_SG/to NodeApiStackEFSallowInbound2049SG73A3CB6A:2049",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                  "aws:cdk:cloudformation:props": {
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "PostgresSGA5349B77",
+                        "GroupId"
+                      ]
+                    },
+                    "ipProtocol": "tcp",
+                    "description": "Allow outbound 2049 for postgres db to EFS",
+                    "destinationSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "EFSallowInbound2049SG521C9F79",
+                        "GroupId"
+                      ]
+                    },
+                    "fromPort": 2049,
+                    "toPort": 2049
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.55.0"
+            }
+          },
+          "Index_SG": {
+            "id": "Index_SG",
+            "path": "NodeApiStack/Index_SG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "NodeApiStack/Index_SG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "NodeApiStack/Index_SG",
+                    "groupName": "Index_SG",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 5000,
+                        "toPort": 5000,
+                        "description": "Allow outbound 5000 to index-backend"
+                      },
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 443,
+                        "toPort": 443,
+                        "description": "Allow outbound 443"
+                      }
+                    ],
+                    "vpcId": "vpc-0f168d381ce65cfb5"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.55.0"
+                }
+              },
+              "from NodeApiStackFrontendSG15B50514:5000": {
+                "id": "from NodeApiStackFrontendSG15B50514:5000",
+                "path": "NodeApiStack/Index_SG/from NodeApiStackFrontendSG15B50514:5000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "tcp",
+                    "description": "Allow inbound 5000 from Frontend",
+                    "fromPort": 5000,
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "IndexSGB8721386",
+                        "GroupId"
+                      ]
+                    },
+                    "sourceSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "FrontendSGA609D887",
+                        "GroupId"
+                      ]
+                    },
+                    "toPort": 5000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.55.0"
+                }
+              },
+              "to NodeApiStackNodeapiSG6CF93B3F:3000": {
+                "id": "to NodeApiStackNodeapiSG6CF93B3F:3000",
+                "path": "NodeApiStack/Index_SG/to NodeApiStackNodeapiSG6CF93B3F:3000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                  "aws:cdk:cloudformation:props": {
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "IndexSGB8721386",
+                        "GroupId"
+                      ]
+                    },
+                    "ipProtocol": "tcp",
+                    "description": "Allow outbound 3000 to Nodeapi",
+                    "destinationSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "NodeapiSGA07C109D",
+                        "GroupId"
+                      ]
+                    },
+                    "fromPort": 3000,
+                    "toPort": 3000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.55.0"
+            }
+          },
+          "Frontend_SG": {
+            "id": "Frontend_SG",
+            "path": "NodeApiStack/Frontend_SG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "NodeApiStack/Frontend_SG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "NodeApiStack/Frontend_SG",
+                    "groupName": "Frontend_SG",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 443,
+                        "toPort": 443,
+                        "description": "Allow outbound 443"
+                      }
+                    ],
+                    "vpcId": "vpc-0f168d381ce65cfb5"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.55.0"
+                }
+              },
+              "to NodeApiStackIndexSGCEC1A194:5000": {
+                "id": "to NodeApiStackIndexSGCEC1A194:5000",
+                "path": "NodeApiStack/Frontend_SG/to NodeApiStackIndexSGCEC1A194:5000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupEgress",
+                  "aws:cdk:cloudformation:props": {
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "FrontendSGA609D887",
+                        "GroupId"
+                      ]
+                    },
+                    "ipProtocol": "tcp",
+                    "description": "Allow outbound 5000 to index",
+                    "destinationSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "IndexSGB8721386",
+                        "GroupId"
+                      ]
+                    },
+                    "fromPort": 5000,
+                    "toPort": 5000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupEgress",
+                  "version": "2.55.0"
+                }
+              },
+              "from NodeApiStackElbSG8CE0D65C:5000": {
+                "id": "from NodeApiStackElbSG8CE0D65C:5000",
+                "path": "NodeApiStack/Frontend_SG/from NodeApiStackElbSG8CE0D65C:5000",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "tcp",
+                    "description": "Load balancer to target",
+                    "fromPort": 5000,
+                    "groupId": {
+                      "Fn::GetAtt": [
+                        "FrontendSGA609D887",
+                        "GroupId"
+                      ]
+                    },
+                    "sourceSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "ElbSG3E53E50B",
+                        "GroupId"
+                      ]
+                    },
+                    "toPort": 5000
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.55.0"
+            }
+          },
+          "EFS_allowInbound2049_SG": {
+            "id": "EFS_allowInbound2049_SG",
+            "path": "NodeApiStack/EFS_allowInbound2049_SG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "NodeApiStack/EFS_allowInbound2049_SG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "NodeApiStack/EFS_allowInbound2049_SG",
+                    "groupName": "PostgresEFS_SG",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "255.255.255.255/32",
+                        "description": "Disallow all traffic",
+                        "ipProtocol": "icmp",
+                        "fromPort": 252,
+                        "toPort": 86
+                      }
+                    ],
+                    "securityGroupIngress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 2049,
+                        "toPort": 2049,
+                        "description": "EFS Filesystem to allow inbound 2049 from anywhere"
+                      }
+                    ],
+                    "vpcId": "vpc-0f168d381ce65cfb5"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedTaskExecutionRole": {
+            "id": "ImportedTaskExecutionRole",
+            "path": "NodeApiStack/ImportedTaskExecutionRole",
+            "children": {
+              "Policy": {
+                "id": "Policy",
+                "path": "NodeApiStack/ImportedTaskExecutionRole/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "NodeApiStack/ImportedTaskExecutionRole/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "logs:CreateLogStream",
+                                "logs:PutLogEvents"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "PostgresTaskDefPostgresLogGroup8B3E2446",
+                                  "Arn"
+                                ]
+                              }
+                            },
+                            {
+                              "Action": [
+                                "logs:CreateLogStream",
+                                "logs:PutLogEvents"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "NodeapiTaskDefnodeapiLogGroupDFFDB24F",
+                                  "Arn"
+                                ]
+                              }
+                            },
+                            {
+                              "Action": [
+                                "logs:CreateLogStream",
+                                "logs:PutLogEvents"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "IndexTaskDefindexLogGroup2E9167AB",
+                                  "Arn"
+                                ]
+                              }
+                            },
+                            {
+                              "Action": [
+                                "logs:CreateLogStream",
+                                "logs:PutLogEvents"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "FrontendTaskDeffrontendLogGroupFDDEEC5B",
+                                  "Arn"
+                                ]
+                              }
+                            },
+                            {
+                              "Action": [
+                                "logs:CreateLogStream",
+                                "logs:PutLogEvents"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "FrontendTaskDefCrystalServiceProxyContdefLogGroupE8D9CE5B",
+                                  "Arn"
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "ImportedTaskExecutionRolePolicy23E279F9",
+                        "roles": [
+                          "ecsTaskExecutionRole"
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedEcsExecTaskRole": {
+            "id": "ImportedEcsExecTaskRole",
+            "path": "NodeApiStack/ImportedEcsExecTaskRole",
+            "children": {
+              "Policy": {
+                "id": "Policy",
+                "path": "NodeApiStack/ImportedEcsExecTaskRole/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "NodeApiStack/ImportedEcsExecTaskRole/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "ssmmessages:CreateControlChannel",
+                                "ssmmessages:CreateDataChannel",
+                                "ssmmessages:OpenControlChannel",
+                                "ssmmessages:OpenDataChannel"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": "logs:DescribeLogGroups",
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": [
+                                "logs:CreateLogStream",
+                                "logs:DescribeLogStreams",
+                                "logs:PutLogEvents"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "ImportedEcsExecTaskRolePolicy6CAEEF74",
+                        "roles": [
+                          "000A_ecsExecTaskRole"
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedNamespace": {
+            "id": "ImportedNamespace",
+            "path": "NodeApiStack/ImportedNamespace",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ImportedCluster": {
+            "id": "ImportedCluster",
+            "path": "NodeApiStack/ImportedCluster",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "PG_EFSFileSystem": {
+            "id": "PG_EFSFileSystem",
+            "path": "NodeApiStack/PG_EFSFileSystem",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "NodeApiStack/PG_EFSFileSystem/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EFS::FileSystem",
+                  "aws:cdk:cloudformation:props": {
+                    "encrypted": true,
+                    "fileSystemTags": [
+                      {
+                        "key": "Name",
+                        "value": "NodeApiStack/PG_EFSFileSystem"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_efs.CfnFileSystem",
+                  "version": "2.55.0"
+                }
+              },
+              "EfsMountTarget1": {
+                "id": "EfsMountTarget1",
+                "path": "NodeApiStack/PG_EFSFileSystem/EfsMountTarget1",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EFS::MountTarget",
+                  "aws:cdk:cloudformation:props": {
+                    "fileSystemId": {
+                      "Ref": "PGEFSFileSystemFB2674A6"
+                    },
+                    "securityGroups": [
+                      {
+                        "Fn::GetAtt": [
+                          "EFSallowInbound2049SG521C9F79",
+                          "GroupId"
+                        ]
+                      }
+                    ],
+                    "subnetId": "subnet-01b1911df0ad91eb7"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_efs.CfnMountTarget",
+                  "version": "2.55.0"
+                }
+              },
+              "EfsMountTarget2": {
+                "id": "EfsMountTarget2",
+                "path": "NodeApiStack/PG_EFSFileSystem/EfsMountTarget2",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EFS::MountTarget",
+                  "aws:cdk:cloudformation:props": {
+                    "fileSystemId": {
+                      "Ref": "PGEFSFileSystemFB2674A6"
+                    },
+                    "securityGroups": [
+                      {
+                        "Fn::GetAtt": [
+                          "EFSallowInbound2049SG521C9F79",
+                          "GroupId"
+                        ]
+                      }
+                    ],
+                    "subnetId": "subnet-02ae900ec00be7b2f"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_efs.CfnMountTarget",
+                  "version": "2.55.0"
+                }
+              },
+              "EfsMountTarget3": {
+                "id": "EfsMountTarget3",
+                "path": "NodeApiStack/PG_EFSFileSystem/EfsMountTarget3",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EFS::MountTarget",
+                  "aws:cdk:cloudformation:props": {
+                    "fileSystemId": {
+                      "Ref": "PGEFSFileSystemFB2674A6"
+                    },
+                    "securityGroups": [
+                      {
+                        "Fn::GetAtt": [
+                          "EFSallowInbound2049SG521C9F79",
+                          "GroupId"
+                        ]
+                      }
+                    ],
+                    "subnetId": "subnet-08d2609ae2ad75bcc"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_efs.CfnMountTarget",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_efs.FileSystem",
+              "version": "2.55.0"
+            }
+          },
+          "PostgresTaskDef": {
+            "id": "PostgresTaskDef",
+            "path": "NodeApiStack/PostgresTaskDef",
+            "children": {
+              "TaskRole": {
+                "id": "TaskRole",
+                "path": "NodeApiStack/PostgresTaskDef/TaskRole",
+                "children": {
+                  "ImportTaskRole": {
+                    "id": "ImportTaskRole",
+                    "path": "NodeApiStack/PostgresTaskDef/TaskRole/ImportTaskRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.55.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "NodeApiStack/PostgresTaskDef/TaskRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "ecs-tasks.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.55.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "NodeApiStack/PostgresTaskDef/TaskRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "NodeApiStack/PostgresTaskDef/TaskRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "ssmmessages:CreateControlChannel",
+                                    "ssmmessages:CreateDataChannel",
+                                    "ssmmessages:OpenControlChannel",
+                                    "ssmmessages:OpenDataChannel"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                },
+                                {
+                                  "Action": "logs:DescribeLogGroups",
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                },
+                                {
+                                  "Action": [
+                                    "logs:CreateLogStream",
+                                    "logs:DescribeLogStreams",
+                                    "logs:PutLogEvents"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "PostgresTaskDefTaskRoleDefaultPolicy5F027C47",
+                            "roles": [
+                              {
+                                "Ref": "PostgresTaskDefTaskRole5A8B625C"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.55.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.55.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "NodeApiStack/PostgresTaskDef/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::TaskDefinition",
+                  "aws:cdk:cloudformation:props": {
+                    "containerDefinitions": [
+                      {
+                        "cpu": 1792,
+                        "essential": true,
+                        "image": "codesenju/pgmoviedb.api.local:ecs",
+                        "memory": 4096,
+                        "mountPoints": [
+                          {
+                            "containerPath": "/var/lib/postgresql/data",
+                            "readOnly": false,
+                            "sourceVolume": "PGDATA"
+                          }
+                        ],
+                        "name": "Postgres",
+                        "portMappings": [
+                          {
+                            "containerPort": 5432,
+                            "hostPort": 5432,
+                            "protocol": "tcp",
+                            "name": "postgres"
+                          }
+                        ],
+                        "logConfiguration": {
+                          "logDriver": "awslogs",
+                          "options": {
+                            "awslogs-group": {
+                              "Ref": "PostgresTaskDefPostgresLogGroup8B3E2446"
+                            },
+                            "awslogs-stream-prefix": "postgres",
+                            "awslogs-region": "us-east-1"
+                          }
+                        },
+                        "environment": [
+                          {
+                            "name": "POSTGRES_DB",
+                            "value": "movie"
+                          },
+                          {
+                            "name": "POSTGRES_PASSWORD",
+                            "value": "12345"
+                          }
+                        ]
+                      }
+                    ],
+                    "cpu": "2048",
+                    "executionRoleArn": "arn:aws:iam::587878432697:role/ecsTaskExecutionRole",
+                    "family": "NodeApiStackPostgresTaskDef2814AC54",
+                    "memory": "5120",
+                    "networkMode": "awsvpc",
+                    "requiresCompatibilities": [
+                      "EC2",
+                      "FARGATE"
+                    ],
+                    "taskRoleArn": {
+                      "Fn::GetAtt": [
+                        "PostgresTaskDefTaskRole5A8B625C",
+                        "Arn"
+                      ]
+                    },
+                    "volumes": [
+                      {
+                        "name": "PGDATA",
+                        "efsVolumeConfiguration": {
+                          "filesystemId": {
+                            "Ref": "PGEFSFileSystemFB2674A6"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnTaskDefinition",
+                  "version": "2.55.0"
+                }
+              },
+              "Postgres": {
+                "id": "Postgres",
+                "path": "NodeApiStack/PostgresTaskDef/Postgres",
+                "children": {
+                  "LogGroup": {
+                    "id": "LogGroup",
+                    "path": "NodeApiStack/PostgresTaskDef/Postgres/LogGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "NodeApiStack/PostgresTaskDef/Postgres/LogGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                          "aws:cdk:cloudformation:props": {}
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                          "version": "2.55.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.TaskDefinition",
+              "version": "2.55.0"
+            }
+          },
+          "Postgres": {
+            "id": "Postgres",
+            "path": "NodeApiStack/Postgres",
+            "children": {
+              "Service": {
+                "id": "Service",
+                "path": "NodeApiStack/Postgres/Service",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::Service",
+                  "aws:cdk:cloudformation:props": {
+                    "capacityProviderStrategy": [
+                      {
+                        "capacityProvider": "spot-api-capasity-provider",
+                        "weight": 1
+                      }
+                    ],
+                    "cluster": "api",
+                    "deploymentConfiguration": {
+                      "maximumPercent": 200,
+                      "minimumHealthyPercent": 50
+                    },
+                    "enableEcsManagedTags": false,
+                    "enableExecuteCommand": true,
+                    "networkConfiguration": {
+                      "awsvpcConfiguration": {
+                        "assignPublicIp": "DISABLED",
+                        "subnets": [
+                          "subnet-01b1911df0ad91eb7",
+                          "subnet-02ae900ec00be7b2f",
+                          "subnet-08d2609ae2ad75bcc"
+                        ],
+                        "securityGroups": [
+                          {
+                            "Fn::GetAtt": [
+                              "PostgresSGA5349B77",
+                              "GroupId"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "schedulingStrategy": "REPLICA",
+                    "serviceName": "postgres",
+                    "serviceRegistries": [
+                      {
+                        "registryArn": {
+                          "Fn::GetAtt": [
+                            "PostgresCloudmapService1B22969B",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    ],
+                    "taskDefinition": {
+                      "Ref": "PostgresTaskDef8C46C666"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnService",
+                  "version": "2.55.0"
+                }
+              },
+              "CloudmapService": {
+                "id": "CloudmapService",
+                "path": "NodeApiStack/Postgres/CloudmapService",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "NodeApiStack/Postgres/CloudmapService/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ServiceDiscovery::Service",
+                      "aws:cdk:cloudformation:props": {
+                        "dnsConfig": {
+                          "dnsRecords": [
+                            {
+                              "type": "A",
+                              "ttl": 60
+                            }
+                          ],
+                          "namespaceId": {
+                            "Fn::ImportValue": "ApiNamespaceId"
+                          },
+                          "routingPolicy": "MULTIVALUE"
+                        },
+                        "healthCheckCustomConfig": {
+                          "failureThreshold": 1
+                        },
+                        "name": "pgmoviedb",
+                        "namespaceId": {
+                          "Fn::ImportValue": "ApiNamespaceId"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_servicediscovery.CfnService",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_servicediscovery.Service",
+                  "version": "2.55.0"
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "NodeApiStack/Postgres/ScalingRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "TaskCount": {
+                "id": "TaskCount",
+                "path": "NodeApiStack/Postgres/TaskCount",
+                "children": {
+                  "Target": {
+                    "id": "Target",
+                    "path": "NodeApiStack/Postgres/TaskCount/Target",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "NodeApiStack/Postgres/TaskCount/Target/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApplicationAutoScaling::ScalableTarget",
+                          "aws:cdk:cloudformation:props": {
+                            "maxCapacity": 10,
+                            "minCapacity": 1,
+                            "resourceId": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "service/api/",
+                                  {
+                                    "Fn::GetAtt": [
+                                      "PostgresService78457626",
+                                      "Name"
+                                    ]
+                                  }
+                                ]
+                              ]
+                            },
+                            "roleArn": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "arn:",
+                                  {
+                                    "Ref": "AWS::Partition"
+                                  },
+                                  ":iam::587878432697:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+                                ]
+                              ]
+                            },
+                            "scalableDimension": "ecs:service:DesiredCount",
+                            "serviceNamespace": "ecs"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_applicationautoscaling.CfnScalableTarget",
+                          "version": "2.55.0"
+                        }
+                      },
+                      "CpuScaling": {
+                        "id": "CpuScaling",
+                        "path": "NodeApiStack/Postgres/TaskCount/Target/CpuScaling",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "NodeApiStack/Postgres/TaskCount/Target/CpuScaling/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyName": "NodeApiStackPostgresTaskCountTargetCpuScalingEE3C3B6A",
+                                "policyType": "TargetTrackingScaling",
+                                "scalingTargetId": {
+                                  "Ref": "PostgresTaskCountTarget912DD5E3"
+                                },
+                                "targetTrackingScalingPolicyConfiguration": {
+                                  "predefinedMetricSpecification": {
+                                    "predefinedMetricType": "ECSServiceAverageCPUUtilization"
+                                  },
+                                  "targetValue": 80
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_applicationautoscaling.CfnScalingPolicy",
+                              "version": "2.55.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_applicationautoscaling.TargetTrackingScalingPolicy",
+                          "version": "2.55.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_applicationautoscaling.ScalableTarget",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ScalableTaskCount",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.Ec2Service",
+              "version": "2.55.0"
+            }
+          },
+          "NodeapiTaskDef": {
+            "id": "NodeapiTaskDef",
+            "path": "NodeApiStack/NodeapiTaskDef",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "NodeApiStack/NodeapiTaskDef/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::TaskDefinition",
+                  "aws:cdk:cloudformation:props": {
+                    "containerDefinitions": [
+                      {
+                        "cpu": 256,
+                        "essential": true,
+                        "image": "codesenju/nodeapi.api.local:ecs",
+                        "memory": 512,
+                        "name": "nodeapi",
+                        "portMappings": [
+                          {
+                            "containerPort": 3000,
+                            "protocol": "tcp",
+                            "name": "nodeapi"
+                          }
+                        ],
+                        "logConfiguration": {
+                          "logDriver": "awslogs",
+                          "options": {
+                            "awslogs-group": {
+                              "Ref": "NodeapiTaskDefnodeapiLogGroupDFFDB24F"
+                            },
+                            "awslogs-stream-prefix": "nodeapi",
+                            "awslogs-region": "us-east-1"
+                          }
+                        },
+                        "environment": [
+                          {
+                            "name": "DB_HOST",
+                            "value": "pgmoviedb.api.local"
+                          },
+                          {
+                            "name": "DB_PASSWORD",
+                            "value": "12345"
+                          },
+                          {
+                            "name": "DB_NAME",
+                            "value": "movie"
+                          },
+                          {
+                            "name": "DB_USERNAME",
+                            "value": "postgres"
+                          }
+                        ]
+                      }
+                    ],
+                    "cpu": "256",
+                    "executionRoleArn": "arn:aws:iam::587878432697:role/ecsTaskExecutionRole",
+                    "family": "NodeApiStackNodeapiTaskDef3A97DF85",
+                    "memory": "512",
+                    "networkMode": "awsvpc",
+                    "requiresCompatibilities": [
+                      "EC2",
+                      "FARGATE"
+                    ],
+                    "taskRoleArn": "arn:aws:iam::587878432697:role/000A_ecsExecTaskRole"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnTaskDefinition",
+                  "version": "2.55.0"
+                }
+              },
+              "nodeapi": {
+                "id": "nodeapi",
+                "path": "NodeApiStack/NodeapiTaskDef/nodeapi",
+                "children": {
+                  "LogGroup": {
+                    "id": "LogGroup",
+                    "path": "NodeApiStack/NodeapiTaskDef/nodeapi/LogGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "NodeApiStack/NodeapiTaskDef/nodeapi/LogGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                          "aws:cdk:cloudformation:props": {}
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                          "version": "2.55.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.TaskDefinition",
+              "version": "2.55.0"
+            }
+          },
+          "Nodeapi": {
+            "id": "Nodeapi",
+            "path": "NodeApiStack/Nodeapi",
+            "children": {
+              "Service": {
+                "id": "Service",
+                "path": "NodeApiStack/Nodeapi/Service",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::Service",
+                  "aws:cdk:cloudformation:props": {
+                    "capacityProviderStrategy": [
+                      {
+                        "capacityProvider": "spot-api-capasity-provider",
+                        "weight": 1
+                      }
+                    ],
+                    "cluster": "api",
+                    "deploymentConfiguration": {
+                      "maximumPercent": 200,
+                      "minimumHealthyPercent": 50
+                    },
+                    "enableEcsManagedTags": false,
+                    "enableExecuteCommand": true,
+                    "networkConfiguration": {
+                      "awsvpcConfiguration": {
+                        "assignPublicIp": "DISABLED",
+                        "subnets": [
+                          "subnet-01b1911df0ad91eb7",
+                          "subnet-02ae900ec00be7b2f",
+                          "subnet-08d2609ae2ad75bcc"
+                        ],
+                        "securityGroups": [
+                          {
+                            "Fn::GetAtt": [
+                              "NodeapiSGA07C109D",
+                              "GroupId"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "schedulingStrategy": "REPLICA",
+                    "serviceName": "nodeapi",
+                    "serviceRegistries": [
+                      {
+                        "registryArn": {
+                          "Fn::GetAtt": [
+                            "NodeapiCloudmapServiceDA7CB468",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    ],
+                    "taskDefinition": {
+                      "Ref": "NodeapiTaskDef9CAD3311"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnService",
+                  "version": "2.55.0"
+                }
+              },
+              "CloudmapService": {
+                "id": "CloudmapService",
+                "path": "NodeApiStack/Nodeapi/CloudmapService",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "NodeApiStack/Nodeapi/CloudmapService/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ServiceDiscovery::Service",
+                      "aws:cdk:cloudformation:props": {
+                        "dnsConfig": {
+                          "dnsRecords": [
+                            {
+                              "type": "A",
+                              "ttl": 60
+                            }
+                          ],
+                          "namespaceId": {
+                            "Fn::ImportValue": "ApiNamespaceId"
+                          },
+                          "routingPolicy": "MULTIVALUE"
+                        },
+                        "healthCheckCustomConfig": {
+                          "failureThreshold": 1
+                        },
+                        "name": "nodeapi",
+                        "namespaceId": {
+                          "Fn::ImportValue": "ApiNamespaceId"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_servicediscovery.CfnService",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_servicediscovery.Service",
+                  "version": "2.55.0"
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "NodeApiStack/Nodeapi/ScalingRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "TaskCount": {
+                "id": "TaskCount",
+                "path": "NodeApiStack/Nodeapi/TaskCount",
+                "children": {
+                  "Target": {
+                    "id": "Target",
+                    "path": "NodeApiStack/Nodeapi/TaskCount/Target",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "NodeApiStack/Nodeapi/TaskCount/Target/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApplicationAutoScaling::ScalableTarget",
+                          "aws:cdk:cloudformation:props": {
+                            "maxCapacity": 10,
+                            "minCapacity": 1,
+                            "resourceId": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "service/api/",
+                                  {
+                                    "Fn::GetAtt": [
+                                      "NodeapiServiceED3ECEE4",
+                                      "Name"
+                                    ]
+                                  }
+                                ]
+                              ]
+                            },
+                            "roleArn": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "arn:",
+                                  {
+                                    "Ref": "AWS::Partition"
+                                  },
+                                  ":iam::587878432697:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+                                ]
+                              ]
+                            },
+                            "scalableDimension": "ecs:service:DesiredCount",
+                            "serviceNamespace": "ecs"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_applicationautoscaling.CfnScalableTarget",
+                          "version": "2.55.0"
+                        }
+                      },
+                      "CpuScaling": {
+                        "id": "CpuScaling",
+                        "path": "NodeApiStack/Nodeapi/TaskCount/Target/CpuScaling",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "NodeApiStack/Nodeapi/TaskCount/Target/CpuScaling/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyName": "NodeApiStackNodeapiTaskCountTargetCpuScalingCDF27440",
+                                "policyType": "TargetTrackingScaling",
+                                "scalingTargetId": {
+                                  "Ref": "NodeapiTaskCountTargetCCDA0A70"
+                                },
+                                "targetTrackingScalingPolicyConfiguration": {
+                                  "predefinedMetricSpecification": {
+                                    "predefinedMetricType": "ECSServiceAverageCPUUtilization"
+                                  },
+                                  "targetValue": 80
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_applicationautoscaling.CfnScalingPolicy",
+                              "version": "2.55.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_applicationautoscaling.TargetTrackingScalingPolicy",
+                          "version": "2.55.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_applicationautoscaling.ScalableTarget",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ScalableTaskCount",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.Ec2Service",
+              "version": "2.55.0"
+            }
+          },
+          "IndexTaskDef": {
+            "id": "IndexTaskDef",
+            "path": "NodeApiStack/IndexTaskDef",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "NodeApiStack/IndexTaskDef/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::TaskDefinition",
+                  "aws:cdk:cloudformation:props": {
+                    "containerDefinitions": [
+                      {
+                        "cpu": 256,
+                        "essential": true,
+                        "image": "codesenju/index.api.local:ecs",
+                        "memory": 512,
+                        "name": "index",
+                        "portMappings": [
+                          {
+                            "containerPort": 5000,
+                            "protocol": "tcp",
+                            "name": "index"
+                          }
+                        ],
+                        "logConfiguration": {
+                          "logDriver": "awslogs",
+                          "options": {
+                            "awslogs-group": {
+                              "Ref": "IndexTaskDefindexLogGroup2E9167AB"
+                            },
+                            "awslogs-stream-prefix": "index",
+                            "awslogs-region": "us-east-1"
+                          }
+                        }
+                      }
+                    ],
+                    "cpu": "256",
+                    "executionRoleArn": "arn:aws:iam::587878432697:role/ecsTaskExecutionRole",
+                    "family": "NodeApiStackIndexTaskDefCED089E6",
+                    "memory": "512",
+                    "networkMode": "awsvpc",
+                    "requiresCompatibilities": [
+                      "EC2",
+                      "FARGATE"
+                    ],
+                    "taskRoleArn": "arn:aws:iam::587878432697:role/000A_ecsExecTaskRole"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnTaskDefinition",
+                  "version": "2.55.0"
+                }
+              },
+              "index": {
+                "id": "index",
+                "path": "NodeApiStack/IndexTaskDef/index",
+                "children": {
+                  "LogGroup": {
+                    "id": "LogGroup",
+                    "path": "NodeApiStack/IndexTaskDef/index/LogGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "NodeApiStack/IndexTaskDef/index/LogGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                          "aws:cdk:cloudformation:props": {}
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                          "version": "2.55.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.TaskDefinition",
+              "version": "2.55.0"
+            }
+          },
+          "Index": {
+            "id": "Index",
+            "path": "NodeApiStack/Index",
+            "children": {
+              "Service": {
+                "id": "Service",
+                "path": "NodeApiStack/Index/Service",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::Service",
+                  "aws:cdk:cloudformation:props": {
+                    "capacityProviderStrategy": [
+                      {
+                        "capacityProvider": "spot-api-capasity-provider",
+                        "weight": 1
+                      }
+                    ],
+                    "cluster": "api",
+                    "deploymentConfiguration": {
+                      "maximumPercent": 200,
+                      "minimumHealthyPercent": 50
+                    },
+                    "enableEcsManagedTags": false,
+                    "enableExecuteCommand": true,
+                    "networkConfiguration": {
+                      "awsvpcConfiguration": {
+                        "assignPublicIp": "DISABLED",
+                        "subnets": [
+                          "subnet-01b1911df0ad91eb7",
+                          "subnet-02ae900ec00be7b2f",
+                          "subnet-08d2609ae2ad75bcc"
+                        ],
+                        "securityGroups": [
+                          {
+                            "Fn::GetAtt": [
+                              "IndexSGB8721386",
+                              "GroupId"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "schedulingStrategy": "REPLICA",
+                    "serviceName": "index",
+                    "serviceRegistries": [
+                      {
+                        "registryArn": {
+                          "Fn::GetAtt": [
+                            "IndexCloudmapService77ACFD31",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    ],
+                    "taskDefinition": {
+                      "Ref": "IndexTaskDef7FDDA5D5"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnService",
+                  "version": "2.55.0"
+                }
+              },
+              "CloudmapService": {
+                "id": "CloudmapService",
+                "path": "NodeApiStack/Index/CloudmapService",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "NodeApiStack/Index/CloudmapService/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ServiceDiscovery::Service",
+                      "aws:cdk:cloudformation:props": {
+                        "dnsConfig": {
+                          "dnsRecords": [
+                            {
+                              "type": "A",
+                              "ttl": 60
+                            }
+                          ],
+                          "namespaceId": {
+                            "Fn::ImportValue": "ApiNamespaceId"
+                          },
+                          "routingPolicy": "MULTIVALUE"
+                        },
+                        "healthCheckCustomConfig": {
+                          "failureThreshold": 1
+                        },
+                        "name": "index",
+                        "namespaceId": {
+                          "Fn::ImportValue": "ApiNamespaceId"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_servicediscovery.CfnService",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_servicediscovery.Service",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.Ec2Service",
+              "version": "2.55.0"
+            }
+          },
+          "FrontendTaskDef": {
+            "id": "FrontendTaskDef",
+            "path": "NodeApiStack/FrontendTaskDef",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "NodeApiStack/FrontendTaskDef/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::TaskDefinition",
+                  "aws:cdk:cloudformation:props": {
+                    "containerDefinitions": [
+                      {
+                        "cpu": 256,
+                        "dependsOn": [
+                          {
+                            "containerName": "envoy",
+                            "condition": "HEALTHY"
+                          }
+                        ],
+                        "essential": true,
+                        "image": "codesenju/frontend.api.local:ecs",
+                        "memory": 512,
+                        "name": "frontend",
+                        "portMappings": [
+                          {
+                            "containerPort": 5000,
+                            "hostPort": 5000,
+                            "protocol": "tcp",
+                            "name": "frontend"
+                          }
+                        ],
+                        "logConfiguration": {
+                          "logDriver": "awslogs",
+                          "options": {
+                            "awslogs-group": {
+                              "Ref": "FrontendTaskDeffrontendLogGroupFDDEEC5B"
+                            },
+                            "awslogs-stream-prefix": "frontend",
+                            "awslogs-region": "us-east-1"
+                          }
+                        }
+                      },
+                      {
+                        "essential": true,
+                        "image": "public.ecr.aws/appmesh/aws-appmesh-envoy:arm64-v1.24.2.0-prod",
+                        "memoryReservation": 128,
+                        "name": "envoy",
+                        "ulimits": [
+                          {
+                            "name": "nofile",
+                            "softLimit": 15000,
+                            "hardLimit": 15000
+                          }
+                        ],
+                        "user": "1337",
+                        "logConfiguration": {
+                          "logDriver": "awslogs",
+                          "options": {
+                            "awslogs-group": {
+                              "Ref": "FrontendTaskDefCrystalServiceProxyContdefLogGroupE8D9CE5B"
+                            },
+                            "awslogs-stream-prefix": "/frontend-mesh-envoy-container",
+                            "awslogs-region": "us-east-1"
+                          }
+                        },
+                        "environment": [
+                          {
+                            "name": "AWS_REGION",
+                            "value": "us-east-1"
+                          },
+                          {
+                            "name": "ENVOY_LOG_LEVEL",
+                            "value": "debug"
+                          },
+                          {
+                            "name": "ENABLE_ENVOY_STATS_TAGS",
+                            "value": "1"
+                          },
+                          {
+                            "name": "APPMESH_RESOURCE_ARN",
+                            "value": {
+                              "Fn::ImportValue": "FrontendVnArn"
+                            }
+                          }
+                        ],
+                        "healthCheck": {
+                          "command": [
+                            "CMD-SHELL",
+                            "curl -s http://localhost:9901/server_info | grep state | grep -q LIVE"
+                          ],
+                          "interval": 5,
+                          "retries": 10,
+                          "timeout": 10
+                        }
+                      }
+                    ],
+                    "cpu": "256",
+                    "executionRoleArn": "arn:aws:iam::587878432697:role/ecsTaskExecutionRole",
+                    "family": "NodeApiStackFrontendTaskDefDDA827C3",
+                    "memory": "512",
+                    "networkMode": "awsvpc",
+                    "requiresCompatibilities": [
+                      "EC2",
+                      "FARGATE"
+                    ],
+                    "taskRoleArn": "arn:aws:iam::587878432697:role/000A_ecsExecTaskRole"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnTaskDefinition",
+                  "version": "2.55.0"
+                }
+              },
+              "frontend": {
+                "id": "frontend",
+                "path": "NodeApiStack/FrontendTaskDef/frontend",
+                "children": {
+                  "LogGroup": {
+                    "id": "LogGroup",
+                    "path": "NodeApiStack/FrontendTaskDef/frontend/LogGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "NodeApiStack/FrontendTaskDef/frontend/LogGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                          "aws:cdk:cloudformation:props": {}
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                          "version": "2.55.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                  "version": "2.55.0"
+                }
+              },
+              "CrystalServiceProxyContdef": {
+                "id": "CrystalServiceProxyContdef",
+                "path": "NodeApiStack/FrontendTaskDef/CrystalServiceProxyContdef",
+                "children": {
+                  "LogGroup": {
+                    "id": "LogGroup",
+                    "path": "NodeApiStack/FrontendTaskDef/CrystalServiceProxyContdef/LogGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "NodeApiStack/FrontendTaskDef/CrystalServiceProxyContdef/LogGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                          "aws:cdk:cloudformation:props": {}
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                          "version": "2.55.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.TaskDefinition",
+              "version": "2.55.0"
+            }
+          },
+          "Frontend": {
+            "id": "Frontend",
+            "path": "NodeApiStack/Frontend",
+            "children": {
+              "Service": {
+                "id": "Service",
+                "path": "NodeApiStack/Frontend/Service",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::Service",
+                  "aws:cdk:cloudformation:props": {
+                    "capacityProviderStrategy": [
+                      {
+                        "capacityProvider": "spot-api-capasity-provider",
+                        "weight": 1
+                      }
+                    ],
+                    "cluster": "api",
+                    "deploymentConfiguration": {
+                      "maximumPercent": 200,
+                      "minimumHealthyPercent": 50
+                    },
+                    "enableEcsManagedTags": false,
+                    "enableExecuteCommand": true,
+                    "healthCheckGracePeriodSeconds": 300,
+                    "loadBalancers": [
+                      {
+                        "targetGroupArn": {
+                          "Ref": "FrontendLoadBalancerFrontendListenerFrontendTargetsGroup80B6629B"
+                        },
+                        "containerName": "frontend",
+                        "containerPort": 5000
+                      }
+                    ],
+                    "networkConfiguration": {
+                      "awsvpcConfiguration": {
+                        "assignPublicIp": "DISABLED",
+                        "subnets": [
+                          "subnet-01b1911df0ad91eb7",
+                          "subnet-02ae900ec00be7b2f",
+                          "subnet-08d2609ae2ad75bcc"
+                        ],
+                        "securityGroups": [
+                          {
+                            "Fn::GetAtt": [
+                              "FrontendSGA609D887",
+                              "GroupId"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "schedulingStrategy": "REPLICA",
+                    "serviceName": "frontend",
+                    "taskDefinition": {
+                      "Ref": "FrontendTaskDef7D3FD156"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnService",
+                  "version": "2.55.0"
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "NodeApiStack/Frontend/ScalingRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "TaskCount": {
+                "id": "TaskCount",
+                "path": "NodeApiStack/Frontend/TaskCount",
+                "children": {
+                  "Target": {
+                    "id": "Target",
+                    "path": "NodeApiStack/Frontend/TaskCount/Target",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "NodeApiStack/Frontend/TaskCount/Target/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApplicationAutoScaling::ScalableTarget",
+                          "aws:cdk:cloudformation:props": {
+                            "maxCapacity": 10,
+                            "minCapacity": 1,
+                            "resourceId": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "service/api/",
+                                  {
+                                    "Fn::GetAtt": [
+                                      "FrontendService8B3C6A55",
+                                      "Name"
+                                    ]
+                                  }
+                                ]
+                              ]
+                            },
+                            "roleArn": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "arn:",
+                                  {
+                                    "Ref": "AWS::Partition"
+                                  },
+                                  ":iam::587878432697:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+                                ]
+                              ]
+                            },
+                            "scalableDimension": "ecs:service:DesiredCount",
+                            "serviceNamespace": "ecs"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_applicationautoscaling.CfnScalableTarget",
+                          "version": "2.55.0"
+                        }
+                      },
+                      "CpuScaling": {
+                        "id": "CpuScaling",
+                        "path": "NodeApiStack/Frontend/TaskCount/Target/CpuScaling",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "NodeApiStack/Frontend/TaskCount/Target/CpuScaling/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyName": "NodeApiStackFrontendTaskCountTargetCpuScalingB405B42E",
+                                "policyType": "TargetTrackingScaling",
+                                "scalingTargetId": {
+                                  "Ref": "FrontendTaskCountTargetC428911A"
+                                },
+                                "targetTrackingScalingPolicyConfiguration": {
+                                  "predefinedMetricSpecification": {
+                                    "predefinedMetricType": "ECSServiceAverageCPUUtilization"
+                                  },
+                                  "targetValue": 60
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_applicationautoscaling.CfnScalingPolicy",
+                              "version": "2.55.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_applicationautoscaling.TargetTrackingScalingPolicy",
+                          "version": "2.55.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_applicationautoscaling.ScalableTarget",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ScalableTaskCount",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.Ec2Service",
+              "version": "2.55.0"
+            }
+          },
+          "FrontendLoadBalancer": {
+            "id": "FrontendLoadBalancer",
+            "path": "NodeApiStack/FrontendLoadBalancer",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "NodeApiStack/FrontendLoadBalancer/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+                  "aws:cdk:cloudformation:props": {
+                    "loadBalancerAttributes": [
+                      {
+                        "key": "deletion_protection.enabled",
+                        "value": "false"
+                      }
+                    ],
+                    "scheme": "internet-facing",
+                    "securityGroups": [
+                      {
+                        "Fn::GetAtt": [
+                          "ElbSG3E53E50B",
+                          "GroupId"
+                        ]
+                      }
+                    ],
+                    "subnets": [
+                      "subnet-0a6cb385222142b7f",
+                      "subnet-04b96da3213c9da46",
+                      "subnet-02d97f91df8f209b0"
+                    ],
+                    "type": "application"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnLoadBalancer",
+                  "version": "2.55.0"
+                }
+              },
+              "FrontendListener": {
+                "id": "FrontendListener",
+                "path": "NodeApiStack/FrontendLoadBalancer/FrontendListener",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "NodeApiStack/FrontendLoadBalancer/FrontendListener/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::Listener",
+                      "aws:cdk:cloudformation:props": {
+                        "defaultActions": [
+                          {
+                            "type": "forward",
+                            "targetGroupArn": {
+                              "Ref": "FrontendLoadBalancerFrontendListenerFrontendTargetsGroup80B6629B"
+                            }
+                          }
+                        ],
+                        "loadBalancerArn": {
+                          "Ref": "FrontendLoadBalancerDBDBDFF7"
+                        },
+                        "port": 80,
+                        "protocol": "HTTP"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListener",
+                      "version": "2.55.0"
+                    }
+                  },
+                  "FrontendTargetsGroup": {
+                    "id": "FrontendTargetsGroup",
+                    "path": "NodeApiStack/FrontendLoadBalancer/FrontendListener/FrontendTargetsGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "NodeApiStack/FrontendLoadBalancer/FrontendListener/FrontendTargetsGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+                          "aws:cdk:cloudformation:props": {
+                            "healthCheckPath": "/health",
+                            "port": 80,
+                            "protocol": "HTTP",
+                            "targetGroupAttributes": [
+                              {
+                                "key": "stickiness.enabled",
+                                "value": "false"
+                              }
+                            ],
+                            "targetType": "ip",
+                            "vpcId": "vpc-0f168d381ce65cfb5"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnTargetGroup",
+                          "version": "2.55.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationLoadBalancer",
+              "version": "2.55.0"
+            }
+          },
+          "PostgresServiceArn": {
+            "id": "PostgresServiceArn",
+            "path": "NodeApiStack/PostgresServiceArn",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "PostgresServiceId": {
+            "id": "PostgresServiceId",
+            "path": "NodeApiStack/PostgresServiceId",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "NodeapiServiceArn": {
+            "id": "NodeapiServiceArn",
+            "path": "NodeApiStack/NodeapiServiceArn",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "NodeapiServiceId": {
+            "id": "NodeapiServiceId",
+            "path": "NodeApiStack/NodeapiServiceId",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "IndexServiceArn": {
+            "id": "IndexServiceArn",
+            "path": "NodeApiStack/IndexServiceArn",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "IndexServiceId": {
+            "id": "IndexServiceId",
+            "path": "NodeApiStack/IndexServiceId",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "FrontendServiceArn": {
+            "id": "FrontendServiceArn",
+            "path": "NodeApiStack/FrontendServiceArn",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "FrontendServiceId": {
+            "id": "FrontendServiceId",
+            "path": "NodeApiStack/FrontendServiceId",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "FrontendElbDnsName": {
+            "id": "FrontendElbDnsName",
+            "path": "NodeApiStack/FrontendElbDnsName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "NodeApiStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "NodeApiStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.213"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "NodeApiStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.55.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "NodeApiStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.55.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.55.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.1.213"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.55.0"
+    }
+  }
+}

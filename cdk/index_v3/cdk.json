@@ -1,0 +1,4 @@
+{
+"app": "python3 index.py",
+"watch": "python3 index.py"
+}

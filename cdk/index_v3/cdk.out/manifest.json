@@ -1,0 +1,118 @@
+{
+  "version": "22.0.0",
+  "artifacts": {
+    "IndexStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "IndexStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "IndexStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://587878432697/us-east-1",
+      "properties": {
+        "templateFile": "IndexStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-deploy-role-587878432697-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-cfn-exec-role-587878432697-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-587878432697-us-east-1/2ea1737d71d147025dd181d8966b356f8960041ce0e44f4b6e23c742c3a4d6aa.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "IndexStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-lookup-role-587878432697-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "IndexStack.assets"
+      ],
+      "metadata": {
+        "/IndexStack/ImportedTaskExecutionRole/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedTaskExecutionRolePolicy23E279F9"
+          }
+        ],
+        "/IndexStack/ImportedEcsExecTaskRole/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedEcsExecTaskRolePolicy6CAEEF74"
+          }
+        ],
+        "/IndexStack/node/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "nodeE52CB09E"
+          }
+        ],
+        "/IndexStack/IndexVirtualService/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexVirtualServiceA047C49B"
+          }
+        ],
+        "/IndexStack/IndexTaskDef/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexTaskDef7FDDA5D5"
+          }
+        ],
+        "/IndexStack/indexLogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "indexLogGroup187F7830"
+          }
+        ],
+        "/IndexStack/Index/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexService427E9591"
+          }
+        ],
+        "/IndexStack/Index/CloudmapService/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexCloudmapService77ACFD31"
+          }
+        ],
+        "/IndexStack/indexServiceArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "indexServiceArn"
+          }
+        ],
+        "/IndexStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/IndexStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/IndexStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "IndexStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

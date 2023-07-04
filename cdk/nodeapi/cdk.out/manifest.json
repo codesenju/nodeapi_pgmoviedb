@@ -1,0 +1,130 @@
+{
+  "version": "22.0.0",
+  "artifacts": {
+    "NodeapiStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "NodeapiStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "NodeapiStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://587878432697/us-east-1",
+      "properties": {
+        "templateFile": "NodeapiStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-deploy-role-587878432697-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-cfn-exec-role-587878432697-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-587878432697-us-east-1/0aa0cbd12bee6c838d9b32389b3c2999a09bf24c80661b1165d0061d6ca4b66f.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "NodeapiStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::587878432697:role/cdk-hnb659fds-lookup-role-587878432697-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "NodeapiStack.assets"
+      ],
+      "metadata": {
+        "/NodeapiStack/ImportedTaskExecutionRole/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedTaskExecutionRolePolicy23E279F9"
+          }
+        ],
+        "/NodeapiStack/ImportedEcsExecTaskRole/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedEcsExecTaskRolePolicy6CAEEF74"
+          }
+        ],
+        "/NodeapiStack/node/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "nodeE52CB09E"
+          }
+        ],
+        "/NodeapiStack/IndexVirtualService/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IndexVirtualServiceA047C49B"
+          }
+        ],
+        "/NodeapiStack/NodeapiTaskDef/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiTaskDef9CAD3311"
+          }
+        ],
+        "/NodeapiStack/nodeapiLogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "nodeapiLogGroup86E8778D"
+          }
+        ],
+        "/NodeapiStack/Nodeapi/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiServiceED3ECEE4"
+          }
+        ],
+        "/NodeapiStack/Nodeapi/CloudmapService/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiCloudmapServiceDA7CB468"
+          }
+        ],
+        "/NodeapiStack/Nodeapi/TaskCount/Target/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiTaskCountTargetCCDA0A70"
+          }
+        ],
+        "/NodeapiStack/Nodeapi/TaskCount/Target/CpuScaling/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NodeapiTaskCountTargetCpuScalingA6F64E36"
+          }
+        ],
+        "/NodeapiStack/nodeapiServiceArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "nodeapiServiceArn"
+          }
+        ],
+        "/NodeapiStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/NodeapiStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/NodeapiStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "NodeapiStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,1099 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "EcsClusterStack": {
+        "id": "EcsClusterStack",
+        "path": "EcsClusterStack",
+        "children": {
+          "ImportedVpc": {
+            "id": "ImportedVpc",
+            "path": "EcsClusterStack/ImportedVpc",
+            "children": {
+              "PublicSubnet1": {
+                "id": "PublicSubnet1",
+                "path": "EcsClusterStack/ImportedVpc/PublicSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PublicSubnet2": {
+                "id": "PublicSubnet2",
+                "path": "EcsClusterStack/ImportedVpc/PublicSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PublicSubnet3": {
+                "id": "PublicSubnet3",
+                "path": "EcsClusterStack/ImportedVpc/PublicSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PrivateSubnet1": {
+                "id": "PrivateSubnet1",
+                "path": "EcsClusterStack/ImportedVpc/PrivateSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PrivateSubnet2": {
+                "id": "PrivateSubnet2",
+                "path": "EcsClusterStack/ImportedVpc/PrivateSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              },
+              "PrivateSubnet3": {
+                "id": "PrivateSubnet3",
+                "path": "EcsClusterStack/ImportedVpc/PrivateSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ApiEcsCluster": {
+            "id": "ApiEcsCluster",
+            "path": "EcsClusterStack/ApiEcsCluster",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "EcsClusterStack/ApiEcsCluster/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::Cluster",
+                  "aws:cdk:cloudformation:props": {
+                    "clusterName": "api",
+                    "clusterSettings": [
+                      {
+                        "name": "containerInsights",
+                        "value": "enabled"
+                      }
+                    ],
+                    "serviceConnectDefaults": {
+                      "namespace": "api.local"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnCluster",
+                  "version": "2.55.0"
+                }
+              },
+              "DefaultServiceDiscoveryNamespace": {
+                "id": "DefaultServiceDiscoveryNamespace",
+                "path": "EcsClusterStack/ApiEcsCluster/DefaultServiceDiscoveryNamespace",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "EcsClusterStack/ApiEcsCluster/DefaultServiceDiscoveryNamespace/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ServiceDiscovery::PrivateDnsNamespace",
+                      "aws:cdk:cloudformation:props": {
+                        "name": "api.local",
+                        "vpc": "vpc-0f168d381ce65cfb5"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_servicediscovery.CfnPrivateDnsNamespace",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_servicediscovery.PrivateDnsNamespace",
+                  "version": "2.55.0"
+                }
+              },
+              "ApiEcsCluster": {
+                "id": "ApiEcsCluster",
+                "path": "EcsClusterStack/ApiEcsCluster/ApiEcsCluster",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::ClusterCapacityProviderAssociations",
+                  "aws:cdk:cloudformation:props": {
+                    "capacityProviders": [
+                      "FARGATE",
+                      "FARGATE_SPOT",
+                      {
+                        "Ref": "AsgCapacityProvider760D11D9"
+                      },
+                      {
+                        "Ref": "SpotAsgCapacityProvider1E99DCF5"
+                      },
+                      {
+                        "Ref": "AmdSpotAsgCapacityProviderD1E0FB3A"
+                      }
+                    ],
+                    "cluster": {
+                      "Ref": "ApiEcsClusterA70A6453"
+                    },
+                    "defaultCapacityProviderStrategy": []
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnClusterCapacityProviderAssociations",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.Cluster",
+              "version": "2.55.0"
+            }
+          },
+          "amdAPIClusterSG": {
+            "id": "amdAPIClusterSG",
+            "path": "EcsClusterStack/amdAPIClusterSG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "EcsClusterStack/amdAPIClusterSG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "amd api cluster security group",
+                    "groupName": "amdAPIClusterSG",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "255.255.255.255/32",
+                        "description": "Disallow all traffic",
+                        "ipProtocol": "icmp",
+                        "fromPort": 252,
+                        "toPort": 86
+                      }
+                    ],
+                    "vpcId": "vpc-0f168d381ce65cfb5"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.55.0"
+            }
+          },
+          "EcsApiMesh": {
+            "id": "EcsApiMesh",
+            "path": "EcsClusterStack/EcsApiMesh",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "EcsClusterStack/EcsApiMesh/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::AppMesh::Mesh",
+                  "aws:cdk:cloudformation:props": {
+                    "meshName": "ApiEcs",
+                    "spec": {
+                      "egressFilter": {
+                        "type": "ALLOW_ALL"
+                      }
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_appmesh.CfnMesh",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_appmesh.Mesh",
+              "version": "2.55.0"
+            }
+          },
+          "LaunchTemplateSG": {
+            "id": "LaunchTemplateSG",
+            "path": "EcsClusterStack/LaunchTemplateSG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "EcsClusterStack/LaunchTemplateSG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "EcsClusterStack/LaunchTemplateSG",
+                    "groupName": "api-sg",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "description": "Allow all outbound traffic by default",
+                        "ipProtocol": "-1"
+                      }
+                    ],
+                    "securityGroupIngress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 5000,
+                        "toPort": 5000,
+                        "description": "Allow inbound 5000 from LB"
+                      }
+                    ],
+                    "vpcId": "vpc-0f168d381ce65cfb5"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.55.0"
+            }
+          },
+          "ecsworkshopRole": {
+            "id": "ecsworkshopRole",
+            "path": "EcsClusterStack/ecsworkshopRole",
+            "children": {
+              "Policy": {
+                "id": "Policy",
+                "path": "EcsClusterStack/ecsworkshopRole/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "EcsClusterStack/ecsworkshopRole/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "ecs:DeregisterContainerInstance",
+                                "ecs:RegisterContainerInstance",
+                                "ecs:Submit*"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "ApiEcsClusterA70A6453",
+                                  "Arn"
+                                ]
+                              }
+                            },
+                            {
+                              "Action": [
+                                "ecs:Poll",
+                                "ecs:StartTelemetrySession"
+                              ],
+                              "Condition": {
+                                "ArnEquals": {
+                                  "ecs:cluster": {
+                                    "Fn::GetAtt": [
+                                      "ApiEcsClusterA70A6453",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              },
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": [
+                                "ecs:DiscoverPollEndpoint",
+                                "ecr:GetAuthorizationToken",
+                                "logs:CreateLogStream",
+                                "logs:PutLogEvents"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "ecsworkshopRolePolicyE86D420C",
+                        "roles": [
+                          "ecsworkshop-admin"
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "NodeapiLaunchTemplate": {
+            "id": "NodeapiLaunchTemplate",
+            "path": "EcsClusterStack/NodeapiLaunchTemplate",
+            "children": {
+              "Profile": {
+                "id": "Profile",
+                "path": "EcsClusterStack/NodeapiLaunchTemplate/Profile",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::InstanceProfile",
+                  "aws:cdk:cloudformation:props": {
+                    "roles": [
+                      "ecsworkshop-admin"
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnInstanceProfile",
+                  "version": "2.55.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "EcsClusterStack/NodeapiLaunchTemplate/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::LaunchTemplate",
+                  "aws:cdk:cloudformation:props": {
+                    "launchTemplateData": {
+                      "iamInstanceProfile": {
+                        "arn": {
+                          "Fn::GetAtt": [
+                            "NodeapiLaunchTemplateProfileB9648EBD",
+                            "Arn"
+                          ]
+                        }
+                      },
+                      "imageId": {
+                        "Ref": "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2arm64recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
+                      },
+                      "instanceType": "a1.2xlarge",
+                      "securityGroupIds": [
+                        {
+                          "Fn::GetAtt": [
+                            "LaunchTemplateSG62F977F3",
+                            "GroupId"
+                          ]
+                        }
+                      ],
+                      "tagSpecifications": [
+                        {
+                          "resourceType": "instance",
+                          "tags": [
+                            {
+                              "key": "Name",
+                              "value": "EcsClusterStack/NodeapiLaunchTemplate"
+                            }
+                          ]
+                        },
+                        {
+                          "resourceType": "volume",
+                          "tags": [
+                            {
+                              "key": "Name",
+                              "value": "EcsClusterStack/NodeapiLaunchTemplate"
+                            }
+                          ]
+                        }
+                      ],
+                      "userData": {
+                        "Fn::Base64": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "#!/bin/bash\n echo ECS_CLUSTER=api >> /etc/ecs/ecs.config\n echo ECS_ENABLE_SPOT_INSTANCE_DRAINING=true >> /etc/ecs/ecs.config \n echo ECS_IMAGE_PULL_BEHAVIOR=always >> /etc/ecs/ecs.config \necho ECS_CLUSTER=",
+                              {
+                                "Ref": "ApiEcsClusterA70A6453"
+                              },
+                              " >> /etc/ecs/ecs.config\nsudo iptables --insert FORWARD 1 --in-interface docker+ --destination 169.254.169.254/32 --jump DROP\nsudo service iptables save\necho ECS_AWSVPC_BLOCK_IMDS=true >> /etc/ecs/ecs.config\necho ECS_CLUSTER=",
+                              {
+                                "Ref": "ApiEcsClusterA70A6453"
+                              },
+                              " >> /etc/ecs/ecs.config\nsudo iptables --insert FORWARD 1 --in-interface docker+ --destination 169.254.169.254/32 --jump DROP\nsudo service iptables save\necho ECS_AWSVPC_BLOCK_IMDS=true >> /etc/ecs/ecs.config\necho ECS_CLUSTER=",
+                              {
+                                "Ref": "ApiEcsClusterA70A6453"
+                              },
+                              " >> /etc/ecs/ecs.config\nsudo iptables --insert FORWARD 1 --in-interface docker+ --destination 169.254.169.254/32 --jump DROP\nsudo service iptables save\necho ECS_AWSVPC_BLOCK_IMDS=true >> /etc/ecs/ecs.config"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "launchTemplateName": "nodeapi-launch-template",
+                    "tagSpecifications": [
+                      {
+                        "resourceType": "launch-template",
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "EcsClusterStack/NodeapiLaunchTemplate"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnLaunchTemplate",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.LaunchTemplate",
+              "version": "2.55.0"
+            }
+          },
+          "SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--arm64--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": {
+            "id": "SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--arm64--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter",
+            "path": "EcsClusterStack/SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--arm64--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.55.0"
+            }
+          },
+          "SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--arm64--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118": {
+            "id": "SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--arm64--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118",
+            "path": "EcsClusterStack/SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--arm64--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "amd-ecsworkshopRole": {
+            "id": "amd-ecsworkshopRole",
+            "path": "EcsClusterStack/amd-ecsworkshopRole",
+            "children": {
+              "Policy": {
+                "id": "Policy",
+                "path": "EcsClusterStack/amd-ecsworkshopRole/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "EcsClusterStack/amd-ecsworkshopRole/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "ecs:DeregisterContainerInstance",
+                                "ecs:RegisterContainerInstance",
+                                "ecs:Submit*"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": {
+                                "Fn::GetAtt": [
+                                  "ApiEcsClusterA70A6453",
+                                  "Arn"
+                                ]
+                              }
+                            },
+                            {
+                              "Action": [
+                                "ecs:Poll",
+                                "ecs:StartTelemetrySession"
+                              ],
+                              "Condition": {
+                                "ArnEquals": {
+                                  "ecs:cluster": {
+                                    "Fn::GetAtt": [
+                                      "ApiEcsClusterA70A6453",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              },
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            },
+                            {
+                              "Action": [
+                                "ecs:DiscoverPollEndpoint",
+                                "ecr:GetAuthorizationToken",
+                                "logs:CreateLogStream",
+                                "logs:PutLogEvents"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "amdecsworkshopRolePolicy21E2A37F",
+                        "roles": [
+                          "ecsworkshop-admin"
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.55.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "AmdNodeapiLaunchTemplate": {
+            "id": "AmdNodeapiLaunchTemplate",
+            "path": "EcsClusterStack/AmdNodeapiLaunchTemplate",
+            "children": {
+              "Profile": {
+                "id": "Profile",
+                "path": "EcsClusterStack/AmdNodeapiLaunchTemplate/Profile",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::InstanceProfile",
+                  "aws:cdk:cloudformation:props": {
+                    "roles": [
+                      "ecsworkshop-admin"
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnInstanceProfile",
+                  "version": "2.55.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "EcsClusterStack/AmdNodeapiLaunchTemplate/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::LaunchTemplate",
+                  "aws:cdk:cloudformation:props": {
+                    "launchTemplateData": {
+                      "iamInstanceProfile": {
+                        "arn": {
+                          "Fn::GetAtt": [
+                            "AmdNodeapiLaunchTemplateProfile73EBDD49",
+                            "Arn"
+                          ]
+                        }
+                      },
+                      "imageId": {
+                        "Ref": "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
+                      },
+                      "instanceType": "m5.large",
+                      "securityGroupIds": [
+                        {
+                          "Fn::GetAtt": [
+                            "LaunchTemplateSG62F977F3",
+                            "GroupId"
+                          ]
+                        }
+                      ],
+                      "tagSpecifications": [
+                        {
+                          "resourceType": "instance",
+                          "tags": [
+                            {
+                              "key": "Name",
+                              "value": "EcsClusterStack/AmdNodeapiLaunchTemplate"
+                            }
+                          ]
+                        },
+                        {
+                          "resourceType": "volume",
+                          "tags": [
+                            {
+                              "key": "Name",
+                              "value": "EcsClusterStack/AmdNodeapiLaunchTemplate"
+                            }
+                          ]
+                        }
+                      ],
+                      "userData": {
+                        "Fn::Base64": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "#!/bin/bash\n echo ECS_CLUSTER=api >> /etc/ecs/ecs.config\n echo ECS_ENABLE_SPOT_INSTANCE_DRAINING=true >> /etc/ecs/ecs.config \n echo ECS_IMAGE_PULL_BEHAVIOR=always >> /etc/ecs/ecs.config \necho ECS_CLUSTER=",
+                              {
+                                "Ref": "ApiEcsClusterA70A6453"
+                              },
+                              " >> /etc/ecs/ecs.config\nsudo iptables --insert FORWARD 1 --in-interface docker+ --destination 169.254.169.254/32 --jump DROP\nsudo service iptables save\necho ECS_AWSVPC_BLOCK_IMDS=true >> /etc/ecs/ecs.config\necho ECS_CLUSTER=",
+                              {
+                                "Ref": "ApiEcsClusterA70A6453"
+                              },
+                              " >> /etc/ecs/ecs.config\nsudo iptables --insert FORWARD 1 --in-interface docker+ --destination 169.254.169.254/32 --jump DROP\nsudo service iptables save\necho ECS_AWSVPC_BLOCK_IMDS=true >> /etc/ecs/ecs.config\necho ECS_CLUSTER=",
+                              {
+                                "Ref": "ApiEcsClusterA70A6453"
+                              },
+                              " >> /etc/ecs/ecs.config\nsudo iptables --insert FORWARD 1 --in-interface docker+ --destination 169.254.169.254/32 --jump DROP\nsudo service iptables save\necho ECS_AWSVPC_BLOCK_IMDS=true >> /etc/ecs/ecs.config"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "launchTemplateName": "amd-nodeapi-launch-template",
+                    "tagSpecifications": [
+                      {
+                        "resourceType": "launch-template",
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "EcsClusterStack/AmdNodeapiLaunchTemplate"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnLaunchTemplate",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.LaunchTemplate",
+              "version": "2.55.0"
+            }
+          },
+          "SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": {
+            "id": "SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter",
+            "path": "EcsClusterStack/SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.55.0"
+            }
+          },
+          "SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118": {
+            "id": "SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118",
+            "path": "EcsClusterStack/SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.55.0"
+            }
+          },
+          "ASG": {
+            "id": "ASG",
+            "path": "EcsClusterStack/ASG",
+            "children": {
+              "ASG": {
+                "id": "ASG",
+                "path": "EcsClusterStack/ASG/ASG",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::AutoScaling::AutoScalingGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "maxSize": "4",
+                    "minSize": "0",
+                    "autoScalingGroupName": "api-asg",
+                    "desiredCapacity": "0",
+                    "launchTemplate": {
+                      "launchTemplateId": {
+                        "Ref": "NodeapiLaunchTemplateE853F246"
+                      },
+                      "version": {
+                        "Fn::GetAtt": [
+                          "NodeapiLaunchTemplateE853F246",
+                          "LatestVersionNumber"
+                        ]
+                      }
+                    },
+                    "newInstancesProtectedFromScaleIn": true,
+                    "vpcZoneIdentifier": [
+                      "subnet-01b1911df0ad91eb7",
+                      "subnet-02ae900ec00be7b2f",
+                      "subnet-08d2609ae2ad75bcc"
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_autoscaling.CfnAutoScalingGroup",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_autoscaling.AutoScalingGroup",
+              "version": "2.55.0"
+            }
+          },
+          "AsgCapacityProvider": {
+            "id": "AsgCapacityProvider",
+            "path": "EcsClusterStack/AsgCapacityProvider",
+            "children": {
+              "AsgCapacityProvider": {
+                "id": "AsgCapacityProvider",
+                "path": "EcsClusterStack/AsgCapacityProvider/AsgCapacityProvider",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::CapacityProvider",
+                  "aws:cdk:cloudformation:props": {
+                    "autoScalingGroupProvider": {
+                      "autoScalingGroupArn": {
+                        "Ref": "ASG46ED3070"
+                      },
+                      "managedScaling": {
+                        "status": "ENABLED",
+                        "targetCapacity": 100
+                      },
+                      "managedTerminationProtection": "ENABLED"
+                    },
+                    "name": "api-capasity-provider"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnCapacityProvider",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.AsgCapacityProvider",
+              "version": "2.55.0"
+            }
+          },
+          "SPOT_ASG": {
+            "id": "SPOT_ASG",
+            "path": "EcsClusterStack/SPOT_ASG",
+            "children": {
+              "ASG": {
+                "id": "ASG",
+                "path": "EcsClusterStack/SPOT_ASG/ASG",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::AutoScaling::AutoScalingGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "maxSize": "4",
+                    "minSize": "0",
+                    "autoScalingGroupName": "arm-spot-api-asg",
+                    "desiredCapacity": "0",
+                    "mixedInstancesPolicy": {
+                      "instancesDistribution": {
+                        "onDemandBaseCapacity": 0,
+                        "onDemandPercentageAboveBaseCapacity": 0,
+                        "spotAllocationStrategy": "lowest-price"
+                      },
+                      "launchTemplate": {
+                        "launchTemplateSpecification": {
+                          "launchTemplateId": {
+                            "Ref": "NodeapiLaunchTemplateE853F246"
+                          },
+                          "version": {
+                            "Fn::GetAtt": [
+                              "NodeapiLaunchTemplateE853F246",
+                              "LatestVersionNumber"
+                            ]
+                          }
+                        },
+                        "overrides": [
+                          {
+                            "instanceType": "c6gn.xlarge",
+                            "launchTemplateSpecification": {
+                              "launchTemplateId": {
+                                "Ref": "NodeapiLaunchTemplateE853F246"
+                              },
+                              "version": {
+                                "Fn::GetAtt": [
+                                  "NodeapiLaunchTemplateE853F246",
+                                  "LatestVersionNumber"
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "instanceType": "c6gn.2xlarge",
+                            "launchTemplateSpecification": {
+                              "launchTemplateId": {
+                                "Ref": "NodeapiLaunchTemplateE853F246"
+                              },
+                              "version": {
+                                "Fn::GetAtt": [
+                                  "NodeapiLaunchTemplateE853F246",
+                                  "LatestVersionNumber"
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "newInstancesProtectedFromScaleIn": true,
+                    "vpcZoneIdentifier": [
+                      "subnet-01b1911df0ad91eb7",
+                      "subnet-02ae900ec00be7b2f",
+                      "subnet-08d2609ae2ad75bcc"
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_autoscaling.CfnAutoScalingGroup",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_autoscaling.AutoScalingGroup",
+              "version": "2.55.0"
+            }
+          },
+          "SpotAsgCapacityProvider": {
+            "id": "SpotAsgCapacityProvider",
+            "path": "EcsClusterStack/SpotAsgCapacityProvider",
+            "children": {
+              "SpotAsgCapacityProvider": {
+                "id": "SpotAsgCapacityProvider",
+                "path": "EcsClusterStack/SpotAsgCapacityProvider/SpotAsgCapacityProvider",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::CapacityProvider",
+                  "aws:cdk:cloudformation:props": {
+                    "autoScalingGroupProvider": {
+                      "autoScalingGroupArn": {
+                        "Ref": "SPOTASG1F22A3A0"
+                      },
+                      "managedScaling": {
+                        "status": "ENABLED",
+                        "targetCapacity": 100
+                      },
+                      "managedTerminationProtection": "ENABLED"
+                    },
+                    "name": "spot-api-capasity-provider"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnCapacityProvider",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.AsgCapacityProvider",
+              "version": "2.55.0"
+            }
+          },
+          "AMD_SPOT_ASG": {
+            "id": "AMD_SPOT_ASG",
+            "path": "EcsClusterStack/AMD_SPOT_ASG",
+            "children": {
+              "ASG": {
+                "id": "ASG",
+                "path": "EcsClusterStack/AMD_SPOT_ASG/ASG",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::AutoScaling::AutoScalingGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "maxSize": "2",
+                    "minSize": "0",
+                    "autoScalingGroupName": "amd-spot-api-asg",
+                    "desiredCapacity": "0",
+                    "mixedInstancesPolicy": {
+                      "instancesDistribution": {
+                        "onDemandBaseCapacity": 0,
+                        "onDemandPercentageAboveBaseCapacity": 0,
+                        "spotAllocationStrategy": "lowest-price"
+                      },
+                      "launchTemplate": {
+                        "launchTemplateSpecification": {
+                          "launchTemplateId": {
+                            "Ref": "AmdNodeapiLaunchTemplate8673CD41"
+                          },
+                          "version": {
+                            "Fn::GetAtt": [
+                              "AmdNodeapiLaunchTemplate8673CD41",
+                              "LatestVersionNumber"
+                            ]
+                          }
+                        },
+                        "overrides": [
+                          {
+                            "instanceType": "m5.xlarge",
+                            "launchTemplateSpecification": {
+                              "launchTemplateId": {
+                                "Ref": "AmdNodeapiLaunchTemplate8673CD41"
+                              },
+                              "version": {
+                                "Fn::GetAtt": [
+                                  "AmdNodeapiLaunchTemplate8673CD41",
+                                  "LatestVersionNumber"
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "instanceType": "m5.2xlarge",
+                            "launchTemplateSpecification": {
+                              "launchTemplateId": {
+                                "Ref": "AmdNodeapiLaunchTemplate8673CD41"
+                              },
+                              "version": {
+                                "Fn::GetAtt": [
+                                  "AmdNodeapiLaunchTemplate8673CD41",
+                                  "LatestVersionNumber"
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "newInstancesProtectedFromScaleIn": true,
+                    "vpcZoneIdentifier": [
+                      "subnet-01b1911df0ad91eb7",
+                      "subnet-02ae900ec00be7b2f",
+                      "subnet-08d2609ae2ad75bcc"
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_autoscaling.CfnAutoScalingGroup",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_autoscaling.AutoScalingGroup",
+              "version": "2.55.0"
+            }
+          },
+          "AmdSpotAsgCapacityProvider": {
+            "id": "AmdSpotAsgCapacityProvider",
+            "path": "EcsClusterStack/AmdSpotAsgCapacityProvider",
+            "children": {
+              "AmdSpotAsgCapacityProvider": {
+                "id": "AmdSpotAsgCapacityProvider",
+                "path": "EcsClusterStack/AmdSpotAsgCapacityProvider/AmdSpotAsgCapacityProvider",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::CapacityProvider",
+                  "aws:cdk:cloudformation:props": {
+                    "autoScalingGroupProvider": {
+                      "autoScalingGroupArn": {
+                        "Ref": "AMDSPOTASG0B22309D"
+                      },
+                      "managedScaling": {
+                        "status": "ENABLED",
+                        "targetCapacity": 100
+                      },
+                      "managedTerminationProtection": "ENABLED"
+                    },
+                    "name": "amd-spot-api-capasity-provider"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnCapacityProvider",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.AsgCapacityProvider",
+              "version": "2.55.0"
+            }
+          },
+          "ApiNamespaceArn": {
+            "id": "ApiNamespaceArn",
+            "path": "EcsClusterStack/ApiNamespaceArn",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "ApiNamespaceName": {
+            "id": "ApiNamespaceName",
+            "path": "EcsClusterStack/ApiNamespaceName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "ApiNamespaceId": {
+            "id": "ApiNamespaceId",
+            "path": "EcsClusterStack/ApiNamespaceId",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "amdApiClusterSGID": {
+            "id": "amdApiClusterSGID",
+            "path": "EcsClusterStack/amdApiClusterSGID",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "EcsApiMeshArn": {
+            "id": "EcsApiMeshArn",
+            "path": "EcsClusterStack/EcsApiMeshArn",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.55.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "EcsClusterStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "EcsClusterStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.55.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.213"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "EcsClusterStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.55.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "EcsClusterStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.55.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.55.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.1.213"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.55.0"
+    }
+  }
+}

@@ -1,0 +1,164 @@
+#!/usr/bin/env python3
+from aws_cdk import (
+    Stack,
+    aws_ecs as ecs,
+    aws_ec2 as ec2,
+    aws_autoscaling as autoscaling,
+    aws_iam as iam,
+    aws_appmesh as appmesh,
+    aws_ecr as ecr,
+    aws_ecr_assets as ecr_assets,
+    aws_logs as logs,
+    aws_servicediscovery as servicediscovery,
+    aws_elasticloadbalancingv2 as elbv2,
+    aws_ecs_patterns as ecs_patterns,
+)
+import os
+from constructs import Construct
+import aws_cdk as cdk
+from aws_cdk.aws_ecr_assets import DockerImageAsset
+import  cdk_ecr_deployment  as ecrdeploy
+
+class NodeApiStack(Stack):
+    def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
+        super().__init__(scope, construct_id, **kwargs)
+
+        account = os.getenv("AWS_ACCOUNT_ID")
+        ecs_cluster_name = os.getenv("ECS_CLUSTER_NAME")
+
+        # Import existing VPC
+        self.environment_name = 'VpcInfraStack'
+        vpc = ec2.Vpc.from_lookup(
+            self, "ImportedVpc",
+            vpc_name='{}/ApiProjectVpc'.format(self.environment_name)
+        )
+
+       
+        security_group = ec2.SecurityGroup.from_security_group_id(self, "ImportedSG", os.getenv("SG"))
+        # Create security group for postgres to allow inbound 5432
+        allowInbound5432_SG = ec2.SecurityGroup(self, "allowInbound5432_SG",vpc=vpc,security_group_name="allowInbound5432_SG")
+        allowInbound5432_SG.add_ingress_rule(ec2.Peer.any_ipv4(),ec2.Port.tcp(5432),description="Allow inbound 5432 for postgres db from anywhere")
+        
+        # Create New Namespace
+        #nodeapi_namespace = servicediscovery.PrivateDnsNamespace(self, "NodeapiNamespace",
+        #    name="api.local",
+        #    vpc=vpc
+        #)
+        
+        # Import Namespace
+        nodeapi_namespace= servicediscovery.PrivateDnsNamespace.from_private_dns_namespace_attributes(self, "ImportedNamespace",
+            namespace_arn=os.getenv("NAMESPACE_ARN"),
+            namespace_id=os.getenv("NAMESPACE_ID"),
+            namespace_name=os.getenv("NAMESPACE_NAME")
+        )
+
+        # Import IAM task execution role
+        existing_task_execution_role_name = "ecsTaskExecutionRole" 
+        existing_task_execution_role_arn = f'arn:aws:iam::{account}:role/{existing_task_execution_role_name}'
+        task_execution_role = iam.Role.from_role_arn(self, 'ImportedTaskExecutionRole', role_arn=existing_task_execution_role_arn)
+
+        # Import IAM task role
+        existing_task_role_name = "000A_ecsExecTaskRole"
+        existing_task_role_arn = f'arn:aws:iam::{account}:role/{existing_task_role_name}'
+        task_role = iam.Role.from_role_arn(self, 'ImportedEcsExecTaskRole', role_arn=existing_task_role_arn)
+
+        # Import ECS Cluster
+        cluster = ecs.Cluster.from_cluster_attributes(self, "ImportedCluster",cluster_name=f"{ecs_cluster_name}",security_groups=[security_group],vpc=vpc,default_cloud_map_namespace=nodeapi_namespace)
+
+         # Define the task definition for the Postgres service
+        postgres_task_definition = ecs.FargateTaskDefinition(self, "PostgresTaskDef",
+        execution_role=task_execution_role,
+        runtime_platform=ecs.RuntimePlatform(
+            operating_system_family=ecs.OperatingSystemFamily.LINUX,
+            cpu_architecture=ecs.CpuArchitecture.ARM64
+            ),
+        )
+
+        postgres_container = postgres_task_definition.add_container(
+            "Postgres",
+            #image=ecs.ContainerImage.from_docker_image_asset(pgmoviedb_image_asset),
+            image=ecs.ContainerImage.from_registry("codesenju/pgmoviedb.api.local"),
+            environment={
+                "POSTGRES_DB": "movie",
+                "POSTGRES_PASSWORD": "12345"
+            },
+            logging=ecs.LogDrivers.aws_logs(stream_prefix="postgres"),
+            memory_limit_mib=512,
+            cpu=256,
+            
+        )
+        postgres_container.add_port_mappings(ecs.PortMapping(container_port=5432,name="postgres"))
+        
+        postgres_service = ecs.FargateService(self, "PostgresService",
+            cluster=cluster,
+            task_definition=postgres_task_definition,
+            enable_execute_command=True,
+            security_groups=[allowInbound5432_SG],
+            service_connect_configuration=ecs.ServiceConnectProps(
+                services=[ecs.ServiceConnectService(
+                    port_mapping_name="postgres",
+                    dns_name="pgmoviedb.api.local",
+                    discovery_name="postgres",
+                    port=5432
+                )
+                ]
+            ), # service_connect_configuration
+        )
+        # postgres_service.enable_cloud_map(name="pgmoviedb")
+
+        
+        nodeapi_task_definition = ecs.FargateTaskDefinition(self, "NodeApiTaskDef",
+        execution_role=task_execution_role, 
+        task_role=task_role,
+        runtime_platform=ecs.RuntimePlatform(
+            operating_system_family=ecs.OperatingSystemFamily.LINUX,
+            cpu_architecture=ecs.CpuArchitecture.ARM64
+            ),
+        )
+
+        nodeapi_container = nodeapi_task_definition.add_container(
+           "nodeapi",
+           #image=ecs.ContainerImage.from_docker_image_asset(pgmoviedb_image_asset),
+           image=ecs.ContainerImage.from_registry("codesenju/nodeapi.api.local"),
+           logging=ecs.LogDrivers.aws_logs(stream_prefix="nodeapi"),
+           memory_limit_mib=512,
+           cpu=256,
+           container_name="nodeapi",
+                     
+       )
+        nodeapi_container.add_port_mappings(ecs.PortMapping(container_port=3000,name="nodeapi"))
+
+        # Example automatically generated from non-compiling source. May contain errors.
+        nodeapi_service = ecs.FargateService(self, "NodeapiService",
+            cluster=cluster,
+            task_definition=nodeapi_task_definition,
+            enable_execute_command=True
+        )
+
+        nodeapi_service.enable_service_connect()
+
+        #nodeapi_service.enable_cloud_map(name="nodeapi")
+        
+        #ELB 
+        load_balancer = elbv2.ApplicationLoadBalancer(self, "NodeapiLoadBalancer",vpc=vpc, internet_facing=True)
+        listener = load_balancer.add_listener("NodeapiListener",port=80)
+        taregtGroup = listener.add_targets("NodeapiTargets",port=3000,targets=[nodeapi_service],protocol=elbv2.ApplicationProtocol.HTTP)
+    
+
+        # AutoScaling for nodeapi
+        scaling = nodeapi_service.auto_scale_task_count(max_capacity=10)
+        scaling.scale_on_cpu_utilization("CpuScaling",
+            target_utilization_percent=80,
+        )
+
+        # AutoScaling for postgres
+        scaling = postgres_service.auto_scale_task_count(max_capacity=10)
+        scaling.scale_on_cpu_utilization("CpuScaling",
+            target_utilization_percent=80
+        )
+
+app = cdk.App()
+
+
+NodeApiStack(app, "NodeApiStack", env=cdk.Environment(account=os.getenv('AWS_ACCOUNT_ID'), region=os.getenv('AWS_REGION')),)
+app.synth()
