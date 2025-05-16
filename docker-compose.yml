@@ -30,7 +30,6 @@ services:
       - 3001:3000
     profiles:
       - all
-      - s390x
       - simple
   pgmoviedb:
     # image:  codesenju/pgmoviedb.api.local:latest
@@ -48,7 +47,6 @@ services:
       - 5432:5432
     profiles:
       - all
-      - s390x
       - simple
   nodeapi:
     # image:   codesenju/nodeapi.api.local:latest
@@ -67,7 +65,6 @@ services:
       - devops
     profiles:
       - all
-      - s390x
     ports:
       - 3002:3000
   index:
@@ -84,7 +81,6 @@ services:
       - devops
     profiles:
       - all
-      - s390x
     ports:
       - 81:5000
   indexv2:
@@ -101,7 +97,6 @@ services:
       - devops
     profiles:
       - all
-      - s390x
     ports:
       - 82:5000
   indexv3:
@@ -118,7 +113,6 @@ services:
       - devops
     profiles:
       - all
-      - s390x
     ports:
       - 83:5000
   frontend:
@@ -132,6 +126,8 @@ services:
       - devops
     ports:
       - 8081:5000
+    profiles:
+      - all
   index-backend:
     # image:  codesenju/index-backend.api.local:latest
     build: ./index-backend.api.local
@@ -144,7 +140,6 @@ services:
       - devops
     profiles:
       - all
-      - s390x
     ports:
       - 84:5000
 #  redis:

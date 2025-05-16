@@ -1,4 +1,4 @@
-FROM postgres:15
+FROM postgres:12
 # Install the procps package to get the ps command
 RUN apt-get update && apt-get install -y procps
 
