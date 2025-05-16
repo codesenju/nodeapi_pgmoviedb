@@ -8,12 +8,13 @@
 
 ### Quick Setup:
 ```shell
-docker-compose up -d
+docker compose --profile quick-setup build
+docker compose --profile quick-setup up -d
 ```
 ### Test API
 
 ```shell
-curl localhost:3000/api/v1/movies | jq 
+curl localhost:3001/api/v1/movies | jq 
 ```
 
 ## Visit http://localhost:8080

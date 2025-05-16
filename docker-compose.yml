@@ -30,7 +30,7 @@ services:
       - 3001:3000
     profiles:
       - all
-      - simple
+      - quick-setup
   pgmoviedb:
     # image:  codesenju/pgmoviedb.api.local:latest
     build: ./postgres
@@ -47,7 +47,7 @@ services:
       - 5432:5432
     profiles:
       - all
-      - simple
+      - quick-setup
   nodeapi:
     # image:   codesenju/nodeapi.api.local:latest
     build: ./nodeapi
