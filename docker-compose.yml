@@ -51,8 +51,8 @@ services:
     profiles:
       - all
       - s390x
-#    ports:
-#      - 3000:3000
+    ports:
+      - 3001:3000
   index:
     # image:  codesenju/index.api.local:v1
     build: ./index.api.local
@@ -68,8 +68,8 @@ services:
     profiles:
       - all
       - s390x
-#    ports:
-#      - 81:5000
+    ports:
+      - 81:5000
   indexv2:
     # image:  codesenju/index.api.local:v2
     build: ./indexv2.api.local
@@ -85,8 +85,8 @@ services:
     profiles:
       - all
       - s390x
-#    ports:
-#      - 82:5000
+    ports:
+      - 82:5000
   indexv3:
     # image:  codesenju/index.api.local:v3
     build: ./indexv3.api.local
@@ -102,8 +102,8 @@ services:
     profiles:
       - all
       - s390x
-#    ports:
-#      - 83:5000
+    ports:
+      - 83:5000
   frontend:
     # image:  codesenju/frontend.api.local:latest
     build: ./frontend.api.local
@@ -128,8 +128,8 @@ services:
     profiles:
       - all
       - s390x
-#    ports:
-#      - 84:5000
+    ports:
+      - 84:5000
 #  redis:
 #    image: redis:7
 #    container_name: redis
