@@ -29,4 +29,4 @@ docker compose --profile quick-setup logs -f
 curl localhost:8000/api/v1/movies | jq 
 ```
 
-## Visit http://localhost:8000/api/v1/movies
+## Visit http://localhost:8000/docs
