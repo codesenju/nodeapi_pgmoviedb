@@ -1,4 +1,4 @@
-FROM postgres:12
+FROM postgres:15
 # Install the procps package to get the ps command
 RUN apt-get update && apt-get install -y procps
 
@@ -15,9 +15,9 @@ RUN cp /tmp/title.basics.tsv ./ && \
 
 COPY import.sql ./
 
-COPY ./certs /var/lib/postgresql/certs
+# COPY ./certs /var/lib/postgresql/certs
 
-# Private key file "/var/lib/postgresql/certs/server.key" has group or world access
-#  File must have permissions u=rw (0600) or less if owned by the database user, or permissions u=rw,g=r (0640) or less if owned by root.
-RUN chmod 600 /var/lib/postgresql/certs/server.* && \
-    chown postgres /var/lib/postgresql/certs/server.*
+# # Private key file "/var/lib/postgresql/certs/server.key" has group or world access
+# #  File must have permissions u=rw (0600) or less if owned by the database user, or permissions u=rw,g=r (0640) or less if owned by root.
+# RUN chmod 600 /var/lib/postgresql/certs/server.* && \
+#     chown postgres /var/lib/postgresql/certs/server.*

@@ -15,11 +15,27 @@ services:
       - 3000:3000
     profiles:
       - all
+  fastapi:
+    build: ./FastApi
+    container_name: fastapi
+    networks:
+      - devops
+    environment:
+      DB_HOST: pgmoviedb
+      DB_NAME: movie
+      DB_PASSWORD: 12345
+      DB_USERNAME: postgres
+      DB_PORT: 5432
+    ports:
+      - 3001:3000
+    profiles:
+      - all
+      - s390x
+      - simple
   pgmoviedb:
     # image:  codesenju/pgmoviedb.api.local:latest
     build: ./postgres
     container_name: postgres
-    hostname: postgres
     restart: unless-stopped
     environment:
        POSTGRES_DB: movie
@@ -33,6 +49,7 @@ services:
     profiles:
       - all
       - s390x
+      - simple
   nodeapi:
     # image:   codesenju/nodeapi.api.local:latest
     build: ./nodeapi
@@ -52,7 +69,7 @@ services:
       - all
       - s390x
     ports:
-      - 3001:3000
+      - 3002:3000
   index:
     # image:  codesenju/index.api.local:v1
     build: ./index.api.local
