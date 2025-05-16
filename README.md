@@ -1,8 +1,7 @@
 # Setup Guide
 
 ### Prerequisite:
-- docker
-- docker-compsoe
+- docker & docker compose
 - jq
 - make (optional)
 
