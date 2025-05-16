@@ -1,4 +1,3 @@
-version: "3.3"
 networks:
   devops:
     driver: bridge
@@ -7,15 +6,16 @@ volumes:
   redis-data:
 services:
   movie-search:
-    image:  codesenju/movie-search.api.local:latest
+    # image:  codesenju/movie-search.api.local:latest
     build: ./movie-search
+    platform: linux/amd64
     container_name: movie-search
     networks:
       - devops
     ports:
       - 3000:3000
   pgmoviedb:
-    image:  codesenju/pgmoviedb.api.local:latest
+    # image:  codesenju/pgmoviedb.api.local:latest
     build: ./postgres
     container_name: postgres
     hostname: postgres
@@ -30,7 +30,7 @@ services:
     ports:
       - 5432:5432
   nodeapi:
-    image:   codesenju/nodeapi.api.local:latest
+    # image:   codesenju/nodeapi.api.local:latest
     build: ./nodeapi
     container_name: nodeapi
     environment:
@@ -47,7 +47,7 @@ services:
 #    ports:
 #      - 3000:3000
   index:
-    image:  codesenju/index.api.local:v1
+    # image:  codesenju/index.api.local:v1
     build: ./index.api.local
     container_name: index
     restart: unless-stopped
@@ -61,7 +61,7 @@ services:
 #    ports:
 #      - 81:5000
   indexv2:
-    image:  codesenju/index.api.local:v2
+    # image:  codesenju/index.api.local:v2
     build: ./indexv2.api.local
     container_name: indexv2
     restart: unless-stopped
@@ -75,7 +75,7 @@ services:
 #    ports:
 #      - 82:5000
   indexv3:
-    image:  codesenju/index.api.local:v3
+    # image:  codesenju/index.api.local:v3
     build: ./indexv3.api.local
     container_name: indexv3
     restart: unless-stopped
@@ -89,7 +89,7 @@ services:
 #    ports:
 #      - 83:5000
   frontend:
-    image:  codesenju/frontend.api.local:latest
+    # image:  codesenju/frontend.api.local:latest
     build: ./frontend.api.local
     container_name: frontend
     restart: unless-stopped
@@ -100,7 +100,7 @@ services:
     ports:
       - 8081:5000
   index-backend:
-    image:  codesenju/index-backend.api.local:latest
+    # image:  codesenju/index-backend.api.local:latest
     build: ./index-backend.api.local
     container_name: index-backend
     restart: unless-stopped
