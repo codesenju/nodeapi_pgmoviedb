@@ -7,6 +7,9 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sess
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import String, Integer, select
 
+import psycopg
+
+
 # Environment variables with defaults
 DB_NAME = os.getenv("DB_NAME", "movie")
 DB_USERNAME = os.getenv("DB_USERNAME", "postgres")
@@ -45,7 +48,7 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
         yield session
 
 # FastAPI app instance
-app = FastAPI()
+app = FastAPI(debug=True)  # Enable debug mode for better error logs
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
