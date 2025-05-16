@@ -10,6 +10,7 @@
 ```shell
 docker compose --profile quick-setup build
 docker compose --profile quick-setup up -d
+docker compose --profile quick-setup ps
 ```
 ### Test API
 

@@ -6,25 +6,26 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import String, Integer, select
+
+# Environment variables with defaults
 DB_NAME = os.getenv("DB_NAME", "movie")
 DB_USERNAME = os.getenv("DB_USERNAME", "postgres")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "12345")
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = os.getenv("DB_PORT", "5432")
 
-# # SSL setup
-# ssl_context = (cafile="./certs/server.crt")
-# ssl_context.check_hostname = False
+# Updated database URL for psycopg (async)
+DATABASE_URL = f"postgresql+psycopg://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
-# DATABASE_URL = f"postgresql+asyncpg://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}?sslmode=require"
-DATABASE_URL = f"postgresql+asyncpg://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-
-engine = create_async_engine(DATABASE_URL, )
+# Create async engine and sessionmaker
+engine = create_async_engine(DATABASE_URL, echo=True)
 async_session = async_sessionmaker(engine, expire_on_commit=False)
 
+# Base class for models
 class Base(DeclarativeBase):
     pass
 
+# Title model
 class Title(Base):
     __tablename__ = "title_basics"
 
@@ -38,14 +39,17 @@ class Title(Base):
     runtimeminutes: Mapped[int] = mapped_column(Integer)
     genres: Mapped[str] = mapped_column(String)
 
+# Dependency for DB session
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
     async with async_session() as session:
         yield session
 
+# FastAPI app instance
 app = FastAPI()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Routes
 @app.get("/api/v1/movies")
 async def get_movies(db: AsyncSession = Depends(get_db)):
     try:
