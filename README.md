@@ -3,8 +3,8 @@
 ### Prerequisite:
 - docker
 - docker-compsoe
-- Internet access from where you will be building the image in order to download [IMDb datasets](https://www.imdb.com/interfaces/).
 - jq
+- make (optional)
 
 ### Quick Setup:
 ```shell
