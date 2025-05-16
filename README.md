@@ -39,7 +39,7 @@ This project uses IMDb data, which is freely available for personal and non-comm
 - The IMDb dataset used in this project is obtained from IMDb’s [official data dumps](https://datasets.imdbws.com/).
 - **IMDb owns all rights to the data**. This project does **not** claim ownership of any IMDb data.
 - The use of IMDb data in this project is solely for educational, research, or personal testing purposes.
-- This project is **not affiliated with or endorsed by IMDb or Amazon** in any way.
+- This project is **not affiliated with or endorsed by IMDb** in any way.
 - Redistribution of IMDb data outside of IMDb’s licensed use is **prohibited**.
 
 ### Usage Terms
