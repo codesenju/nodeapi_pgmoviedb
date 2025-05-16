@@ -9,7 +9,7 @@ build:
 # Docker run (standalone)
 .PHONY: run
 run:
-	docker compose --profile quick-setup -f $(COMPOSE_FILE) up --build
+	docker compose --profile quick-setup -f $(COMPOSE_FILE) up -d --build
 
 # Docker Compose up
 .PHONY: up
