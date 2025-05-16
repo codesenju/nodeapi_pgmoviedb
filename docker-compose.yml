@@ -27,7 +27,7 @@ services:
       DB_USERNAME: postgres
       DB_PORT: 5432
     ports:
-      - 3001:3000
+      - 8000:8000
     profiles:
       - all
       - quick-setup
