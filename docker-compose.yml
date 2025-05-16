@@ -8,12 +8,13 @@ services:
   movie-search:
     # image:  codesenju/movie-search.api.local:latest
     build: ./movie-search
-    platform: linux/amd64
     container_name: movie-search
     networks:
       - devops
     ports:
       - 3000:3000
+    profiles:
+      - all
   pgmoviedb:
     # image:  codesenju/pgmoviedb.api.local:latest
     build: ./postgres
@@ -29,6 +30,9 @@ services:
       - devops
     ports:
       - 5432:5432
+    profiles:
+      - all
+      - s390x
   nodeapi:
     # image:   codesenju/nodeapi.api.local:latest
     build: ./nodeapi
@@ -44,6 +48,9 @@ services:
       - pgmoviedb
     networks:
       - devops
+    profiles:
+      - all
+      - s390x
 #    ports:
 #      - 3000:3000
   index:
@@ -58,6 +65,9 @@ services:
        INDEX_BACKEND_URL: 'http://index-backend:5000/'
     networks:
       - devops
+    profiles:
+      - all
+      - s390x
 #    ports:
 #      - 81:5000
   indexv2:
@@ -72,6 +82,9 @@ services:
        INDEX_BACKEND_URL: 'http://index-backend:5000/'
     networks:
       - devops
+    profiles:
+      - all
+      - s390x
 #    ports:
 #      - 82:5000
   indexv3:
@@ -86,6 +99,9 @@ services:
        INDEX_BACKEND_URL: 'http://index-backend:5000/'
     networks:
       - devops
+    profiles:
+      - all
+      - s390x
 #    ports:
 #      - 83:5000
   frontend:
@@ -109,6 +125,9 @@ services:
       ENDGAME_URL: 'http://nodeapi:3000/api/v1/movies/Avengers: Endgame'
     networks:
       - devops
+    profiles:
+      - all
+      - s390x
 #    ports:
 #      - 84:5000
 #  redis:
