@@ -35,3 +35,8 @@ shell:
 .PHONY: logs
 logs:
 	docker compose --profile quick-setup -f $(COMPOSE_FILE) logs -f
+
+# Test api
+.PHONY: test
+test: 
+	curl localhost:8000/api/v1/movies | jq
